@@ -2,6 +2,13 @@
 
 Projekt zum Erlernen von Flutter auf Basis des Beispielprojekts der [flutter_reactive_ble](https://github.com/PhilipsHue/flutter_reactive_ble) Bibliothek.
 
+## Git Clone
+
+Nach dem klonen des Projekts müssen folgende Befehle ausgeführt werden:
+
+- `flutter pub get`
+- `flutter gen-l10n `
+
 ## Anpassungen
 
 Zum Zeitpunkt Übertragung des Projekts nach GitHub waren bereits folgende Änderungen getan.
