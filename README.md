@@ -1,8 +1,20 @@
-# flutter_reactive_ble
+# iNoWa Spielwiese
 
-Demonstrates how to use the `flutter_reactive_ble` plugin.
+Projekt zum Erlernen von Flutter auf Basis des Beispielprojekts der [flutter_reactive_ble](https://github.com/PhilipsHue/flutter_reactive_ble) Bibliothek.
 
-## Getting Started
+## Anpassungen
 
-For help getting started with Flutter, view our online
-[documentation](http://flutter.dev/).
+Zum Zeitpunkt Übertragung des Projekts nach GitHub waren bereits folgende Änderungen getan.
+
+### Fehlerkorrekturen
+
+- `LateInitializationError` nach der Auswahl eines Gerätes und Rückkehr zur Geräteliste ohne das Gerät verbunden zu haben.
+- Characteristics Kacheln ließen sich nicht aufklappen.
+- `LateInitializationError` nach dem Öffnen des **Select an operation** Dialogs.
+
+### Änderungen
+
+- Filtern gefundener Geräte nach einem generischen Gerätenamen, zum Beispiel: **iNoWa\***
+- Automatischer Start des Scanvorgangs beim Öffnen der App.
+- Automatisches Verbinden mit dem **iNoWa** Peripheral Gerät, insofern es gefunden worden ist.
+- Senden von Text (Boulder Zügen) anstelle von Integer Werten an das Peripheral.
