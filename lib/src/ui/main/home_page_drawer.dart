@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomePageDrawer extends StatelessWidget {
   const HomePageDrawer({
@@ -8,7 +7,6 @@ class HomePageDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //Text labelHome = Text(AppLocalizations.of(context)!.homepage);
     //Text labelProfile = Text(AppLocalizations.of(context)!.profile);
     //Text labelFilterBoulders =
