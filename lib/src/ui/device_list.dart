@@ -3,6 +3,7 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_reactive_ble_example/src/ble/ble_constants.dart';
 import 'package:flutter_reactive_ble_example/src/ble/ble_device_connector.dart';
 import 'package:flutter_reactive_ble_example/src/ble/ble_scanner.dart';
+import 'package:flutter_reactive_ble_example/src/ui/main/home_page_drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../ble/ble_logger.dart';
@@ -140,7 +141,9 @@ class _DeviceListState extends State<_DeviceList> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Scan for devices'),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
+        drawer: HomePageDrawer(),
         body: Column(
           children: [
             Padding(

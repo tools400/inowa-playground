@@ -10,8 +10,6 @@ import 'package:provider/provider.dart';
 
 import 'src/ble/ble_logger.dart';
 
-const _themeColor = Colors.lightGreen;
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -61,9 +59,11 @@ void main() {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Reactive BLE example',
-        color: _themeColor,
-        theme: ThemeData(primarySwatch: _themeColor),
+        title: 'iNoWa Boulder App',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+          useMaterial3: true,
+        ),
         home: const HomeScreen(),
       ),
     ),
@@ -81,6 +81,7 @@ class HomeScreen extends StatelessWidget {
           if (status == BleStatus.ready) {
             return const DeviceListScreen();
           } else {
+            // TODO: Umbau als Popup und anzeigen bei Verbinden mit dem Arduino
             return BleStatusScreen(status: status ?? BleStatus.unknown);
           }
         },

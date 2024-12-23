@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
+// TODO: Umbau als Popup Dialog
+/// Diese Klasse zeigt Informationen zur Bluetooth Low Energy
+/// Unterstützung des Geräts an.
 class BleStatusScreen extends StatelessWidget {
   const BleStatusScreen({required this.status, Key? key}) : super(key: key);
 
