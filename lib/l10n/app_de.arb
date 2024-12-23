@@ -1,0 +1,15 @@
+{
+  "hdg_Scan_for_Devices": "Suche nach Geräten",
+  "mnu_Settings": "Einstellungen",
+  "lbl_Service_name": "Service Name:",
+  "lbl_Service_UUID__2__4__16_bytes_": "Service UUID (2, 4, 16 bytes):",
+  "lbl_Verbose_logging":"Erw. Logging:",
+  "lbl_count":"Anzahl:",
+  "lbl_RSSI":"RSSI:",
+  "btn_Scan": "Scan",
+  "btn_Stop": "Stop",
+  "txt_Unnamed": "ohne Name",
+  "txt_Enter_a_UUID_above_and_tap_start_to_begin_scanning": "Eingegben einer UUID und auf Start 'Scan' drücken.",
+  "txt_Tap_a_device_to_connect_to_it": "Zum Verbinden auf ein Gerät tippen.",
+  "err_invalid_uuid_format": "Ungültiges UUID Format"
+}

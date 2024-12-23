@@ -36,16 +36,16 @@ class HomePageDrawer extends StatelessWidget {
             currentAccountPicture: FlutterLogo(),
           ),
           ListTile(
-            title: Text('Home'),
-            leading: Icon(Icons.home),
+            title: const Text('Home'),
+            leading: const Icon(Icons.home),
             onTap: () {
               // appState.onItemTapped(PageIndex.HomePage);
               Navigator.pop(context);
             },
           ),
           ListTile(
-            title: Text('Settings'),
-            leading: Icon(Icons.settings),
+            title: const Text('Settings'),
+            leading: const Icon(Icons.settings),
             onTap: () {
               // appState.onItemTapped(PageIndex.Profile);
               // Navigator.pop(context);

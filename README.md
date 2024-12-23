@@ -86,10 +86,23 @@ Die Berechtigungen werden in der Datei `[project_home]\android\app\src\main\Andr
 
 Siehe hierzu: [Internationalizing Flutter apps](https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization)
 
+Vorbereitung der App:
+
+```bash
+flutter pub add flutter_localizations --sdk=flutter
+flutter pub add intl:any
+```
+
 Der Befehl `flutter gen-l10n` nach jeder Änderung einer Sprachkonstanten ausgeführt werden:
 
 - app_en.arb (Default Sprache)
 - app_de.arb
+
+Verwenden der Sprachkonstanten:
+
+```dart
+title: Text(AppLocalizations.of(context)!.helloWorld),
+```
 
 ## Erstellen einer .apk Datei
 
@@ -106,6 +119,11 @@ flutter build apk --split-per-abi
 ```
 
 Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
+
+## VSCode Erweiterungen
+
+- [TODO Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
+- [Manage TODO List in VSCode](https://medium.com/@EclecticCoder/manage-todo-list-in-vscode-beb53774d776)
 
 ## Dokumentation
 

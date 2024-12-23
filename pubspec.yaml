@@ -1,18 +1,19 @@
-name: flutter_reactive_ble_example
-description: Demonstrates how to use the flutter_reactive_ble plugin.
-version: 5.3.1
+name: inowa
+description: App zur Ansteuerung der iNoWa Boulderwand.
+version: 0.0.1
 publish_to: 'none'
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
-  flutter: ">=2.0.0"
+  sdk: ^3.6.0
 
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_reactive_ble: ^5.3.1
   functional_data: ^1.2.0
-  intl: ^0.17.0
+  intl: ^0.19.0
   provider: ^6.1.2
 
 
@@ -26,3 +27,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # Enables internationalization
+  generate: true

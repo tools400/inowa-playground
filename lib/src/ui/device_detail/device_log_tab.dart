@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_reactive_ble_example/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:provider/provider.dart';
 
 class DeviceLogTab extends StatelessWidget {
