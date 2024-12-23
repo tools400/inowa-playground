@@ -1,0 +1,40 @@
+{
+  "security.workspace.trust.untrustedFiles": "open",
+  "git.autofetch": true,
+  "dart.flutterSdkPath": "C:\\dev\\flutter",
+  "dart.openDevTools": "flutter",
+  "cSpell.language": "en-US",
+  "workbench.tree.indent": 20,
+  "dart.flutterCustomEmulators": [],
+  "editor.formatOnSave": true,
+  "todo-tree.customHighlight": {
+    "TODO": {
+      "icon": "check",
+      "type": "line",
+      "iconColour": "yellow",
+      "foreground": "red",
+      "background": "yellow"
+    },
+    "FIXME": {
+      "icon": "beaker",
+      "iconColour": "red",
+      "foreground": "white",
+      "background": "red"
+    }
+  },
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "icon": "check",
+      "type": "line",
+      "iconColour": "yellow",
+      "foreground": "red",
+      "background": "yellow"
+    },
+    "FIXME": {
+      "icon": "beaker",
+      "iconColour": "red",
+      "foreground": "white",
+      "background": "red"
+    }
+  }
+}
