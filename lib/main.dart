@@ -6,7 +6,7 @@ import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
 import 'package:inowa/src/ui/ble_status_screen.dart';
-import 'package:inowa/src/ui/device_list.dart';
+import 'package:inowa/src/ui/homepage/home_page.dart';
 import 'package:provider/provider.dart';
 
 import 'src/ble/ble_logger.dart';

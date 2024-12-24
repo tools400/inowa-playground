@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 
 import 'device_interaction_tab.dart';
 
+/// Diese Klasse zeigt die die Details eines gefundenen Geräts.
+/// In der unteren Hälfte wird das Widget zur Interaktion mit
+/// dem Gerät angezeigt.
 class DeviceDetailScreen extends StatelessWidget {
   final DiscoveredDevice device;
 

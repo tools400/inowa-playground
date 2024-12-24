@@ -4,6 +4,7 @@ import 'package:functional_data/functional_data.dart';
 import 'package:inowa/src/ble/ble_constants.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
+import 'package:inowa/src/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'characteristic_interaction_dialog.dart';
@@ -12,6 +13,14 @@ part 'device_interaction_tab.g.dart';
 
 // ignore_for_file: annotate_overrides
 
+/// Diese Klasse zeigt einen Dialog zur Interaktion mit einem verbundenem
+/// Gerät.
+/// Die möglichen Interaktionen sind:
+/// * Connect
+/// * Disconnect
+/// * Discover Services
+/// * Get RSSI
+/// * Get MTU
 class DeviceInteractionTab extends StatelessWidget {
   const DeviceInteractionTab({
     required this.device,
@@ -314,7 +323,7 @@ class _ServiceDiscoveryListState extends State<_ServiceDiscoveryList> {
 
   @override
   Widget build(BuildContext context) => widget.discoveredServices.isEmpty
-      ? const SizedBox()
+      ? const VSpace(flex: 2)
       : SafeArea(
           top: false,
           child: Padding(

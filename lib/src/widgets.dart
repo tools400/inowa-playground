@@ -25,3 +25,37 @@ class StatusMessage extends StatelessWidget {
         child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
       );
 }
+
+class VSpace extends StatelessWidget {
+  const VSpace({Key? key, this.flex = 1}) : super(key: key);
+
+  final double flex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 10 * flex,
+        ),
+      ],
+    );
+  }
+}
+
+class HSpace extends StatelessWidget {
+  const HSpace({Key? key, this.flex = 1}) : super(key: key);
+
+  final double flex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          width: 10 * flex,
+        ),
+      ],
+    );
+  }
+}
