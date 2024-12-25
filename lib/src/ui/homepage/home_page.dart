@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ble/ble_constants.dart';
+import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
+import 'package:inowa/src/settings/locale_model.dart';
 import 'package:inowa/src/ui/homepage/home_page_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -19,9 +20,8 @@ class DeviceListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer4<BleScanner, BleScannerState?, BleDeviceConnector, BleLogger>(
-        builder: (_, bleScanner, bleScannerState, connector, bleLogger, __) =>
-            _DeviceList(
+      Consumer3<BleScanner, BleScannerState?, BleDeviceConnector>(
+        builder: (_, bleScanner, bleScannerState, connector, __) => _DeviceList(
           scannerState: bleScannerState ??
               const BleScannerState(
                 discoveredDevices: [],
@@ -32,8 +32,6 @@ class DeviceListScreen extends StatelessWidget {
           connect: connector.connect,
           deviceId: connector.connectedDeviceId,
           disconnect: connector.disconnect,
-          toggleVerboseLogging: bleLogger.toggleVerboseLogging,
-          verboseLogging: bleLogger.verboseLogging,
         ),
       );
 }
@@ -47,8 +45,6 @@ class _DeviceList extends StatefulWidget {
     required this.connect,
     required this.deviceId,
     required this.disconnect,
-    required this.toggleVerboseLogging,
-    required this.verboseLogging,
   });
 
   final BleScannerState scannerState;
@@ -58,8 +54,6 @@ class _DeviceList extends StatefulWidget {
   final void Function(String deviceId) connect;
   final String Function() deviceId;
   final void Function(String deviceId) disconnect;
-  final VoidCallback toggleVerboseLogging;
-  final bool verboseLogging;
 
   @override
   _DeviceListState createState() => _DeviceListState();
@@ -88,20 +82,6 @@ class _DeviceListState extends State<_DeviceList> {
     _nameController.dispose();
     _uuidController.dispose();
     super.dispose();
-  }
-
-  bool _isValidNameInput() {
-    final nameText = _nameController.text;
-    if (nameText.isEmpty) {
-      return true;
-    } else {
-      try {
-        Uuid.parse(nameText);
-        return true;
-      } on Exception {
-        return false;
-      }
-    }
   }
 
   bool _isValidUuidInput() {
@@ -141,120 +121,136 @@ class _DeviceListState extends State<_DeviceList> {
     );
   }
 
+// onDrawerClosed: _refreshPage,
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.hdg_Scan_for_Devices),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      drawer: HomePageDrawer(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const VSpace(flex: 2),
-                Text(AppLocalizations.of(context)!.lbl_Service_name),
-                TextField(
-                  controller: _nameController,
-                  enabled: !widget.scannerState.scanIsInProgress,
-                  autocorrect: false,
-                ),
-                const VSpace(flex: 2),
-                Text(AppLocalizations.of(context)!
-                    .lbl_Service_UUID__2__4__16_bytes_),
-                TextField(
-                  controller: _uuidController,
-                  enabled: !widget.scannerState.scanIsInProgress,
-                  decoration: InputDecoration(
-                      errorText:
-                          _uuidController.text.isEmpty || _isValidUuidInput()
-                              ? null
-                              : AppLocalizations.of(context)!
-                                  .err_invalid_uuid_format),
-                  autocorrect: false,
-                ),
-                const VSpace(flex: 2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      child: Text(AppLocalizations.of(context)!.btn_Scan),
-                      onPressed: !widget.scannerState.scanIsInProgress &&
-                              _isValidUuidInput()
-                          ? _startScanning
-                          : null,
-                    ),
-                    ElevatedButton(
-                      child: Text(AppLocalizations.of(context)!.btn_Stop),
-                      onPressed: widget.scannerState.scanIsInProgress
-                          ? widget.stopScan
-                          : null,
-                    ),
-                  ],
-                ),
-              ],
+  Widget build(BuildContext context) =>
+      Consumer<LocaleModel>(builder: (_, localeModel, __) {
+        return Theme(
+          data: localeModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context)!.hdg_Scan_for_Devices),
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             ),
-          ),
-          const VSpace(flex: 2),
-          Flexible(
-            child: ListView(
+            drawer: HomePageDrawer(),
+            onDrawerChanged: (isOpen) {
+              // call setState() for refreshing the page,
+              // if drawer has been closed
+              setState(() {});
+            },
+            body: Column(
               children: [
-                SwitchListTile(
-                  title:
-                      Text(AppLocalizations.of(context)!.lbl_Verbose_logging),
-                  value: widget.verboseLogging,
-                  onChanged: (_) => setState(widget.toggleVerboseLogging),
-                ),
-                ListTile(
-                  title: Text(
-                    !widget.scannerState.scanIsInProgress
-                        ? AppLocalizations.of(context)!
-                            .txt_Enter_a_UUID_above_and_tap_start_to_begin_scanning
-                        : AppLocalizations.of(context)!
-                            .txt_Tap_a_device_to_connect_to_it,
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const VSpace(flex: 2),
+                      Text(AppLocalizations.of(context)!.lbl_Service_name),
+                      TextField(
+                        controller: _nameController,
+                        enabled: !widget.scannerState.scanIsInProgress,
+                        autocorrect: false,
+                      ),
+                      const VSpace(flex: 2),
+                      Text(AppLocalizations.of(context)!
+                          .lbl_Service_UUID__2__4__16_bytes_),
+                      TextField(
+                        controller: _uuidController,
+                        enabled: !widget.scannerState.scanIsInProgress,
+                        decoration: InputDecoration(
+                            errorText: _uuidController.text.isEmpty ||
+                                    _isValidUuidInput()
+                                ? null
+                                : AppLocalizations.of(context)!
+                                    .err_invalid_uuid_format),
+                        autocorrect: false,
+                      ),
+                      const VSpace(flex: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            child: Text(AppLocalizations.of(context)!.btn_Scan),
+                            onPressed: !widget.scannerState.scanIsInProgress &&
+                                    _isValidUuidInput()
+                                ? _startScanning
+                                : null,
+                          ),
+                          ElevatedButton(
+                            child: Text(AppLocalizations.of(context)!.btn_Stop),
+                            onPressed: widget.scannerState.scanIsInProgress
+                                ? widget.stopScan
+                                : null,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  trailing: (widget.scannerState.scanIsInProgress ||
-                          widget.scannerState.discoveredDevices.isNotEmpty)
-                      ? Text(
-                          'count: ${widget.scannerState.discoveredDevices.length}',
-                        )
-                      : null,
                 ),
-                ...widget.scannerState.discoveredDevices
-                    .map(
-                      (device) => ListTile(
-                        title: Text(
-                          device.name.isNotEmpty
-                              ? device.name
-                              : AppLocalizations.of(context)!.txt_Unnamed,
+                const VSpace(flex: 2),
+                Flexible(
+                  child: ListView(
+                    children: [
+                      Consumer<BleLogger>(
+                        builder: (context, bleLogger, child) => SwitchListTile(
+                          title: Text(AppLocalizations.of(context)!
+                              .lbl_Verbose_logging),
+                          value: bleLogger.verboseLogging,
+                          onChanged: (_) =>
+                              setState(bleLogger.toggleVerboseLogging),
                         ),
-                        subtitle: Text(
-                          """
+                      ),
+                      ListTile(
+                        title: Text(
+                          !widget.scannerState.scanIsInProgress
+                              ? AppLocalizations.of(context)!
+                                  .txt_Enter_a_UUID_above_and_tap_start_to_begin_scanning
+                              : AppLocalizations.of(context)!
+                                  .txt_Tap_a_device_to_connect_to_it,
+                        ),
+                        trailing: (widget.scannerState.scanIsInProgress ||
+                                widget
+                                    .scannerState.discoveredDevices.isNotEmpty)
+                            ? Text(
+                                'count: ${widget.scannerState.discoveredDevices.length}',
+                              )
+                            : null,
+                      ),
+                      ...widget.scannerState.discoveredDevices
+                          .map(
+                            (device) => ListTile(
+                              title: Text(
+                                device.name.isNotEmpty
+                                    ? device.name
+                                    : AppLocalizations.of(context)!.txt_Unnamed,
+                              ),
+                              subtitle: Text(
+                                """
 ${device.id}
 AppLocalizations.of(context)!.lbl_RSSI ${device.rssi}
 ${device.connectable}
                             """,
-                        ),
-                        leading: const BluetoothIcon(),
-                        onTap: () async {
-                          if (widget.scannerState.scanIsInProgress) {
-                            // Stop scanning for more devices
-                            widget.stopScan();
-                          }
-                          await openDeviceDetailsPage(device);
-                        },
-                      ),
-                    )
-                    .toList(),
+                              ),
+                              leading: const BluetoothIcon(),
+                              onTap: () async {
+                                if (widget.scannerState.scanIsInProgress) {
+                                  // Stop scanning for more devices
+                                  widget.stopScan();
+                                }
+                                await openDeviceDetailsPage(device);
+                              },
+                            ),
+                          )
+                          .toList(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+        );
+      });
 }

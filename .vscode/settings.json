@@ -7,34 +7,49 @@
   "workbench.tree.indent": 20,
   "dart.flutterCustomEmulators": [],
   "editor.formatOnSave": true,
-  "todo-tree.customHighlight": {
-    "TODO": {
-      "icon": "check",
-      "type": "line",
-      "iconColour": "yellow",
-      "foreground": "red",
-      "background": "yellow"
-    },
-    "FIXME": {
-      "icon": "beaker",
-      "iconColour": "red",
-      "foreground": "white",
-      "background": "red"
-    }
+  "todo-tree.tree.autoRefresh": true,
+  "todo-tree.highlights.defaultHighlight": {
+    "type": "text-and-comment"
   },
   "todo-tree.highlights.customHighlight": {
     "TODO": {
+      "foreground": "black",
+      "background": "green",
+      "iconColour": "green",
       "icon": "check",
-      "type": "line",
-      "iconColour": "yellow",
-      "foreground": "red",
-      "background": "yellow"
+      "type": "text"
     },
     "FIXME": {
-      "icon": "beaker",
+      "foreground": "black",
+      "background": "red",
       "iconColour": "red",
-      "foreground": "white",
-      "background": "red"
+      "icon": "bug"
+    },
+    "REVIEW": {
+      "foreground": "black",
+      "background": "cyan",
+      "iconColour": "lightblue",
+      "icon": "eye"
+    },
+    "HACK": {
+      "foreground": "black",
+      "background": "#FFA500",
+      "iconColour": "orange",
+      "icon": "alert"
+    },
+    "REF": {
+      "foreground": "black",
+      "background": "grey",
+      "iconColour": "grey",
+      "icon": "link",
+      "type": "tag"
     }
-  }
+  },
+  "todo-tree.general.tags": [
+    "TODO",
+    "FIXME",
+    "REVIEW",
+    "HACK",
+    "REF"
+  ]
 }

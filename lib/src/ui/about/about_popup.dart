@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/widgets.dart';
 
 /// Diese Klasse ist ein Popup Dialog mit Informationen zur App.
-class AboutPopup extends StatelessWidget {
+class AboutPopup extends StatefulWidget {
   const AboutPopup({
     super.key,
   });
 
   @override
+  State<AboutPopup> createState() => _AboutPopupState();
+}
+
+class _AboutPopupState extends State<AboutPopup> {
+  @override
   Widget build(BuildContext context) {
-    return const AboutListTile(
-      icon: Icon(
+    return AboutListTile(
+      child: Text(AppLocalizations.of(context)!.lbl_About_iNoWa +
+          ' ' +
+          APPLICATION_TITLE),
+      icon: const Icon(
         Icons.info,
       ),
-      applicationIcon: FlutterLogo(),
-      applicationName: 'iNoWa',
-      applicationVersion: '0.0.1',
-      applicationLegalese: '(c) 2024, Thomas Raddatz',
+      applicationIcon: const FlutterLogo(),
+      applicationName: 'packageInfo.appName',
+      applicationVersion: APPLICATION_VERSION,
       aboutBoxChildren: [
+        UrlLink(
+          label: AppLocalizations.of(context)!.url_label_App_Project,
+          url: URL_APP_PROJECT,
+        ),
         VSpace(),
-        Text('Something about the app..'),
-        Text('Second line.'),
+        UrlLink(
+          label: AppLocalizations.of(context)!.url_label_Indoor_North_Wall,
+          url: URL_INOWA_HOMPAGE,
+        ),
       ],
-      child: Text('About app'),
     );
   }
 }

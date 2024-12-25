@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BluetoothIcon extends StatelessWidget {
   const BluetoothIcon({Key? key}) : super(key: key);
@@ -56,6 +58,42 @@ class HSpace extends StatelessWidget {
           width: 10 * flex,
         ),
       ],
+    );
+  }
+}
+
+/// Dieses Widget erzeugt ein Label mit einem Link.
+class UrlLink extends StatelessWidget {
+  const UrlLink({
+    super.key,
+    this.label,
+    this.url,
+  });
+
+  final String? label;
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    final uri = Uri.parse(url!);
+
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(text: '$label: '),
+          TextSpan(
+            text: url,
+            style: const TextStyle(color: Colors.blue),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchUrl(Uri(
+                  scheme: uri.scheme,
+                  host: uri.host,
+                ));
+              },
+          ),
+        ],
+      ),
     );
   }
 }
