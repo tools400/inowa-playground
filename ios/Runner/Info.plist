@@ -13,7 +13,9 @@
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>hue_ble_lib_example</string>
+    <string>iNoWa</string>
+    <key>CFBundleDisplayName</key>
+    <string>iNoWa</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
