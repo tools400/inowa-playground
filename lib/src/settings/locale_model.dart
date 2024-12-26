@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LocaleModel {
+class UIModel extends ChangeNotifier {
   Locale _locale = Locale(Platform.localeName);
 
   Locale get locale {
@@ -19,6 +19,7 @@ class LocaleModel {
       return;
     }
     _locale = locale;
+    notifyListeners();
   }
 
   List<Locale> supportedLocales() {
@@ -33,5 +34,6 @@ class LocaleModel {
 
   void darkMode(bool isDarkMode) {
     _isDarkMode = isDarkMode;
+    notifyListeners();
   }
 }

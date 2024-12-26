@@ -24,9 +24,9 @@ class HomePageDrawer extends StatefulWidget {
 class _HomePageDrawerState extends State<HomePageDrawer> {
   @override
   Widget build(BuildContext context) =>
-      Consumer<LocaleModel>(builder: (_, localeModel, __) {
+      Consumer<UIModel>(builder: (_, uiModel, __) {
         return Theme(
-          data: localeModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Drawer(
             child: ListView(
               // Important: Remove any padding from the ListView.
@@ -84,8 +84,6 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
       MaterialPageRoute(
         builder: (_) => screen,
       ),
-    ).then((result) {
-      setState(() {});
-    });
+    );
   }
 }

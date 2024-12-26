@@ -25,7 +25,7 @@ class _SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<_SettingsScreen> {
   @override
   Widget build(BuildContext context) =>
-      Consumer<LocaleModel>(builder: (_, localeModel, __) {
+      Consumer<UIModel>(builder: (_, uiModel, __) {
         /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
         DropdownMenuEntry<Locale> _dataToMenuItem(Locale item) {
           return DropdownMenuEntry(
@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
         }
 
         return Theme(
-          data: localeModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.mnu_Settings),
@@ -53,23 +53,23 @@ class _SettingsScreenState extends State<_SettingsScreen> {
                             title: AppLocalizations.of(context)!.txt_Dark_Mode,
                             icon: Icons.dark_mode_outlined,
                             trailing: Switch(
-                                value: localeModel.isDarkMode,
+                                value: uiModel.isDarkMode,
                                 onChanged: (isDarkMode) {
                                   setState(() {
-                                    localeModel.darkMode(isDarkMode);
+                                    uiModel.darkMode(isDarkMode);
                                   });
                                 })),
                         _CustomListTile(
                           title: AppLocalizations.of(context)!.txt_Language,
                           icon: Icons.language,
                           trailing: DropdownMenu<Locale>(
-                              initialSelection: localeModel.locale,
+                              initialSelection: uiModel.locale,
                               onSelected: (Locale? locale) {
                                 setState(() {
-                                  localeModel.setLocale(locale);
+                                  uiModel.setLocale(locale);
                                 });
                               },
-                              dropdownMenuEntries: localeModel
+                              dropdownMenuEntries: uiModel
                                   .supportedLocales()
                                   .map((item) => _dataToMenuItem(item))
                                   .toList()),

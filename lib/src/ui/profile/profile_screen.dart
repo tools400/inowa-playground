@@ -24,10 +24,10 @@ class _Profile extends StatefulWidget {
 
 class _ProfileState extends State<_Profile> {
   @override
-  Widget build(BuildContext context) => Consumer2<LocaleModel, BleLogger>(
-          builder: (_, localeModel, bleLogger, __) {
+  Widget build(BuildContext context) =>
+      Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
         return Theme(
-          data: localeModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Scaffold(
             appBar: AppBar(
               title: const Text("Settings"),

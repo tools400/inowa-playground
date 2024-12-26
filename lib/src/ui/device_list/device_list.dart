@@ -5,7 +5,7 @@ import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/settings/locale_model.dart';
-import 'package:inowa/src/ui/homepage/home_page_drawer.dart';
+import 'package:inowa/src/ui/home/home_screen_drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../../ble/ble_logger.dart';
@@ -125,9 +125,9 @@ class _DeviceListState extends State<_DeviceList> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer<LocaleModel>(builder: (_, localeModel, __) {
+      Consumer<UIModel>(builder: (_, uiModel, __) {
         return Theme(
-          data: localeModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.hdg_Scan_for_Devices),
