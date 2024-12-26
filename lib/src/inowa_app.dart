@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/main.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/constants.dart';
@@ -65,7 +66,7 @@ class INoWaApp extends StatelessWidget {
         create: (context) => UIModel(),
         child: Consumer<UIModel>(builder: (context, uiModel, child) {
           return MaterialApp(
-            title: APPLICATION_TITLE,
+            title: packageInfo.appName,
             theme: ColorTheme.light,
             darkTheme: ColorTheme.dark,
             themeMode: uiModel.isDarkMode ? ThemeMode.dark : ThemeMode.light,

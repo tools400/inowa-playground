@@ -88,6 +88,22 @@ Die Berechtigungen werden in der Datei `[project_home]\android\app\src\main\Andr
 ## Bibliotheken
 
 - [Flutter Bluetooth Library](https://pub.dev/packages/flutter_reactive_ble)
+- [Rename App](https://pub.dev/packages/rename_app)
+
+## Umbenennen der App
+
+Einbinden der Dependency:
+
+```yaml
+dev_dependencies:
+  rename_app: any
+```
+
+Umbenenen der App mit:
+
+```dart
+dart run rename_app:main all="iNoWa"
+```
 
 ## Internationalisierung
 

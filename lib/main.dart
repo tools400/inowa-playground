@@ -5,10 +5,13 @@ import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
 import 'package:inowa/src/inowa_app.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'src/ble/ble_logger.dart';
 
-void main() {
+late PackageInfo packageInfo;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final _ble = FlutterReactiveBle();
@@ -30,6 +33,8 @@ void main() {
     readRssi: _ble.readRssi,
     requestMtu: _ble.requestMtu,
   );
+
+  packageInfo = await PackageInfo.fromPlatform();
 
   runApp(INoWaApp(
       scanner: _scanner,
