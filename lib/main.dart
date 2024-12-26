@@ -6,13 +6,18 @@ import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
 import 'package:inowa/src/inowa_app.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
 import 'src/ble/ble_logger.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 late PackageInfo packageInfo;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final _ble = FlutterReactiveBle();
   final _bleLogger = BleLogger(ble: _ble);

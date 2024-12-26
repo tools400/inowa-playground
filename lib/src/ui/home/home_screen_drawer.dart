@@ -56,7 +56,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 title: Text(AppLocalizations.of(context)!.mnu_Profile),
                 leading: const Icon(Icons.person),
                 onTap: () {
-                  openScreen(context, const ProfileScreen());
+                  openScreen(context, const ProfilePage());
                 },
               ),
               ListTile(

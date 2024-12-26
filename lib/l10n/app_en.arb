@@ -21,8 +21,12 @@
   "mode_dark": "Dark",
   "language": "Language",
   "unnamed": "Unnamed",
+  "login": "Login",
   "sign_out": "Sign out",
   "txt_Enter_a_UUID_above_and_tap_start_to_begin_scanning": "Enter a UUID above and tap start to begin scanning",
   "txt_Tap_a_device_to_connect_to_it": "Tap a device to connect to it",
+  "txt_Welcome_to": "Welcome to ",
+  "txt_please_sign_in": " , please sign in!",
+  "txt_please_sign_up": " , please sign up!",
   "err_invalid_uuid_format": "Invalid UUID format"
 }

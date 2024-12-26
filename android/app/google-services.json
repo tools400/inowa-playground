@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753265378373",
+    "project_id": "inowa-923ad",
+    "storage_bucket": "inowa-923ad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753265378373:android:ca99ccb8ff253728d54f2c",
+        "android_client_info": {
+          "package_name": "com.inowa.inowa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOA3VON_t2kUdcDMucMM4fOtuhIKep0Hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/main.dart';
+import 'package:inowa/src/ui/authentication/auth_gate.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/constants.dart';
@@ -73,7 +74,7 @@ class INoWaApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: uiModel.locale,
-            home: const HomeScreen(),
+            home: AuthGate(),
           );
         }),
       ),

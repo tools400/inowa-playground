@@ -1,4 +1,4 @@
-package com.example.flutter_reactive_ble_example
+package com.inowa.inowa
 
 import io.flutter.embedding.android.FlutterActivity
 

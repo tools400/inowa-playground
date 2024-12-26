@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/settings/ui_model.dart';
 import 'package:inowa/src/ui/ble_status_screen.dart';
 import 'package:inowa/src/ui/device_list/device_list.dart';
 import 'package:provider/provider.dart';
