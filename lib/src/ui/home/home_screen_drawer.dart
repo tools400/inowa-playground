@@ -25,54 +25,49 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
   @override
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
-        return Theme(
-          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
-          child: Drawer(
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: [
-                const UserAccountsDrawerHeader(
-                  accountName: Text(
-                    "Thomas Raddatz",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+        return Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const UserAccountsDrawerHeader(
+                accountName: Text(
+                  "Thomas Raddatz",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
-                  accountEmail: Text(
-                    "thomas.raddatz@tools400.de",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                accountEmail: Text(
+                  "thomas.raddatz@tools400.de",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
-                  currentAccountPicture: FlutterLogo(),
                 ),
-                ListTile(
-                  title: Text(AppLocalizations.of(context)!.mnu_Home),
-                  leading: const Icon(Icons.home),
-                  onTap: () {
-                    // appState.onItemTapped(PageIndex.HomePage);
-                    Navigator.pop(context);
-                    // openScreen(context, const HomeScreen());
-                  },
-                ),
-                ListTile(
-                  title: Text(AppLocalizations.of(context)!.mnu_Profile),
-                  leading: const Icon(Icons.person),
-                  onTap: () {
-                    openScreen(context, const ProfileScreen());
-                  },
-                ),
-                ListTile(
-                  title: Text(AppLocalizations.of(context)!.mnu_Settings),
-                  leading: const Icon(Icons.settings),
-                  onTap: () {
-                    openScreen(context, const SettingsScreen());
-                  },
-                ),
-                AboutPopup(),
-              ],
-            ),
+                currentAccountPicture: FlutterLogo(),
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.mnu_Home),
+                leading: const Icon(Icons.home),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.mnu_Profile),
+                leading: const Icon(Icons.person),
+                onTap: () {
+                  openScreen(context, const ProfileScreen());
+                },
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.mnu_Settings),
+                leading: const Icon(Icons.settings),
+                onTap: () {
+                  openScreen(context, const SettingsScreen());
+                },
+              ),
+              AboutPopup(),
+            ],
           ),
         );
       });

@@ -32,9 +32,9 @@ class DeviceInteractionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       Consumer3<BleDeviceConnector, ConnectionStateUpdate, BleDeviceInteractor>(
-        builder: (_, deviceConnector, connectionStateUpdate, serviceDiscoverer,
-                __) =>
-            _DeviceInteractionTab(
+          builder: (_, deviceConnector, connectionStateUpdate,
+              serviceDiscoverer, __) {
+        return _DeviceInteractionTab(
           viewModel: DeviceInteractionViewModel(
             deviceId: device.id,
             connectableStatus: device.connectable,
@@ -46,8 +46,8 @@ class DeviceInteractionTab extends StatelessWidget {
             requestMtu: () => serviceDiscoverer.requestMtu(
                 deviceId: device.id, mtu: MTU_SIZE),
           ),
-        ),
-      );
+        );
+      });
 }
 
 /// Defines the device interaction model, which

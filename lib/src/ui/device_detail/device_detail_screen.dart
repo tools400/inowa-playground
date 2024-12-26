@@ -43,6 +43,7 @@ class _DeviceDetail extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               title: Text(device.name.isNotEmpty ? device.name : "Unnamed"),
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               bottom: const TabBar(
                 tabs: [
                   Tab(

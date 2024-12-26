@@ -17,9 +17,8 @@ class _AboutPopupState extends State<AboutPopup> {
   @override
   Widget build(BuildContext context) {
     return AboutListTile(
-      child: Text(AppLocalizations.of(context)!.lbl_About_iNoWa +
-          ' ' +
-          APPLICATION_TITLE),
+      child: Text(
+          AppLocalizations.of(context)!.about_colon + ' ' + APPLICATION_TITLE),
       icon: const Icon(
         Icons.info,
       ),
@@ -28,12 +27,12 @@ class _AboutPopupState extends State<AboutPopup> {
       applicationVersion: APPLICATION_VERSION,
       aboutBoxChildren: [
         UrlLink(
-          label: AppLocalizations.of(context)!.url_label_App_Project,
+          label: AppLocalizations.of(context)!.app_project,
           url: URL_APP_PROJECT,
         ),
         VSpace(),
         UrlLink(
-          label: AppLocalizations.of(context)!.url_label_Indoor_North_Wall,
+          label: AppLocalizations.of(context)!.indoor_north_wall,
           url: URL_INOWA_HOMPAGE,
         ),
       ],

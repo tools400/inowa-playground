@@ -25,26 +25,23 @@ class _ProfileState extends State<_Profile> {
   @override
   Widget build(BuildContext context) =>
       Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
-        return Theme(
-          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text("Settings"),
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            body: Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 400),
-                child: ListView(
-                  children: const [
-                    _SingleSection(
-                      children: [
-                        _CustomListTile(
-                            title: "Sign out", icon: Icons.exit_to_app_rounded),
-                      ],
-                    ),
-                  ],
-                ),
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Settings"),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          body: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: ListView(
+                children: const [
+                  _SingleSection(
+                    children: [
+                      _CustomListTile(
+                          title: "Sign out", icon: Icons.exit_to_app_rounded),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

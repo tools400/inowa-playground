@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_model.dart';
+import 'package:inowa/src/ui/settings/ui_theme_mode_enum.dart';
+import 'package:inowa/src/widgets.dart';
 import 'package:provider/provider.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
@@ -27,58 +29,71 @@ class _SettingsScreenState extends State<_SettingsScreen> {
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
         /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
-        DropdownMenuEntry<Locale> _dataToMenuItem(Locale item) {
+        DropdownMenuEntry<Locale> _localeToMenuItem(Locale item) {
           return DropdownMenuEntry(
             label: item.languageCode,
             value: item,
           );
         }
 
-        return Theme(
-          data: uiModel.isDarkMode ? ThemeData.dark() : ThemeData.light(),
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(AppLocalizations.of(context)!.mnu_Settings),
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            body: Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 400),
-                child: ListView(
-                  children: [
-                    _SingleSection(
-                      title: AppLocalizations.of(context)!.txt_General,
-                      children: [
-                        _CustomListTile(
-                            title: AppLocalizations.of(context)!.txt_Dark_Mode,
-                            icon: Icons.dark_mode_outlined,
-                            trailing: Switch(
-                                value: uiModel.isDarkMode,
-                                onChanged: (isDarkMode) {
-                                  setState(() {
-                                    uiModel.darkMode(isDarkMode);
-                                  });
-                                })),
-                        _CustomListTile(
-                          title: AppLocalizations.of(context)!.txt_Language,
-                          icon: Icons.language,
-                          trailing: DropdownMenu<Locale>(
-                              initialSelection: uiModel.locale,
-                              onSelected: (Locale? locale) {
-                                setState(() {
-                                  uiModel.setLocale(locale);
-                                });
-                              },
-                              dropdownMenuEntries: uiModel
-                                  .supportedLocales()
-                                  .map((item) => _dataToMenuItem(item))
-                                  .toList()),
-                        ),
-                      ],
-                    ),
-                    const Divider(),
-                  ],
-                ),
+        /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl des UI-Designs.
+        DropdownMenuEntry<UIThemeMode> _modeToMenuItem(
+            UIThemeMode uiThemeMode) {
+          return DropdownMenuEntry(
+            label: uiModel.getUIModeLabel(context, uiThemeMode),
+            value: uiThemeMode,
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.mnu_Settings),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          body: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: ListView(
+                children: [
+                  _SingleSection(
+                    title: AppLocalizations.of(context)!.general,
+                    children: [
+                      _CustomListTile(
+                        title: AppLocalizations.of(context)!.ui_theme_mode,
+                        icon: uiModel.getUIModeIconData(
+                            context, uiModel.uiThemeMode),
+                        trailing: DropdownMenu<UIThemeMode>(
+                            initialSelection: uiModel.uiThemeMode,
+                            onSelected: (UIThemeMode? UIThemeMode) {
+                              setState(() {
+                                uiModel.setUIThemeMode(UIThemeMode);
+                              });
+                            },
+                            dropdownMenuEntries: uiModel
+                                .uiThemeModes()
+                                .map((item) => _modeToMenuItem(item))
+                                .toList()),
+                      ),
+                      VSpace(),
+                      _CustomListTile(
+                        title: AppLocalizations.of(context)!.language,
+                        icon: Icons.language,
+                        trailing: DropdownMenu<Locale>(
+                            initialSelection: uiModel.locale,
+                            onSelected: (Locale? locale) {
+                              setState(() {
+                                uiModel.setLocale(locale);
+                              });
+                            },
+                            dropdownMenuEntries: uiModel
+                                .supportedLocales()
+                                .map((item) => _localeToMenuItem(item))
+                                .toList()),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                ],
               ),
             ),
           ),
