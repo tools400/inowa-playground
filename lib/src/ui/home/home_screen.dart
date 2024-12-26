@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/settings/locale_model.dart';
+import 'package:inowa/src/settings/ui_model.dart';
 import 'package:inowa/src/ui/ble_status_screen.dart';
 import 'package:inowa/src/ui/device_list/device_list.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +11,8 @@ class HomeScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Consumer2<BleStatus?, UIModel>(
-        builder: (_, status, uiModel, __) {
+  Widget build(BuildContext context) => Consumer<BleStatus?>(
+        builder: (_, status, __) {
           if (status == BleStatus.ready) {
             return const DeviceListScreen();
           } else {

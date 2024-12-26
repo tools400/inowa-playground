@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/settings/locale_model.dart';
+import 'package:inowa/src/settings/ui_model.dart';
 import 'package:provider/provider.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.

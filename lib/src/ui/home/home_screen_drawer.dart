@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/settings/locale_model.dart';
+import 'package:inowa/src/settings/ui_model.dart';
 import 'package:inowa/src/ui/about/about_popup.dart';
 import 'package:inowa/src/ui/profile/profile_screen.dart';
 import 'package:inowa/src/ui/settings/settings_screen.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
-import 'package:inowa/src/settings/locale_model.dart';
+import 'package:inowa/src/settings/ui_model.dart';
 import 'package:inowa/src/ui/home/home_screen_drawer.dart';
 import 'package:provider/provider.dart';
 
