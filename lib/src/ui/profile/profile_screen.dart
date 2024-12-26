@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_model.dart';
 import 'package:provider/provider.dart';
@@ -27,17 +28,18 @@ class _ProfileState extends State<_Profile> {
       Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Settings"),
+            title: Text(AppLocalizations.of(context)!.mnu_Settings),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
           body: Container(
             constraints: const BoxConstraints(maxWidth: 400),
             child: ListView(
-              children: const [
+              children: [
                 _SingleSection(
                   children: [
                     _CustomListTile(
-                        title: "Sign out", icon: Icons.exit_to_app_rounded),
+                        title: AppLocalizations.of(context)!.sign_out,
+                        icon: Icons.exit_to_app_rounded),
                   ],
                 ),
               ],

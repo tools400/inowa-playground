@@ -21,6 +21,7 @@
   "mode_dark": "Dunkel",
   "language": "Sprache",
   "unnamed": "ohne Name",
+  "sign_out": "Abmelden",
   "txt_Enter_a_UUID_above_and_tap_start_to_begin_scanning": "Eingegben einer UUID und auf Start 'Scan' drücken.",
   "txt_Tap_a_device_to_connect_to_it": "Zum Verbinden auf ein Gerät tippen.",
   "err_invalid_uuid_format": "Ungültiges UUID Format"
