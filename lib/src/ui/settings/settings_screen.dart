@@ -50,51 +50,51 @@ class _SettingsScreenState extends State<_SettingsScreen> {
             title: Text(AppLocalizations.of(context)!.mnu_Settings),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
-          body: Center(
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: ListView(
-                children: [
-                  _SingleSection(
-                    title: AppLocalizations.of(context)!.general,
-                    children: [
-                      _CustomListTile(
-                        title: AppLocalizations.of(context)!.ui_theme_mode,
-                        icon: uiModel.getUIModeIconData(
-                            context, uiModel.uiThemeMode),
-                        trailing: DropdownMenu<UIThemeMode>(
-                            initialSelection: uiModel.uiThemeMode,
-                            onSelected: (UIThemeMode? UIThemeMode) {
-                              setState(() {
-                                uiModel.setUIThemeMode(UIThemeMode);
-                              });
-                            },
-                            dropdownMenuEntries: uiModel
-                                .uiThemeModes()
-                                .map((item) => _modeToMenuItem(item))
-                                .toList()),
-                      ),
-                      VSpace(),
-                      _CustomListTile(
-                        title: AppLocalizations.of(context)!.language,
-                        icon: Icons.language,
-                        trailing: DropdownMenu<Locale>(
-                            initialSelection: uiModel.locale,
-                            onSelected: (Locale? locale) {
-                              setState(() {
-                                uiModel.setLocale(locale);
-                              });
-                            },
-                            dropdownMenuEntries: uiModel
-                                .supportedLocales()
-                                .map((item) => _localeToMenuItem(item))
-                                .toList()),
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                ],
-              ),
+          body: Container(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: ListView(
+              children: [
+                _SingleSection(
+                  title: AppLocalizations.of(context)!.general,
+                  children: [
+                    _CustomListTile(
+                      title: AppLocalizations.of(context)!.ui_theme_mode,
+                      icon: uiModel.getUIModeIconData(
+                          context, uiModel.uiThemeMode),
+                      trailing: DropdownMenu<UIThemeMode>(
+                          width: 200,
+                          initialSelection: uiModel.uiThemeMode,
+                          onSelected: (UIThemeMode? UIThemeMode) {
+                            setState(() {
+                              uiModel.setUIThemeMode(UIThemeMode);
+                            });
+                          },
+                          dropdownMenuEntries: uiModel
+                              .uiThemeModes()
+                              .map((item) => _modeToMenuItem(item))
+                              .toList()),
+                    ),
+                    VSpace(),
+                    _CustomListTile(
+                      title: AppLocalizations.of(context)!.language,
+                      icon: Icons.language,
+                      trailing: DropdownMenu<Locale>(
+                          width: 200,
+                          initialSelection: uiModel.locale,
+                          onSelected: (Locale? locale) {
+                            setState(() {
+                              uiModel.setLocale(locale);
+                            });
+                          },
+                          dropdownMenuEntries: uiModel
+                              .supportedLocales()
+                              .map((item) => _localeToMenuItem(item))
+                              .toList()),
+                    ),
+                  ],
+                ),
+                const Divider(),
+              ],
             ),
           ),
         );

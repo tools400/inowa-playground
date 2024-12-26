@@ -30,19 +30,17 @@ class _ProfileState extends State<_Profile> {
             title: const Text("Settings"),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
-          body: Center(
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: ListView(
-                children: const [
-                  _SingleSection(
-                    children: [
-                      _CustomListTile(
-                          title: "Sign out", icon: Icons.exit_to_app_rounded),
-                    ],
-                  ),
-                ],
-              ),
+          body: Container(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: ListView(
+              children: const [
+                _SingleSection(
+                  children: [
+                    _CustomListTile(
+                        title: "Sign out", icon: Icons.exit_to_app_rounded),
+                  ],
+                ),
+              ],
             ),
           ),
         );
