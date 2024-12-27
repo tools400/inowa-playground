@@ -19,32 +19,32 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final _ble = FlutterReactiveBle();
-  final _bleLogger = BleLogger(ble: _ble);
-  final _scanner = BleScanner(ble: _ble, logMessage: _bleLogger.addToLog);
-  final _monitor = BleStatusMonitor(_ble);
+  final ble = FlutterReactiveBle();
+  final bleLogger = BleLogger(ble: ble);
+  final scanner = BleScanner(ble: ble, logMessage: bleLogger.addToLog);
+  final monitor = BleStatusMonitor(ble);
 
-  final _connector = BleDeviceConnector(
-    ble: _ble,
-    logMessage: _bleLogger.addToLog,
+  final connector = BleDeviceConnector(
+    ble: ble,
+    logMessage: bleLogger.addToLog,
   );
 
-  final _serviceDiscoverer = BleDeviceInteractor(
+  final serviceDiscoverer = BleDeviceInteractor(
     bleDiscoverServices: (deviceId) async {
-      await _ble.discoverAllServices(deviceId);
-      return _ble.getDiscoveredServices(deviceId);
+      await ble.discoverAllServices(deviceId);
+      return ble.getDiscoveredServices(deviceId);
     },
-    logMessage: _bleLogger.addToLog,
-    readRssi: _ble.readRssi,
-    requestMtu: _ble.requestMtu,
+    logMessage: bleLogger.addToLog,
+    readRssi: ble.readRssi,
+    requestMtu: ble.requestMtu,
   );
 
   packageInfo = await PackageInfo.fromPlatform();
 
   runApp(INoWaApp(
-      scanner: _scanner,
-      monitor: _monitor,
-      connector: _connector,
-      serviceDiscoverer: _serviceDiscoverer,
-      bleLogger: _bleLogger));
+      scanner: scanner,
+      monitor: monitor,
+      connector: connector,
+      serviceDiscoverer: serviceDiscoverer,
+      bleLogger: bleLogger));
 }

@@ -16,7 +16,7 @@ import '../device_detail/device_detail_screen.dart';
 /// Diese Klasse startet und stopped den Scanvorgang und zeigt eine
 /// Liste der gefundenen Geräte an.
 class DeviceListScreen extends StatelessWidget {
-  const DeviceListScreen({Key? key}) : super(key: key);
+  const DeviceListScreen({super.key});
 
   @override
   Widget build(BuildContext context) =>
@@ -38,7 +38,7 @@ class DeviceListScreen extends StatelessWidget {
 
 class _DeviceList extends StatefulWidget {
   // const _DeviceList({
-  _DeviceList({
+  const _DeviceList({
     required this.scannerState,
     required this.startScan,
     required this.stopScan,
@@ -169,17 +169,17 @@ class _DeviceListState extends State<_DeviceList> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          child: Text(AppLocalizations.of(context)!.btn_Scan),
                           onPressed: !widget.scannerState.scanIsInProgress &&
                                   _isValidUuidInput()
                               ? _startScanning
                               : null,
+                          child: Text(AppLocalizations.of(context)!.btn_Scan),
                         ),
                         ElevatedButton(
-                          child: Text(AppLocalizations.of(context)!.btn_Stop),
                           onPressed: widget.scannerState.scanIsInProgress
                               ? widget.stopScan
                               : null,
+                          child: Text(AppLocalizations.of(context)!.btn_Stop),
                         ),
                       ],
                     ),
@@ -214,32 +214,30 @@ class _DeviceListState extends State<_DeviceList> {
                             )
                           : null,
                     ),
-                    ...widget.scannerState.discoveredDevices
-                        .map(
-                          (device) => ListTile(
-                            title: Text(
-                              device.name.isNotEmpty
-                                  ? device.name
-                                  : AppLocalizations.of(context)!.unnamed,
-                            ),
-                            subtitle: Text(
-                              """
+                    ...widget.scannerState.discoveredDevices.map(
+                      (device) => ListTile(
+                        title: Text(
+                          device.name.isNotEmpty
+                              ? device.name
+                              : AppLocalizations.of(context)!.unnamed,
+                        ),
+                        subtitle: Text(
+                          """
 ${device.id}
 AppLocalizations.of(context)!.rssi_colon ${device.rssi}
 ${device.connectable}
                             """,
-                            ),
-                            leading: const BluetoothIcon(),
-                            onTap: () async {
-                              if (widget.scannerState.scanIsInProgress) {
-                                // Stop scanning for more devices
-                                widget.stopScan();
-                              }
-                              await openDeviceDetailsPage(device);
-                            },
-                          ),
-                        )
-                        .toList(),
+                        ),
+                        leading: const BluetoothIcon(),
+                        onTap: () async {
+                          if (widget.scannerState.scanIsInProgress) {
+                            // Stop scanning for more devices
+                            widget.stopScan();
+                          }
+                          await openDeviceDetailsPage(device);
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 /// Diese Klasse pflegt die Einstellungen der App.
 /// Basiert auf: [Simple Settings Page](https://www.fluttertemplates.dev/widgets/must_haves/settings_page#settings_page_2).
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) =>
@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class _SettingsScreen extends StatefulWidget {
-  _SettingsScreen();
+  const _SettingsScreen();
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
         /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
-        DropdownMenuEntry<Locale> _localeToMenuItem(Locale item) {
+        DropdownMenuEntry<Locale> localeToMenuItem(Locale item) {
           return DropdownMenuEntry(
             label: item.languageCode,
             value: item,
@@ -36,8 +36,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
         }
 
         /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl des UI-Designs.
-        DropdownMenuEntry<UIThemeMode> _modeToMenuItem(
-            UIThemeMode uiThemeMode) {
+        DropdownMenuEntry<UIThemeMode> modeToMenuItem(UIThemeMode uiThemeMode) {
           return DropdownMenuEntry(
             label: uiModel.getUIModeLabel(context, uiThemeMode),
             value: uiThemeMode,
@@ -70,7 +69,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
                           },
                           dropdownMenuEntries: uiModel
                               .uiThemeModes()
-                              .map((item) => _modeToMenuItem(item))
+                              .map((item) => modeToMenuItem(item))
                               .toList()),
                     ),
                     VSpace(),
@@ -87,7 +86,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
                           },
                           dropdownMenuEntries: uiModel
                               .supportedLocales()
-                              .map((item) => _localeToMenuItem(item))
+                              .map((item) => localeToMenuItem(item))
                               .toList()),
                     ),
                   ],
@@ -105,8 +104,7 @@ class _CustomListTile extends StatelessWidget {
   final IconData icon;
   final Widget? trailing;
   const _CustomListTile(
-      {Key? key, required this.title, required this.icon, this.trailing})
-      : super(key: key);
+      {super.key, required this.title, required this.icon, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -123,10 +121,10 @@ class _SingleSection extends StatelessWidget {
   final String? title;
   final List<Widget> children;
   const _SingleSection({
-    Key? key,
+    super.key,
     this.title,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

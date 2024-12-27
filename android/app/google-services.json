@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:753265378373:android:ca99ccb8ff253728d54f2c",
+        "mobilesdk_app_id": "1:753265378373:android:cc774714b42b8d7bd54f2c",
         "android_client_info": {
           "package_name": "com.inowa.inowa"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "753265378373-rm6ifcltb6lqv8t48f1153bck065tie1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBOA3VON_t2kUdcDMucMM4fOtuhIKep0Hw"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753265378373-3ppi5j16vdhpqbikg3sd5egjrqge0ht0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753265378373-51p7ggmnhoe646mn6c9hot9qqnur8kb7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inowa.inowa"
+              }
+            }
+          ]
         }
       }
     }

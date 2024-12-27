@@ -39,13 +39,13 @@ abstract class $DeviceInteractionViewModel {
   DeviceInteractionViewModel copyUsing(
       void Function(DeviceInteractionViewModel$Change change) mutator) {
     final change = DeviceInteractionViewModel$Change._(
-      this.deviceId,
-      this.connectableStatus,
-      this.connectionStatus,
-      this.deviceConnector,
-      this.readRssi,
-      this.requestMtu,
-      this.discoverServices,
+      deviceId,
+      connectableStatus,
+      connectionStatus,
+      deviceConnector,
+      readRssi,
+      requestMtu,
+      discoverServices,
     );
     mutator(change);
     return DeviceInteractionViewModel(

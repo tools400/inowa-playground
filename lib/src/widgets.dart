@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BluetoothIcon extends StatelessWidget {
-  const BluetoothIcon({Key? key}) : super(key: key);
+  const BluetoothIcon({super.key});
 
   @override
   Widget build(BuildContext context) => const SizedBox(
@@ -16,8 +16,8 @@ class BluetoothIcon extends StatelessWidget {
 class StatusMessage extends StatelessWidget {
   const StatusMessage({
     required this.text,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String text;
 
@@ -29,7 +29,7 @@ class StatusMessage extends StatelessWidget {
 }
 
 class VSpace extends StatelessWidget {
-  const VSpace({Key? key, this.flex = 1}) : super(key: key);
+  const VSpace({super.key, this.flex = 1});
 
   final double flex;
 
@@ -46,7 +46,7 @@ class VSpace extends StatelessWidget {
 }
 
 class HSpace extends StatelessWidget {
-  const HSpace({Key? key, this.flex = 1}) : super(key: key);
+  const HSpace({super.key, this.flex = 1});
 
   final double flex;
 

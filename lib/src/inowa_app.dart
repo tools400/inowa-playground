@@ -5,9 +5,7 @@ import 'package:inowa/main.dart';
 import 'package:inowa/src/ui/authentication/auth_gate.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/settings/ui_model.dart';
-import 'package:inowa/src/ui/home/home_screen.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
@@ -74,7 +72,7 @@ class INoWaApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: uiModel.locale,
-            home: AuthGate(),
+            home: const AuthGate(),
           );
         }),
       ),

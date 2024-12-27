@@ -85,6 +85,16 @@ Die Berechtigungen werden in der Datei `[project_home]\android\app\src\main\Andr
 </details>
 <p>
 
+## Hinzufügen / Entfernen von Pattformen
+
+Hinzufügen: `flutter create --platform ios .`
+
+Aktivieren: `flutter config --enable-ios`
+
+Deaktivieren: `flutter config --no-enable-ios`
+
+Entfernen: Löschen des entsprechenden Ordners.
+
 ## Bibliotheken
 
 - [Flutter Bluetooth Library](https://pub.dev/packages/flutter_reactive_ble)
@@ -142,6 +152,10 @@ flutter build apk --split-per-abi
 ```
 
 Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
+
+## Firebase
+
+- [Firebase Konsole](https://console.firebase.google.com/project/inowa-923ad/overview?hl=de)
 
 ## VSCode Erweiterungen
 

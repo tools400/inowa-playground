@@ -24,8 +24,8 @@ part 'device_interaction_tab.g.dart';
 class DeviceInteractionTab extends StatelessWidget {
   const DeviceInteractionTab({
     required this.device,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DiscoveredDevice device;
 
@@ -90,8 +90,8 @@ class DeviceInteractionViewModel extends $DeviceInteractionViewModel {
 class _DeviceInteractionTab extends StatefulWidget {
   const _DeviceInteractionTab({
     required this.viewModel,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DeviceInteractionViewModel viewModel;
 
@@ -226,8 +226,8 @@ class _ServiceDiscoveryList extends StatefulWidget {
   const _ServiceDiscoveryList({
     required this.deviceId,
     required this.discoveredServices,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String deviceId;
   final List<Service> discoveredServices;

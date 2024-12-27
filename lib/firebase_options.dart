@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBOA3VON_t2kUdcDMucMM4fOtuhIKep0Hw',
-    appId: '1:753265378373:android:ca99ccb8ff253728d54f2c',
+    appId: '1:753265378373:android:cc774714b42b8d7bd54f2c',
     messagingSenderId: '753265378373',
     projectId: 'inowa-923ad',
     storageBucket: 'inowa-923ad.firebasestorage.app',
@@ -59,10 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB1LdEUgdmzThXs3A8vf6ukUQ8vDLdpXV4',
-    appId: '1:753265378373:ios:c4e4a7f65d5e2082d54f2c',
+    appId: '1:753265378373:ios:a9f6e5dfcb966007d54f2c',
     messagingSenderId: '753265378373',
     projectId: 'inowa-923ad',
     storageBucket: 'inowa-923ad.firebasestorage.app',
-    iosBundleId: 'com.i-nowa.inowa',
+    iosClientId: '753265378373-51p7ggmnhoe646mn6c9hot9qqnur8kb7.apps.googleusercontent.com',
+    iosBundleId: 'com.inowa.inowa',
   );
+
 }

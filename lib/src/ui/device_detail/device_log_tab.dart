@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 /// Diese Klasse zeigt die Logdaten der App an.
 class DeviceLogTab extends StatelessWidget {
-  const DeviceLogTab({Key? key}) : super(key: key);
+  const DeviceLogTab({super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<BleLogger>(
@@ -17,8 +17,8 @@ class DeviceLogTab extends StatelessWidget {
 class _DeviceLogTab extends StatelessWidget {
   const _DeviceLogTab({
     required this.messages,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<String> messages;
 
