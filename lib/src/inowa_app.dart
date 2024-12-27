@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ui/authentication/auth_gate.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
-import 'package:provider/provider.dart';
-import 'package:inowa/src/settings/ui_model.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_logger.dart';

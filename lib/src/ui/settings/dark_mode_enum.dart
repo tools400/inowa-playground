@@ -1,9 +1,9 @@
-enum UIThemeMode {
+enum DarkMode {
   system(label: 'System'),
   dark(label: 'Dark'),
   light(label: 'Light');
 
-  const UIThemeMode({
+  const DarkMode({
     required this.label,
   });
 

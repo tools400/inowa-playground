@@ -6,12 +6,15 @@ import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
 import 'package:inowa/src/inowa_app.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'src/ble/ble_logger.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 late PackageInfo packageInfo;
+
+late SharedPreferences preferences;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +43,7 @@ void main() async {
   );
 
   packageInfo = await PackageInfo.fromPlatform();
+  preferences = await SharedPreferences.getInstance();
 
   runApp(INoWaApp(
       scanner: scanner,

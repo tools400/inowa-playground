@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ui/home/home_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/profile/profile_screen.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -51,9 +52,11 @@ class AuthGate extends StatelessWidget {
             },
 */
           );
+        } else if (!snapshot.data!.emailVerified) {
+          return ProfilePage();
+        } else {
+          return HomeScreen();
         }
-
-        return const HomeScreen();
       },
     );
   }

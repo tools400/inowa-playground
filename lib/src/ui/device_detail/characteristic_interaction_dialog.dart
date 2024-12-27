@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/widgets.dart';
-import 'package:provider/provider.dart';
 
 /// Diese Klasse zeigt einen Dialog für die Interaktion mit einer
 /// gegebenen Characteristic.

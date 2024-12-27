@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/settings/ui_model.dart';
-import 'package:inowa/src/ui/settings/ui_theme_mode_enum.dart';
-import 'package:inowa/src/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/settings/dark_mode_enum.dart';
+import 'package:inowa/src/widgets.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
 /// Basiert auf: [Simple Settings Page](https://www.fluttertemplates.dev/widgets/must_haves/settings_page#settings_page_2).
@@ -36,9 +36,9 @@ class _SettingsScreenState extends State<_SettingsScreen> {
         }
 
         /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl des UI-Designs.
-        DropdownMenuEntry<UIThemeMode> modeToMenuItem(UIThemeMode uiThemeMode) {
+        DropdownMenuEntry<DarkMode> modeToMenuItem(DarkMode uiThemeMode) {
           return DropdownMenuEntry(
-            label: uiModel.getUIModeLabel(context, uiThemeMode),
+            label: uiModel.getDarkModeLabel(context, uiThemeMode),
             value: uiThemeMode,
           );
         }
@@ -57,18 +57,17 @@ class _SettingsScreenState extends State<_SettingsScreen> {
                   children: [
                     _CustomListTile(
                       title: AppLocalizations.of(context)!.ui_theme_mode,
-                      icon: uiModel.getUIModeIconData(
-                          context, uiModel.uiThemeMode),
-                      trailing: DropdownMenu<UIThemeMode>(
+                      icon: uiModel.getDarkModeIconData(
+                          context, uiModel.darkMode),
+                      trailing: DropdownMenu<DarkMode>(
                           width: 200,
-                          initialSelection: uiModel.uiThemeMode,
-                          onSelected: (UIThemeMode? UIThemeMode) {
+                          initialSelection: uiModel.darkMode,
+                          onSelected: (DarkMode? UIThemeMode) {
                             setState(() {
-                              uiModel.setUIThemeMode(UIThemeMode);
+                              uiModel.setDarkMode(UIThemeMode);
                             });
                           },
-                          dropdownMenuEntries: uiModel
-                              .uiThemeModes()
+                          dropdownMenuEntries: uiModel.darkModes
                               .map((item) => modeToMenuItem(item))
                               .toList()),
                     ),
@@ -84,8 +83,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
                               uiModel.setLocale(locale);
                             });
                           },
-                          dropdownMenuEntries: uiModel
-                              .supportedLocales()
+                          dropdownMenuEntries: uiModel.supportedLocales
                               .map((item) => localeToMenuItem(item))
                               .toList()),
                     ),
