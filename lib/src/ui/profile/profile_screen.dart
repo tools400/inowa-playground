@@ -4,6 +4,7 @@ import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inowa/main.dart';
@@ -28,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String error = '';
+  late BleLogger logger;
 
   @override
   void initState() {
@@ -50,9 +52,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer<UIModel>(builder: (_, uiModel, __) {
+      Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
         // Sprache für den Versand von Google E-Mails.
         auth.setLanguageCode(uiModel.locale.languageCode);
+
+        logger = bleLogger;
 
         return Scaffold(
           appBar: AppBar(
@@ -178,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!await confirm(context,
         content: Text(
             AppLocalizations.of(context)!.txt_Delete_user_profile_continue))) {
-      print('Operation canceled by the user.');
+      logger.debug('Operation canceled by the user.');
       return;
     }
 
@@ -202,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } on FirebaseAuthException catch (e) {
       setError(e.message ?? e.toString());
     } catch (e) {
-      print(e);
+      logger.error(e.toString());
     }
   }
 

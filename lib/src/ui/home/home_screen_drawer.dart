@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/device_detail/device_log_tab.dart';
+import 'package:inowa/src/ui/logging/LoggerScreen.dart';
 import 'package:inowa/src/ui/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
@@ -64,6 +66,13 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 leading: const Icon(Icons.settings),
                 onTap: () {
                   openScreen(context, const SettingsScreen());
+                },
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.mnu_Logging),
+                leading: const Icon(Icons.find_in_page),
+                onTap: () {
+                  openScreen(context, const LoggerScreen());
                 },
               ),
               AboutPopup(),

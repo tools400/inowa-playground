@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 class Utils {
   Utils._(); // Private constructor to prevent instantiation
 
-  void log(String text) => print("[FlutterReactiveBLEApp] $text");
-
   static DateTime now() {
     return DateTime.now();
   }

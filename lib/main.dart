@@ -28,12 +28,12 @@ void main() async {
 
   final ble = FlutterReactiveBle();
   final bleLogger = BleLogger(ble: ble);
-  final scanner = BleScanner(ble: ble, logMessage: bleLogger.addToLog);
+  final scanner = BleScanner(ble: ble, logMessage: bleLogger.info);
   final monitor = BleStatusMonitor(ble);
 
   final connector = BleDeviceConnector(
     ble: ble,
-    logMessage: bleLogger.addToLog,
+    logMessage: bleLogger.info,
   );
 
   final serviceDiscoverer = BleDeviceInteractor(
@@ -41,7 +41,7 @@ void main() async {
       await ble.discoverAllServices(deviceId);
       return ble.getDiscoveredServices(deviceId);
     },
-    logMessage: bleLogger.addToLog,
+    logMessage: bleLogger.info,
     readRssi: ble.readRssi,
     requestMtu: ble.requestMtu,
   );

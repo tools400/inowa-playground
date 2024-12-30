@@ -12,7 +12,17 @@ class BleLogger {
 
   List<String> get messages => _logMessages;
 
-  void addToLog(String message) {
+  void info(String message) {
+    final now = DateTime.now();
+    _logMessages.add('${formatter.format(now)} - $message');
+  }
+
+  void debug(String message) {
+    final now = DateTime.now();
+    _logMessages.add('${formatter.format(now)} - $message');
+  }
+
+  void error(String message) {
     final now = DateTime.now();
     _logMessages.add('${formatter.format(now)} - $message');
   }
