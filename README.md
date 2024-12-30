@@ -162,6 +162,10 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 - [TODO Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
 - [Manage TODO List in VSCode](https://medium.com/@EclecticCoder/manage-todo-list-in-vscode-beb53774d776)
 
+## Bildschirm Designer
+
+- [FlutterViz](https://flutterviz.com/)
+
 ## Dokumentation
 
 - [The right way to create a Flutter project](https://themobilecoder.com/the-right-way-to-create-a-flutter-project/)
