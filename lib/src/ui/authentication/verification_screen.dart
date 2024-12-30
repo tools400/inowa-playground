@@ -7,22 +7,23 @@ import 'package:inowa/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/home/home_screen.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:inowa/src/widgets.dart';
 import 'package:provider/provider.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
 /// Basiert auf: [Simple Settings Page](https://www.fluttertemplates.dev/widgets/must_haves/settings_page#settings_page_2).
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({
+class VerificationScreen extends StatefulWidget {
+  const VerificationScreen({
     super.key,
   });
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<VerificationScreen> createState() => _VerificationScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _VerificationScreenState extends State<VerificationScreen> {
   final TextEditingController passwordController = TextEditingController();
   late User user;
 
@@ -51,6 +52,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
+        if (isEmailVerified) {
+          return HomeScreen();
+        }
+
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.mnu_Profile),
@@ -89,14 +94,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ElevatedButton(
                             onPressed: sendEmailAndWaitForResponse,
                             child: Text(
-                                AppLocalizations.of(context)!.verify_email),
+                              AppLocalizations.of(context)!.verify_email,
+                              style: TextStyle(
+                                color: isEmailVerified
+                                    ? null
+                                    : ColorTheme.error(context),
+                              ),
+                            ),
                           ),
                         ],
-                        const VSpace(flex: 2),
-                        ElevatedButton(
-                          onPressed: _signOut,
-                          child: Text(AppLocalizations.of(context)!.sign_out),
-                        ),
                         const VSpace(flex: 2),
                         ElevatedButton(
                           onPressed: _deleteProfile,
@@ -130,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _signOut() async {
     await auth.signOut();
     await GoogleSignIn().signOut();
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   /// Sendet eine Email zur Überprüfung der Email Adresse und wartet auf eine Antwort.
@@ -159,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (isEmailVerified) {
         timer.cancel();
-        Navigator.pop(context);
+        //Navigator.pop(context);
       }
     });
   }
@@ -193,16 +199,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await _signOut;
 
       // Seite schließen
-      Navigator.pop(context);
+      // .pop(context);
     } on FirebaseAuthException catch (e) {
-      FirebaseAuthException ex = e as FirebaseAuthException;
       await showDialog<bool>(
         context: context,
         builder: (BuildContext context) => PopScope(
           child: AlertDialog(
-            title: Text('Error'),
+            title: Text(AppLocalizations.of(context)!.error),
             content: SingleChildScrollView(
-              child: Text(ex.message ?? ex.toString()),
+              child: Text(e.message ?? e.toString()),
             ),
             actions: <Widget>[
               TextButton(

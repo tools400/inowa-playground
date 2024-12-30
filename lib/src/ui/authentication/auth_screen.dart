@@ -101,16 +101,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                   .txt_forgot_Password),
                             ),
                           ],
-/*
-                          Visibility(
-                            visible: mode == AuthMode.login,
-                            child: TextButton(
-                              onPressed: _resetPassword,
-                              child: Text(AppLocalizations.of(context)!
-                                  .txt_forgot_Password),
-                            ),
-                          ),
-*/
                           // Umschalten: anmelden/registrieren
                           RichText(
                             text: TextSpan(
@@ -187,14 +177,14 @@ class _AuthScreenState extends State<AuthScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Send'),
+              child: Text(AppLocalizations.of(context)!.send),
             ),
           ],
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Enter your email'),
+              Text(AppLocalizations.of(context)!.enter_your_email),
               VSpace(),
               TextFormField(
                 onChanged: (value) {
