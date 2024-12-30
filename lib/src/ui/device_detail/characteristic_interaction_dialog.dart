@@ -30,7 +30,6 @@ class CharacteristicInteractionDialog extends StatelessWidget {
 class _CharacteristicInteractionDialog extends StatefulWidget {
   const _CharacteristicInteractionDialog({
     required this.characteristic,
-    super.key,
   });
 
   final Characteristic characteristic;
