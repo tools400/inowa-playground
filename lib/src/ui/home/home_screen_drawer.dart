@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/authentication/auth_screen.dart';
+import 'package:inowa/src/ui/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/about/about_popup.dart';
-import 'package:inowa/src/ui/profile/profile_screen.dart';
 import 'package:inowa/src/ui/settings/settings_screen.dart';
 
 /// Diese Klasse ist der Home-Screen der App.
@@ -56,7 +57,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 title: Text(AppLocalizations.of(context)!.mnu_Profile),
                 leading: const Icon(Icons.person),
                 onTap: () {
-                  openScreen(context, const ProfilePage());
+                  openScreen(context, const ProfileScreen());
                 },
               ),
               ListTile(

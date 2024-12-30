@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
@@ -46,7 +47,7 @@ class _SettingsScreenState extends State<_SettingsScreen> {
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.mnu_Settings),
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: ColorTheme.inversePrimary(context),
           ),
           body: Container(
             constraints: const BoxConstraints(maxWidth: 400),

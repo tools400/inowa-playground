@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ui/device_detail/device_detail_screen.dart';
@@ -126,7 +127,7 @@ class _DeviceListState extends State<_DeviceList> {
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.hdg_Scan_for_Devices),
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: ColorTheme.inversePrimary(context),
           ),
           drawer: HomePageDrawer(),
           onDrawerChanged: (isOpen) {
@@ -202,9 +203,9 @@ class _DeviceListState extends State<_DeviceList> {
                       title: Text(
                         !widget.scannerState.scanIsInProgress
                             ? AppLocalizations.of(context)!
-                                .txt_Enter_a_UUID_above_and_tap_start_to_begin_scanning
+                                .txt_enter_a_UUID_above_and_tap_start_to_begin_scanning
                             : AppLocalizations.of(context)!
-                                .txt_Tap_a_device_to_connect_to_it,
+                                .txt_tap_a_device_to_connect_to_it,
                       ),
                       trailing: (widget.scannerState.scanIsInProgress ||
                               widget.scannerState.discoveredDevices.isNotEmpty)

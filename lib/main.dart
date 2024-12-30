@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
@@ -13,14 +14,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 late PackageInfo packageInfo;
-
 late SharedPreferences preferences;
+
+late final FirebaseApp app;
+late final FirebaseAuth auth;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  auth = FirebaseAuth.instanceFor(app: app);
 
   final ble = FlutterReactiveBle();
   final bleLogger = BleLogger(ble: ble);

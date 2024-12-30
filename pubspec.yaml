@@ -13,16 +13,17 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: any
+  cupertino_icons: ^1.0.8
   flutter_reactive_ble: ^5.3.1
   functional_data: ^1.2.0
-  intl: any
   package_info_plus: ^8.1.2
   provider: ^6.1.2
   url_launcher: ^6.3.1
-
-  cupertino_icons: ^1.0.8
-  firebase_ui_auth: ^1.16.0
   shared_preferences: ^2.3.4
+  firebase_auth: ^5.3.4
+  google_sign_in: ^6.2.2
+  confirm_dialog: ^1.0.4
 
 dev_dependencies:
   dependency_validator: ^3.1.0

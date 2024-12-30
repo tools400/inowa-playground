@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ui/device_detail/device_log_tab.dart';
+import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'device_interaction_tab.dart';
@@ -42,7 +43,7 @@ class _DeviceDetail extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               title: Text(device.name.isNotEmpty ? device.name : "Unnamed"),
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              backgroundColor: ColorTheme.inversePrimary(context),
               bottom: const TabBar(
                 tabs: [
                   Tab(

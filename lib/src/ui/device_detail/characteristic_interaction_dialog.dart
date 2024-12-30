@@ -121,8 +121,7 @@ class _CharacteristicInteractionDialogState
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: currentMoves,
-            style: TextStyle(
-                fontSize: 11, color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
             isDense: true,
             onChanged: (String? newValue) {
               setState(() {
