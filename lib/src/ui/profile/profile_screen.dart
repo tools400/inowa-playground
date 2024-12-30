@@ -125,8 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
 
   bool get isEmailVerified {
-    bool verified = user.emailVerified ?? false;
-    return verified;
+    return user.emailVerified;
   }
 
   /// Example code for sign out.

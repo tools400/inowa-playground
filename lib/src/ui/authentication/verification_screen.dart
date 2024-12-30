@@ -133,8 +133,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       });
 
   bool get isEmailVerified {
-    bool verified = user.emailVerified ?? false;
-    return verified;
+    return user.emailVerified;
   }
 
   /// Example code for sign out.

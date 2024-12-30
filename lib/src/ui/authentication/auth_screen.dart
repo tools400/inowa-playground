@@ -208,7 +208,7 @@ class _AuthScreenState extends State<AuthScreen> {
   /// Sendet eine Email zum Zurücksetzten des Passworts.
   void sendPasswordResetEmail(String email) async {
     try {
-      await auth.sendPasswordResetEmail(email: email!);
+      await auth.sendPasswordResetEmail(email: email);
       ScaffoldSnackbar.of(context)
           .show(AppLocalizations.of(context)!.txt_password_reset_email_is_sent);
     } catch (e) {
