@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/constants.dart';
-import 'package:inowa/src/widgets.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse ist ein Popup Dialog mit Informationen zur App.
 class AboutPopup extends StatefulWidget {

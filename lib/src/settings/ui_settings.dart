@@ -38,6 +38,9 @@ class UIModel extends ChangeNotifier {
     return systemLocale;
   }
 
+  /// Liefert den 'Language Code' der eingestellten Sprache.
+  String get languageCode => locale.languageCode;
+
   /// Setzt die Sprache, in der die App angezeigt wird.
   void setLocale(Locale? locale) {
     if (locale == null) {

@@ -1,15 +1,15 @@
 import 'dart:async';
 
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/main.dart';
+import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:inowa/main.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
-import 'package:inowa/src/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
 /// Basiert auf: [Simple Settings Page](https://www.fluttertemplates.dev/widgets/must_haves/settings_page#settings_page_2).
@@ -51,6 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
+        // Sprache für den Versand von Google E-Mails.
+        auth.setLanguageCode(uiModel.locale.languageCode);
+
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.mnu_Profile),
@@ -166,13 +169,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   /// Example code for delete user profile.
   Future<void> _deleteProfile() async {
+    clearError();
     var isFormValid = formKey.currentState?.validate() ?? false;
     if (!isFormValid) {
       return;
     }
 
     // Einholen Bestätigung zum Löschen des Benutzerprofils
-    if (!await confirm(context)) {
+    if (!await confirm(context,
+        content: Text(
+            AppLocalizations.of(context)!.txt_Delete_user_profile_continue))) {
       print('Operation canceled by the user.');
       return;
     }
@@ -195,24 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // Seite schließen
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      FirebaseAuthException ex = e as FirebaseAuthException;
-      await showDialog<bool>(
-        context: context,
-        builder: (BuildContext context) => PopScope(
-          child: AlertDialog(
-            title: Text('Error'),
-            content: SingleChildScrollView(
-              child: Text(ex.message ?? ex.toString()),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(MaterialLocalizations.of(context).okButtonLabel),
-                onPressed: () => Navigator.pop(context, false),
-              ),
-            ],
-          ),
-        ),
-      );
+      setError(e.message ?? e.toString());
     } catch (e) {
       print(e);
     }

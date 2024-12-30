@@ -5,7 +5,7 @@ import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ui/device_detail/device_detail_screen.dart';
-import 'package:inowa/src/widgets.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';

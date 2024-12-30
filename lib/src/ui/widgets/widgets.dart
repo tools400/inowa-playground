@@ -125,6 +125,20 @@ class _PasswordTextState extends State<PasswordText> {
       );
 }
 
+/// Dieses Widget erzeugt einen Link zum Zurücksetzen
+/// des Passworts.
+class ResetPasswordLink extends StatelessWidget {
+  const ResetPasswordLink({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => TextButton(
+        onPressed: onPressed,
+        child: Text(AppLocalizations.of(context)!.txt_forgot_Password),
+      );
+}
+
 /// Dieses Widget erzeugt ein "Fehler" Banner.
 class ErrorBanner extends StatefulWidget {
   ErrorBanner({super.key, required this.error});

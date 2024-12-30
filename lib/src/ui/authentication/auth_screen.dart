@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/color_theme.dart';
-import 'package:inowa/src/widgets.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 /// The mode of the current auth session, either [AuthMode.login] or [AuthMode.register].
@@ -95,11 +95,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           // 'Passwort vergessen' Button...
                           if (mode == AuthMode.login) ...[
                             VSpace(),
-                            TextButton(
-                              onPressed: _resetPassword,
-                              child: Text(AppLocalizations.of(context)!
-                                  .txt_forgot_Password),
-                            ),
+                            ResetPasswordLink(onPressed: _resetPassword),
                           ],
                           // Umschalten: anmelden/registrieren
                           RichText(
@@ -173,7 +169,14 @@ class _AuthScreenState extends State<AuthScreen> {
       builder: (context) {
         return AlertDialog(
           actions: [
-            TextButton(
+            ElevatedButton(
+              onPressed: () {
+                email = null;
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
