@@ -90,7 +90,6 @@ class DeviceInteractionViewModel extends $DeviceInteractionViewModel {
 class _DeviceInteractionTab extends StatefulWidget {
   const _DeviceInteractionTab({
     required this.viewModel,
-    super.key,
   });
 
   final DeviceInteractionViewModel viewModel;
@@ -226,7 +225,6 @@ class _ServiceDiscoveryList extends StatefulWidget {
   const _ServiceDiscoveryList({
     required this.deviceId,
     required this.discoveredServices,
-    super.key,
   });
 
   final String deviceId;

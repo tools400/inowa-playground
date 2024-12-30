@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:inowa/src/ui/authentication/auth_screen.dart';
 import 'package:inowa/src/ui/authentication/verification_screen.dart';
 import 'package:inowa/src/ui/home/home_screen.dart';
-import 'package:inowa/src/ui/profile/profile_screen.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});

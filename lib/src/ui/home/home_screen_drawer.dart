@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ui/authentication/auth_screen.dart';
 import 'package:inowa/src/ui/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
