@@ -29,6 +29,7 @@ class _DeviceLogTab extends StatefulWidget {
 class _DeviceLogTabState extends State<_DeviceLogTab> {
   final ScrollController scrollController = ScrollController();
 
+  // TODO: add horizontal scrolling of the log messages, disable 'softWrap'.
   @override
   Widget build(BuildContext context) => Consumer<BleLogger>(
         builder: (context, logger, _) => Column(
@@ -44,7 +45,7 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
                       EdgeInsets.only(top: 10, left: 10, bottom: 10, right: 1),
                   itemBuilder: (context, index) => Text(
                     widget.messages[index],
-                    softWrap: false,
+                    softWrap: true,
                   ),
                   itemCount: widget.messages.length,
                 ),
