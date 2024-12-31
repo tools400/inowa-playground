@@ -14,17 +14,17 @@ class BleLogger {
 
   void info(String message) {
     final now = DateTime.now();
-    _logMessages.add('${formatter.format(now)} - $message');
+    _logMessages.add('[INFO] ${formatter.format(now)} - $message');
   }
 
   void debug(String message) {
     final now = DateTime.now();
-    _logMessages.add('${formatter.format(now)} - $message');
+    _logMessages.add('[DEBUG] ${formatter.format(now)} - $message');
   }
 
   void error(String message) {
     final now = DateTime.now();
-    _logMessages.add('${formatter.format(now)} - $message');
+    _logMessages.add('[ERROR] ${formatter.format(now)} - $message');
   }
 
   void clearLogs() => _logMessages.clear();
