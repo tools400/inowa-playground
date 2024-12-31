@@ -66,7 +66,7 @@ class HSpace extends StatelessWidget {
 
 /// Dieses Widget erzeugt ein Email Eingabefeld.
 class EmailText extends StatelessWidget {
-  EmailText({super.key, this.email, required this.controller});
+  const EmailText({super.key, this.email, required this.controller});
 
   final String? email;
   final TextEditingController controller;
@@ -128,7 +128,7 @@ class _PasswordTextState extends State<PasswordText> {
 /// Dieses Widget erzeugt einen Link zum Zurücksetzen
 /// des Passworts.
 class ResetPasswordLink extends StatelessWidget {
-  const ResetPasswordLink({required this.onPressed});
+  const ResetPasswordLink({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 

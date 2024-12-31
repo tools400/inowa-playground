@@ -207,7 +207,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       await FirebaseAuth.instance.currentUser!.delete();
 
       // Abmelden
-      await _signOut;
+      _signOut;
 
       // Seite schließen
       // .pop(context);

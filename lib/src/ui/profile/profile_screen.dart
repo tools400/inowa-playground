@@ -199,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await FirebaseAuth.instance.currentUser!.delete();
 
       // Abmelden
-      await _signOut;
+      _signOut;
 
       // Seite schließen
       Navigator.pop(context);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ui/device_detail/device_log_tab.dart';
 import 'package:inowa/src/ui/logging/LoggerScreen.dart';
 import 'package:inowa/src/ui/profile/profile_screen.dart';
 import 'package:provider/provider.dart';

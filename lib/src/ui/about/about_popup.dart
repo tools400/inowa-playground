@@ -35,9 +35,7 @@ class _AboutPopupState extends State<AboutPopup> {
           url: URL_INOWA_HOMPAGE,
         ),
       ],
-      child: Text(AppLocalizations.of(context)!.about_colon +
-          ' ' +
-          packageInfo.appName),
+      child: Text('${AppLocalizations.of(context)!.about_colon} ${packageInfo.appName}'),
     );
   }
 }
