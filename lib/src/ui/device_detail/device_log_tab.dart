@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
@@ -23,10 +24,18 @@ class _DeviceLogTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemBuilder: (context, index) => Text(messages[index]),
-          itemCount: messages.length,
+        padding: const EdgeInsets.only(top: 4, left: 16, bottom: 0, right: 1),
+        child: Scrollbar(
+          interactive: true,
+          thumbVisibility: true,
+          thickness: 8,
+          child: ListView.builder(
+            itemBuilder: (context, index) => Text(
+              messages[index],
+              softWrap: false,
+            ),
+            itemCount: messages.length,
+          ),
         ),
       );
 }
