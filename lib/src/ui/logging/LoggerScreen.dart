@@ -16,14 +16,15 @@ class LoggerScreen extends StatefulWidget {
 
 class _LoggerScreenState extends State<LoggerScreen> {
   @override
-  Widget build(BuildContext context) =>
-      Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.mnu_Logging),
-            backgroundColor: ColorTheme.inversePrimary(context),
-          ),
-          body: DeviceLogTab(),
-        );
-      });
+  Widget build(BuildContext context) => Consumer2<UIModel, BleLogger>(
+        builder: (_, uiModel, bleLogger, __) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context)!.mnu_Logging),
+              backgroundColor: ColorTheme.inversePrimary(context),
+            ),
+            body: DeviceLogTab(),
+          );
+        },
+      );
 }

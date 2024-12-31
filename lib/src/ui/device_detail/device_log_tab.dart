@@ -63,7 +63,7 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
                   child: Text(AppLocalizations.of(context)!.clear),
                 ),
               ],
-            )
+            ),
           ],
         ),
       );
