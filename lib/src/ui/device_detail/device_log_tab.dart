@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Diese Klasse zeigt die Logdaten der App an.
 class DeviceLogTab extends StatelessWidget {
@@ -15,7 +15,7 @@ class DeviceLogTab extends StatelessWidget {
       );
 }
 
-class _DeviceLogTab extends StatelessWidget {
+class _DeviceLogTab extends StatefulWidget {
   const _DeviceLogTab({
     required this.messages,
   });
@@ -23,19 +23,48 @@ class _DeviceLogTab extends StatelessWidget {
   final List<String> messages;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 4, left: 16, bottom: 0, right: 1),
-        child: Scrollbar(
-          interactive: true,
-          thumbVisibility: true,
-          thickness: 8,
-          child: ListView.builder(
-            itemBuilder: (context, index) => Text(
-              messages[index],
-              softWrap: false,
+  State<_DeviceLogTab> createState() => _DeviceLogTabState();
+}
+
+class _DeviceLogTabState extends State<_DeviceLogTab> {
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) => Consumer<BleLogger>(
+        builder: (context, logger, _) => Column(
+          children: [
+            Expanded(
+              child: Scrollbar(
+                controller: scrollController,
+                thickness: 8,
+                thumbVisibility: true,
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding:
+                      EdgeInsets.only(top: 10, left: 10, bottom: 10, right: 1),
+                  itemBuilder: (context, index) => Text(
+                    widget.messages[index],
+                    softWrap: false,
+                  ),
+                  itemCount: widget.messages.length,
+                ),
+              ),
             ),
-            itemCount: messages.length,
-          ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      logger.clearLogs();
+                    });
+                  },
+                  child: Text(AppLocalizations.of(context)!.clear),
+                ),
+              ],
+            )
+          ],
         ),
       );
 }

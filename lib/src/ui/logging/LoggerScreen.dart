@@ -23,27 +23,7 @@ class _LoggerScreenState extends State<LoggerScreen> {
             title: Text(AppLocalizations.of(context)!.mnu_Logging),
             backgroundColor: ColorTheme.inversePrimary(context),
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: DeviceLogTab(),
-              ),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        bleLogger.clearLogs();
-                      });
-                    },
-                    child: Text(AppLocalizations.of(context)!.clear),
-                  ),
-                ],
-              )
-            ],
-          ),
+          body: DeviceLogTab(),
         );
       });
 }
