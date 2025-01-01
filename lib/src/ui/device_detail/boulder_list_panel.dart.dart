@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/firebase/fb_service.dart';
+import '/src/ble/ble_logger.dart';
+import '/src/firebase/fb_service.dart';
 
 /// Diese Klasse zeigt die Logdaten der App an.
 class BoulderListPanel extends StatelessWidget {

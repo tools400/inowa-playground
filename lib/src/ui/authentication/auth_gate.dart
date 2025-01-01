@@ -1,9 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:flutter/material.dart';
-import 'package:inowa/src/ui/device_list/boulder_list.dart';
-import 'package:inowa/src/ui/authentication/auth_screen.dart';
-import 'package:inowa/src/ui/authentication/verification_screen.dart';
-import 'package:inowa/src/ui/home/home_screen.dart';
+
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+
+import '/src/ui/authentication/auth_screen.dart';
+import '/src/ui/authentication/verification_screen.dart';
+import '/src/ui/device_list/boulder_list.dart';
+import '/src/ui/home/home_screen.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -18,7 +20,10 @@ class AuthGate extends StatelessWidget {
         } else if (!user.data!.emailVerified) {
           return VerificationScreen();
         } else {
-          return BoulderList();
+          return HomeScreen();
+/*
+          return HomeScreen();
+*/
         }
       },
     );

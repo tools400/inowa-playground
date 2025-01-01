@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '/src/ble/ble_logger.dart';
 
 /// Diese Klasse zeigt die Logdaten der App an.
 class DeviceLogTab extends StatelessWidget {

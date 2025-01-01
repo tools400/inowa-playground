@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/ble/reactive_state.dart';
-import 'package:meta/meta.dart';
+
+import 'package:inowa/src/ble/ble_scanner.dart';
+
+import 'ble_reactive_state.dart';
 
 class BleScanner implements ReactiveState<BleScannerState> {
   BleScanner({
@@ -21,14 +25,15 @@ class BleScanner implements ReactiveState<BleScannerState> {
   @override
   Stream<BleScannerState> get state => _stateStreamController.stream;
 
+  /// Startet die Suche nach Bluetooth Geräten.
   void startScan(String serviceName, List<Uuid> serviceIds,
-      void Function(DiscoveredDevice device)? connectCallback) {
+      [void Function(DiscoveredDevice device)? deviceFoundCallback]) {
     _logMessage('Start ble discovery');
     _devices.clear();
     _subscription?.cancel();
     _subscription =
         _ble.scanForDevices(withServices: serviceIds).listen((device) {
-      if (matches(device, serviceName)) {
+      if (_matches(device, serviceName)) {
         final knownDeviceIndex = _devices.indexWhere((d) => d.id == device.id);
         if (knownDeviceIndex >= 0) {
           _devices[knownDeviceIndex] = device;
@@ -36,9 +41,9 @@ class BleScanner implements ReactiveState<BleScannerState> {
           _devices.add(device);
         }
         if ((serviceName.isNotEmpty || serviceIds.isNotEmpty) &&
-            connectCallback != null) {
+            deviceFoundCallback != null) {
           stopScan();
-          connectCallback(device);
+          deviceFoundCallback(device);
         }
       }
       _pushState();
@@ -46,7 +51,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
     _pushState();
   }
 
-  bool matches(DiscoveredDevice device, String serviceName) {
+  bool _matches(DiscoveredDevice device, String serviceName) {
     var serviceNamePattern = serviceName.replaceAll('*', '.*');
     var regExp = RegExp(serviceNamePattern, caseSensitive: false);
     var stringMatch = regExp.stringMatch(device.name);
@@ -56,6 +61,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
     return false;
   }
 
+  /// Aktualisiert den Bluetooth Status Stream.
   void _pushState() {
     _stateStreamController.add(
       BleScannerState(
@@ -65,6 +71,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
     );
   }
 
+  /// Beendet die Suche nach Bluetooth Geräten.
   Future<void> stopScan() async {
     _logMessage('Stop ble discovery');
 
@@ -73,6 +80,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
     _pushState();
   }
 
+  /// Gibt allokierte Resourcen frei.
   Future<void> dispose() async {
     await _stateStreamController.close();
   }

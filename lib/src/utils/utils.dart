@@ -1,5 +1,6 @@
 // ignore: avoid_print
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
 
 class Utils {
@@ -9,6 +10,7 @@ class Utils {
     return DateTime.now();
   }
 
+  /// Liefert das aktuelle Kalenderjahr als 4-stellige Zeichenfolge.
   static String year() {
     var formatter = DateFormat('yyyy');
     return formatter.format(now());

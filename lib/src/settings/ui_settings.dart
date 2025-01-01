@@ -1,9 +1,12 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/main.dart';
-import 'package:inowa/src/ui/settings/dark_mode_enum.dart';
+
+import '/main.dart';
+import '../ui/settings/internal/dark_mode_enum.dart';
 
 /// Klasse mit den Einstellungen für die Darstellung der App. Die hier
 /// verwalteten Einstellungen werden lokal auf dem Smartphone gespeichert

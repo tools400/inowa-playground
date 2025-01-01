@@ -168,6 +168,7 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 
 ## Dokumentation
 
+- [Dart Richtlinien](https://dart.dev/effective-dart/style)
 - [The right way to create a Flutter project](https://themobilecoder.com/the-right-way-to-create-a-flutter-project/)
 - [Working with locales](https://stackoverflow.com/questions/50923906/how-to-get-timezone-language-and-county-id-in-flutter-by-the-location-of-device)
 - [Flutter Templates](https://www.fluttertemplates.dev/widgets/must_haves/)

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ui/settings/color_theme.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/ui/device_detail/device_detail_screen.dart';
-import 'package:inowa/src/ui/widgets/widgets.dart';
-import 'package:inowa/src/constants.dart';
-import 'package:inowa/src/ble/ble_device_connector.dart';
-import 'package:inowa/src/ble/ble_scanner.dart';
-import 'package:inowa/src/settings/ui_settings.dart';
-import 'package:inowa/src/ui/home/home_screen_drawer.dart';
+
+import '../settings/internal/color_theme.dart';
+
+import '/src/ble/ble_device_connector.dart';
+import '/src/ble/ble_logger.dart';
+import '/src/ble/ble_scanner.dart';
+import '/src/constants.dart';
+import '/src/settings/ui_settings.dart';
+import '/src/ui/device_detail/device_detail_screen.dart';
+import '/src/ui/home/home_screen_drawer.dart';
+import '/src/ui/widgets/widgets.dart';
 
 // TODO: Umbauen zur Anzeige der Boulder
 /// Diese Klasse startet und stopped den Scanvorgang und zeigt eine
@@ -51,7 +54,8 @@ class _DeviceList extends StatefulWidget {
   final void Function(String serviceName, List<Uuid>,
       Function(DiscoveredDevice device) connectCallback) startScan;
   final VoidCallback stopScan;
-  final void Function(String deviceId) connect;
+  final void Function(String deviceId, [void Function(String deviceId)?])
+      connect;
   final String Function() deviceId;
   final void Function(String deviceId) disconnect;
 
@@ -190,15 +194,18 @@ class _DeviceListState extends State<_DeviceList> {
               Flexible(
                 child: ListView(
                   children: [
-                    Consumer<BleLogger>(
-                      builder: (context, bleLogger, child) => SwitchListTile(
+                    Consumer<BleLogger>(builder: (context, bleLogger, child) {
+                      return SwitchListTile(
                         title:
                             Text(AppLocalizations.of(context)!.enable_logging),
-                        value: bleLogger.verboseLogging,
-                        onChanged: (_) =>
-                            setState(bleLogger.toggleVerboseLogging),
-                      ),
-                    ),
+                        value: bleLogger.loggingEnabled,
+                        onChanged: (enabled) {
+                          setState(() {
+                            bleLogger.loggingEnabled = enabled;
+                          });
+                        },
+                      );
+                    }),
                     ListTile(
                       title: Text(
                         !widget.scannerState.scanIsInProgress

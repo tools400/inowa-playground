@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:inowa/src/ui/settings/color_theme.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../settings/internal/color_theme.dart';
 
 class BluetoothIcon extends StatelessWidget {
   const BluetoothIcon({super.key});
@@ -63,6 +65,32 @@ class HSpace extends StatelessWidget {
     );
   }
 }
+
+// Verschiedene Widget Properties, zur Vereinheitlichung hier abgelegt.
+InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
+  // isDense: true,
+  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
+  border: outlineInputBorder(),
+);
+
+InputDecoration inputDecoration({String? hintText}) {
+  return InputDecoration(
+    constraints: BoxConstraints.tight(const Size.fromHeight(50)),
+    hintText: hintText,
+    border: OutlineInputBorder(
+      borderRadius: _borderRadius,
+    ),
+  );
+}
+
+OutlineInputBorder outlineInputBorder() {
+  return OutlineInputBorder(
+    borderRadius: _borderRadius,
+  );
+}
+
+BorderRadius get _borderRadius => BorderRadius.circular(8);
 
 /// Dieses Widget erzeugt ein Email Eingabefeld.
 class EmailText extends StatelessWidget {

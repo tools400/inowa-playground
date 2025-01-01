@@ -1,16 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/ble/reactive_state.dart';
+
+import 'package:inowa/src/ble/ble_scanner.dart';
+
+import 'ble_reactive_state.dart';
 
 class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
   BleDeviceConnector({
     required FlutterReactiveBle ble,
+    required BleScanner scanner,
     required void Function(String message) logMessage,
   })  : _ble = ble,
+        _scanner = scanner,
         _logMessage = logMessage;
 
   final FlutterReactiveBle _ble;
+  final BleScanner _scanner;
   final void Function(String message) _logMessage;
 
   @override
@@ -23,7 +29,17 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
   StreamSubscription<ConnectionStateUpdate>? _connection;
   String? _connectedDeviceId;
 
-  Future<void> connect(String deviceId) async {
+  /// Stellt automatisch eine Verbindung zu einem benannten Gerät her.
+  Future<void> autoConnect(String deviceName,
+      void Function(DiscoveredDevice device)? deviceFoundCallback) async {
+    _logMessage('Start auto-connecting to: $deviceName');
+    _scanner.startScan(deviceName, [], deviceFoundCallback);
+  }
+
+  /// Stellt die Verbindung zu einem Geräte her. Die Identifizierung
+  /// erfolgt über die Geräte-ID.
+  Future<void> connect(String deviceId,
+      [void Function(String deviceId)? connectedCallback]) async {
     _logMessage('Start connecting to $deviceId');
     _connection = _ble.connectToDevice(id: deviceId).listen(
       (update) {
@@ -31,13 +47,19 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
             'ConnectionState for device $deviceId : ${update.connectionState}');
         _deviceConnectionController.add(update);
         _connectedDeviceId = deviceId;
+        if (connectedCallback != null) {
+          _logMessage('Calling: connected callback');
+          connectedCallback(deviceId);
+        }
       },
       onError: (Object e) =>
           _logMessage('Connecting to device $deviceId resulted in error $e'),
     );
   }
 
-  Future<void> disconnect(String deviceId) async {
+  /// Trennt die BLuetoothVerbindung zu dem verbundenem Gerät.
+  Future<void> disconnect(String deviceId,
+      [void Function(String deviceId)? disconnectedCallback]) async {
     try {
       _logMessage('disconnecting to device: $deviceId');
       await _connection?.cancel();
@@ -53,9 +75,14 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
           failure: null,
         ),
       );
+      if (disconnectedCallback != null) {
+        _logMessage('Calling: disconnected callback');
+        disconnectedCallback(deviceId);
+      }
     }
   }
 
+  /// Liefert die ID des verbundenen Geräts.
   String connectedDeviceId() {
     String deviceId = '';
     if (_connectedDeviceId != null) {

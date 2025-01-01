@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/firebase/fb_service.dart';
-import 'package:inowa/src/ui/device_detail/boulder_list_panel.dart.dart';
-import 'package:inowa/src/ui/settings/color_theme.dart';
 import 'package:provider/provider.dart';
+
+import 'package:inowa/src/ui/home/home_screen_drawer.dart';
+
+import '/src/firebase/fb_service.dart';
+import '/src/ui/device_detail/boulder_list_panel.dart.dart';
+import '../settings/internal/color_theme.dart';
 
 enum PageMode { boulderList, sort, addBoulder, settings }
 
@@ -29,6 +33,12 @@ class _BoulderListState extends State<BoulderList> {
               title: Text(AppLocalizations.of(context)!.mnu_Problems),
               backgroundColor: ColorTheme.inversePrimary(context),
             ),
+            drawer: HomePageDrawer(),
+            onDrawerChanged: (isOpen) {
+              // call setState() for refreshing the page,
+              // if drawer has been closed
+              setState(() {});
+            },
             bottomNavigationBar: bottomNavigationBar(),
             body: BoulderListPanel());
       });

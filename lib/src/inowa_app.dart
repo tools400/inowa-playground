@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/firebase/fb_service.dart';
-import 'package:inowa/src/ui/authentication/auth_gate.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
-import 'package:inowa/main.dart';
-import 'package:inowa/src/ui/settings/color_theme.dart';
-import 'package:inowa/src/settings/ui_settings.dart';
-import 'package:inowa/src/ble/ble_device_connector.dart';
-import 'package:inowa/src/ble/ble_device_interactor.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/ble/ble_scanner.dart';
-import 'package:inowa/src/ble/ble_status_monitor.dart';
+
+import '/main.dart';
+import '/src/ble/ble_device_connector.dart';
+import '/src/ble/ble_device_interactor.dart';
+import '/src/ble/ble_logger.dart';
+import '/src/ble/ble_scanner.dart';
+import '/src/ble/ble_status_monitor.dart';
+import '/src/firebase/fb_service.dart';
+import '/src/settings/ui_settings.dart';
+import '/src/ui/authentication/auth_gate.dart';
+import 'ui/settings/internal/color_theme.dart';
 
 class INoWaApp extends StatelessWidget {
   const INoWaApp({

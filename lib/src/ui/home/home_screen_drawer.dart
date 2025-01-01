@@ -3,12 +3,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../ui/logging/LoggerScreen.dart';
-import 'package:inowa/src/ui/profile/profile_screen.dart';
-import 'package:inowa/src/utils/utils.dart';
-import 'package:inowa/src/settings/ui_settings.dart';
-import 'package:inowa/src/ui/about/about_popup.dart';
-import 'package:inowa/src/ui/settings/settings_screen.dart';
+import '/src/ui/logging/LoggerScreen.dart';
+import '/src/ui/profile/profile_screen.dart';
+import '/src/utils/utils.dart';
+import '/src/settings/ui_settings.dart';
+import '/src/ui/about/about_popup.dart';
+import '/src/ui/settings/settings_screen.dart';
 
 /// Diese Klasse ist der Home-Screen der App.
 /// Folgende Interaktionen sind möglich:

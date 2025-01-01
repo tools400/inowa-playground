@@ -1,5 +1,5 @@
-import 'package:inowa/src/firebase/angle_enum.dart';
-import 'package:inowa/src/firebase/grade_enum.dart';
+import '/src/firebase/angle_enum.dart';
+import '/src/firebase/grade_enum.dart';
 import 'package:uuid/uuid.dart';
 
 // TODO: kann man das noch brauchen?

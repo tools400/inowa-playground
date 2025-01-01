@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/firebase/angle_enum.dart';
-import 'package:inowa/src/firebase/grade_enum.dart';
+import '/src/ble/ble_logger.dart';
+import '/src/firebase/angle_enum.dart';
+import '/src/firebase/grade_enum.dart';
 
 class FirebaseService {
   FirebaseService(this.logger);
