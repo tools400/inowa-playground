@@ -2,10 +2,13 @@
   "hdg_Login": "Login",
   "hdg_Registration": "Registration",
   "hdg_Scan_for_Devices": "Scan for Devices",
+
   "mnu_Home": "Home",
   "mnu_Profile": "Profile",
   "mnu_Settings": "Settings",
   "mnu_Logging": "Log",
+  "mnu_Problems": "Boulder",
+
   "app_project": "App Project",
   "indoor_north_wall": "Indoor North Wall",
   "service_name_colon": "Service name:",
@@ -39,6 +42,7 @@
   "send": "Senden",
   "clear": "Clear",
   "enter_your_email": "Enter your email:",
+
   "txt_Delete_user_profile_continue": "Delete user profil. Continue?",
   "txt_Email_Verified": "Email Verified.",
   "txt_Email_has_not_been_verified": "Email has not been verified!",
@@ -51,6 +55,8 @@
   "txt_please_sign_in": " , please sign in!",
   "txt_please_sign_up": " , please sign up!",
   "txt_password_reset_email_is_sent": "Password reset email is sent",
+  "txt_no_boulders_available": "Keine Boulder vorhanden.",
+
   "err_invalid_uuid_format": "Invalid UUID format",
   "err_error_resetting": "Error resetting"
 }

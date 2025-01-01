@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ui/logging/LoggerScreen.dart';
-import 'package:inowa/src/ui/profile/profile_screen.dart';
+
 import 'package:provider/provider.dart';
+
+import '../../ui/logging/LoggerScreen.dart';
+import 'package:inowa/src/ui/profile/profile_screen.dart';
+import 'package:inowa/src/utils/utils.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/about/about_popup.dart';
 import 'package:inowa/src/ui/settings/settings_screen.dart';
@@ -57,21 +60,21 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 title: Text(AppLocalizations.of(context)!.mnu_Profile),
                 leading: const Icon(Icons.person),
                 onTap: () {
-                  openScreen(context, const ProfileScreen());
+                  Utils.openScreen(context, const ProfileScreen());
                 },
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!.mnu_Settings),
                 leading: const Icon(Icons.settings),
                 onTap: () {
-                  openScreen(context, const SettingsScreen());
+                  Utils.openScreen(context, const SettingsScreen());
                 },
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!.mnu_Logging),
                 leading: const Icon(Icons.find_in_page),
                 onTap: () {
-                  openScreen(context, const LoggerScreen());
+                  Utils.openScreen(context, const LoggerScreen());
                 },
               ),
               AboutPopup(),
@@ -79,14 +82,4 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
           ),
         );
       });
-
-  /// Open the selected screen.
-  void openScreen(BuildContext context, Widget screen) {
-    Navigator.push<void>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => screen,
-      ),
-    );
-  }
 }

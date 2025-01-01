@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/ui/authentication/auth_gate.dart';
 import 'package:provider/provider.dart';
 import 'package:inowa/main.dart';
@@ -20,17 +21,20 @@ class INoWaApp extends StatelessWidget {
     required BleDeviceConnector connector,
     required BleDeviceInteractor serviceDiscoverer,
     required BleLogger bleLogger,
+    required FirebaseService firebaseService,
   })  : _scanner = scanner,
         _monitor = monitor,
         _connector = connector,
         _serviceDiscoverer = serviceDiscoverer,
-        _bleLogger = bleLogger;
+        _bleLogger = bleLogger,
+        _firebaseService = firebaseService;
 
   final BleScanner _scanner;
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;
   final BleDeviceInteractor _serviceDiscoverer;
   final BleLogger _bleLogger;
+  final FirebaseService _firebaseService;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class INoWaApp extends StatelessWidget {
         Provider.value(value: _connector),
         Provider.value(value: _serviceDiscoverer),
         Provider.value(value: _bleLogger),
+        Provider.value(value: _firebaseService),
         StreamProvider<BleScannerState?>(
           create: (_) => _scanner.state,
           initialData: const BleScannerState(

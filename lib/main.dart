@@ -5,6 +5,7 @@ import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
+import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/inowa_app.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,7 @@ void main() async {
   final bleLogger = BleLogger(ble: ble);
   final scanner = BleScanner(ble: ble, logMessage: bleLogger.info);
   final monitor = BleStatusMonitor(ble);
+  final firebaseService = FirebaseService(bleLogger);
 
   final connector = BleDeviceConnector(
     ble: ble,
@@ -54,5 +56,6 @@ void main() async {
       monitor: monitor,
       connector: connector,
       serviceDiscoverer: serviceDiscoverer,
-      bleLogger: bleLogger));
+      bleLogger: bleLogger,
+      firebaseService: firebaseService));
 }
