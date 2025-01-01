@@ -10,8 +10,6 @@ import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import '../internal/settings_list_tile.dart';
 import '../internal/settings_single_section.dart';
 
-import '/src/settings/ui_settings.dart';
-import '/src/ui/settings/internal/dark_mode_enum.dart';
 import '/src/ui/widgets/widgets.dart';
 
 class LoggingSection extends StatefulWidget {

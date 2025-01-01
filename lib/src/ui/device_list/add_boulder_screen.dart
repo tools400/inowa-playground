@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+
 import '/src/firebase/angle_enum.dart';
 import '/src/firebase/fb_service.dart';
 import '/src/firebase/grade_enum.dart';
-import '/src/settings/ui_settings.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddBoulderScreen extends StatefulWidget {
   @override
