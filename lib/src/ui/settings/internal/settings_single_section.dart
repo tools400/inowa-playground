@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SingleSection extends StatelessWidget {
   final String? title;
   final List<Widget> children;
-  const SingleSection({
+  const SingleSection({super.key, 
     this.title,
     required this.children,
   });

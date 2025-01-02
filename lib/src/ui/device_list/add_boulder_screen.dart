@@ -7,6 +7,8 @@ import '/src/firebase/fb_service.dart';
 import '/src/firebase/grade_enum.dart';
 
 class AddBoulderScreen extends StatefulWidget {
+  const AddBoulderScreen({super.key});
+
   @override
   State<AddBoulderScreen> createState() => _AddBoulderScreenState();
 }

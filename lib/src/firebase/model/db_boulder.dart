@@ -11,10 +11,10 @@ class Boulder {
         _name = name,
         _id = uuid ?? Uuid().v7();
 
-  String _id;
-  String _name;
-  Angle _angle;
-  Grade _grade;
+  final String _id;
+  final String _name;
+  final Angle _angle;
+  final Grade _grade;
 
   String get id => _id;
   String get name => _name;
