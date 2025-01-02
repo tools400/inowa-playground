@@ -159,8 +159,10 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 
 ## VSCode Erweiterungen
 
+- [Dart](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
+- [Dart Import Sorter](https://marketplace.visualstudio.com/items?itemName=aziznal.dart-import-sorter)
+- [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
 - [TODO Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
-- [Manage TODO List in VSCode](https://medium.com/@EclecticCoder/manage-todo-list-in-vscode-beb53774d776)
 
 ## Bildschirm Designer
 
@@ -172,3 +174,4 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 - [The right way to create a Flutter project](https://themobilecoder.com/the-right-way-to-create-a-flutter-project/)
 - [Working with locales](https://stackoverflow.com/questions/50923906/how-to-get-timezone-language-and-county-id-in-flutter-by-the-location-of-device)
 - [Flutter Templates](https://www.fluttertemplates.dev/widgets/must_haves/)
+- [Manage TODO List in VSCode](https://medium.com/@EclecticCoder/manage-todo-list-in-vscode-beb53774d776)
