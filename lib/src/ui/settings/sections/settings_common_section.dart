@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/settings/internal/dark_mode_enum.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
-
-import '../internal/settings_list_tile.dart';
-import '../internal/settings_single_section.dart';
-
-import '/src/settings/ui_settings.dart';
-import '/src/ui/settings/internal/dark_mode_enum.dart';
-import '/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
+import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 class CommonSection extends StatefulWidget {
   const CommonSection({

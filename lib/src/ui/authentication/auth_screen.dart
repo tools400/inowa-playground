@@ -6,11 +6,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
-
-import '../settings/internal/color_theme.dart';
-
-import '/src/settings/ui_settings.dart';
-import '/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// The mode of the current auth session, either [AuthMode.login] or [AuthMode.register].
 // ignore: public_member_api_docs

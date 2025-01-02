@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../widgets/widgets.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Dieses Widget erzeugt ein Eingabefeld.
 class SimpleText extends StatefulWidget {

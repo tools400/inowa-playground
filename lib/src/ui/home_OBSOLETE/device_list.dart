@@ -4,16 +4,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import '../settings/internal/color_theme.dart';
-
-import '/src/ble/ble_device_connector.dart';
-import '/src/ble/ble_logger.dart';
-import '/src/ble/ble_scanner.dart';
-import '/src/constants.dart';
-import '/src/settings/ui_settings.dart';
-import '/src/ui/device_detail/device_detail_screen.dart';
-import '../home/boulder_list_drawer.dart';
-import '/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_scanner.dart';
+import 'package:inowa/src/constants.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/device_detail/device_detail_screen.dart';
+import 'package:inowa/src/ui/home/boulder_list_drawer.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 // TODO: Umbauen zur Anzeige der Boulder
 /// Diese Klasse startet und stopped den Scanvorgang und zeigt eine

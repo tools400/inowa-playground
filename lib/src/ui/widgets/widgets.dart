@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 
 class BluetoothIcon extends StatelessWidget {
   const BluetoothIcon({super.key});

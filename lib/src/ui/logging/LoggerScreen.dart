@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '/src/ui/device_detail/device_log_tab.dart';
-import '../settings/internal/color_theme.dart';
 import 'package:provider/provider.dart';
-import '/src/ble/ble_logger.dart';
-import '/src/settings/ui_settings.dart';
+
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/device_detail/device_log_tab.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 
 /// Diese Klasse zeigt das App Protokoll an.
 class LoggerScreen extends StatefulWidget {

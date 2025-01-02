@@ -6,11 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/logging/log_level_enum.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
-
-import '../internal/settings_list_tile.dart';
-import '../internal/settings_single_section.dart';
-
-import '/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
+import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 class LoggingSection extends StatefulWidget {
   const LoggingSection({

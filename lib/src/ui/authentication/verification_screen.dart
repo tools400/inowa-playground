@@ -9,14 +9,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/home/boulder_list.dart';
-
-import '../home_OBSOLETE/home_screen.dart';
-import '../settings/internal/color_theme.dart';
-
-import '/src/ble/ble_logger.dart';
-import '/src/settings/ui_settings.dart';
-import '/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
 /// Basiert auf: [Simple Settings Page](https://www.fluttertemplates.dev/widgets/must_haves/settings_page#settings_page_2).
