@@ -1,6 +1,8 @@
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart' as ble;
 import 'package:intl/intl.dart';
 
+import '/main.dart';
+
 import '/src/logging/log_level_enum.dart';
 import '/src/utils/utils.dart';
 
@@ -9,12 +11,17 @@ class BleLogger {
     required ble,
   }) : _ble = ble;
 
+  static final key_is_active = 'isActive';
+  static final key_log_level = 'logLevel';
+
   final ble.FlutterReactiveBle _ble;
 
-  bool _isLoggingEnabled = true;
-  LogLevel _logLevel = LogLevel.info;
   final List<String> _logMessages = [];
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss.sss');
+
+  final defaultLogLevel = LogLevel.info;
+
+  int? _cachedLogLevel;
 
   /// Liefert die Liste der aufgezeichneten Nachrichten.
   List<String> get messages => _logMessages;
@@ -22,24 +29,42 @@ class BleLogger {
   /// Liefert 'true', wenn die Protokollierung grundsätzlich
   /// eingeschaltet ist, sonst 'false'.
   bool get loggingEnabled {
-    return _isLoggingEnabled;
+    bool isActive = preferences.getBool(key_is_active) ?? false;
+    return isActive;
   }
 
   /// Schaltet die Protokollierung grundsätzlich ein oder aus.
   set loggingEnabled(bool enabled) {
-    _isLoggingEnabled = enabled;
+    preferences.setBool(key_is_active, enabled);
   }
 
   /// Liefert die eingestellte Protokollierungsstufe.
-  LogLevel get logLevel => _logLevel;
+  LogLevel get logLevel {
+    int level = preferences.getInt(key_log_level) ?? -1;
+    for (int i = 0; i < LogLevel.values.length; i++) {
+      LogLevel logLevel = LogLevel.values[i];
+      if (logLevel.level == level) {
+        return logLevel;
+      }
+    }
+
+    // Default Protokollierungsstufe:
+    return LogLevel.info;
+  }
+
+  /// Liefert den numerischen Wert der Protokollierungsstufe.
+  int get cachedLogLevel {
+    _cachedLogLevel ??= logLevel.level;
+    return _cachedLogLevel!;
+  }
 
   /// Setzt die Protokollierungsstufe.
   set logLevel(LogLevel? logLevel) {
-    if (logLevel == null) {
-      return;
-    }
+    logLevel ??= defaultLogLevel;
 
-    _logLevel = logLevel;
+    preferences.setInt(key_log_level, logLevel.level);
+    _cachedLogLevel = logLevel.level;
+
     if (_isLoggingEnabledFor(LogLevel.verbose)) {
       _bleLoggingEnabled = true;
     } else {
@@ -79,10 +104,10 @@ class BleLogger {
   /// Liefert 'true', wenn die Protokollierung für die angegebene
   /// Protokollierungsstufe eingeschaltet ist, sonst 'false'.
   bool _isLoggingEnabledFor(LogLevel logLevel) {
-    if (!_isLoggingEnabled) {
+    if (!loggingEnabled) {
       return false;
     }
-    return _logLevel.level >= logLevel.level;
+    return cachedLogLevel >= logLevel.level;
   }
 
   /// Schaltet die Protokollierung der 'flutter_reactive_ble' Bibliothek

@@ -19,16 +19,18 @@ class BleScanner implements ReactiveState<BleScannerState> {
       StreamController();
 
   final _devices = <DiscoveredDevice>[];
+  bool _isScanning = false;
 
   @override
   Stream<BleScannerState> get state => _stateStreamController.stream;
 
   /// Startet die Suche nach Bluetooth Geräten.
   void startScan(String serviceName, List<Uuid> serviceIds,
-      [void Function(DiscoveredDevice device)? deviceFoundCallback]) {
+      [Function(DiscoveredDevice device)? deviceFoundCallback]) {
     _logMessage('Start ble discovery');
     _devices.clear();
     _subscription?.cancel();
+    _isScanning = true;
     _subscription =
         _ble.scanForDevices(withServices: serviceIds).listen((device) {
       if (_matches(device, serviceName)) {
@@ -38,9 +40,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
         } else {
           _devices.add(device);
         }
-        if ((serviceName.isNotEmpty || serviceIds.isNotEmpty) &&
-            deviceFoundCallback != null) {
-          stopScan();
+        if (deviceFoundCallback != null) {
           deviceFoundCallback(device);
         }
       }
@@ -75,8 +75,12 @@ class BleScanner implements ReactiveState<BleScannerState> {
 
     await _subscription?.cancel();
     _subscription = null;
+    _isScanning = false;
     _pushState();
   }
+
+  /// Liefert 'true', wenn der Scann Vorgang läuft, sonst 'false'.
+  bool get isScanning => _isScanning;
 
   /// Gibt allokierte Resourcen frei.
   Future<void> dispose() async {

@@ -83,12 +83,8 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
   }
 
   /// Liefert die ID des verbundenen Geräts.
-  String connectedDeviceId() {
-    String deviceId = '';
-    if (_connectedDeviceId != null) {
-      deviceId = _connectedDeviceId!;
-    }
-    return deviceId;
+  String? get connectedDeviceId {
+    return _connectedDeviceId;
   }
 
   Future<void> dispose() async {

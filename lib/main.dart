@@ -14,6 +14,7 @@ import '/src/ble/ble_status_monitor.dart';
 import '/src/firebase/fb_service.dart';
 import '/src/inowa_app.dart';
 import 'firebase_options.dart';
+import 'src/ble/ble_settings.dart';
 
 late PackageInfo packageInfo;
 late SharedPreferences preferences;
@@ -28,6 +29,7 @@ void main() async {
   );
   auth = FirebaseAuth.instanceFor(app: app);
 
+  final settings = BleSettings();
   final ble = FlutterReactiveBle();
   final bleLogger = BleLogger(ble: ble);
   final scanner = BleScanner(ble: ble, logMessage: bleLogger.info);
@@ -54,6 +56,7 @@ void main() async {
   preferences = await SharedPreferences.getInstance();
 
   runApp(INoWaApp(
+      settings: settings,
       scanner: scanner,
       monitor: monitor,
       connector: connector,

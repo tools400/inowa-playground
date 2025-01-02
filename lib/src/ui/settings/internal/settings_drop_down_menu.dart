@@ -20,7 +20,7 @@ class SettingsDropDownMenu<T> extends StatelessWidget {
       width: 200,
       inputDecorationTheme: inputDecorationTheme,
       initialSelection: initialSelection,
-      onSelected: (T? logLevel) {},
+      onSelected: onSelected,
       dropdownMenuEntries: dropdownMenuEntries,
     );
   }

@@ -56,7 +56,7 @@ class _DeviceList extends StatefulWidget {
   final VoidCallback stopScan;
   final void Function(String deviceId, [void Function(String deviceId)?])
       connect;
-  final String Function() deviceId;
+  final String? deviceId;
   final void Function(String deviceId) disconnect;
 
   @override
@@ -74,14 +74,15 @@ class _DeviceListState extends State<_DeviceList> {
       ..addListener(() => setState(() {}));
     _uuidController = TextEditingController()
       ..addListener(() => setState(() {}));
-    _startScanning();
+
+    // _startScanning();
   }
 
   @override
   void dispose() {
     widget.stopScan();
-    if (widget.deviceId().isNotEmpty) {
-      widget.disconnect(widget.deviceId()); // deviceId
+    if (widget.deviceId != null) {
+      widget.disconnect(widget.deviceId!); // deviceId
     }
     _nameController.dispose();
     _uuidController.dispose();
