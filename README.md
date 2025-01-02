@@ -163,6 +163,9 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 - [Dart Import Sorter](https://marketplace.visualstudio.com/items?itemName=aziznal.dart-import-sorter)
 - [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
 - [TODO Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
+- [Git History](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)
+- [Git Open Diff](https://marketplace.visualstudio.com/items?itemName=kappariver.git-open-diff)
+- [GitLens - Git superchared](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 
 ## Bildschirm Designer
 
