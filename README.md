@@ -167,6 +167,8 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 - [Git Open Diff](https://marketplace.visualstudio.com/items?itemName=kappariver.git-open-diff)
 - [GitLens - Git superchared](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 
+Gitlens erfordert eine Freigabe für GitHub um verschiedene Informationen anzeigen zu können.
+
 ## Bildschirm Designer
 
 - [FlutterViz](https://flutterviz.com/)
