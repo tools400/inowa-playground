@@ -9,12 +9,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
+import 'package:inowa/src/ui/home/boulder_list.dart';
 
+import '../home_OBSOLETE/home_screen.dart';
 import '../settings/internal/color_theme.dart';
 
 import '/src/ble/ble_logger.dart';
 import '/src/settings/ui_settings.dart';
-import '/src/ui/home/home_screen.dart';
 import '/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
@@ -61,7 +62,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         // Anzeigen Einstiegsbildschirm nachn erfolgreicher
         // Validierung der E-Mail.
         if (isEmailVerified) {
-          return HomeScreen();
+          return BoulderListScreen();
         }
 
         // Sprache für den Versand von Google E-Mails.

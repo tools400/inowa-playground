@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ui/home/home_screen_drawer.dart';
-
-import '/src/firebase/fb_service.dart';
-import '/src/ui/device_detail/boulder_list_panel.dart.dart';
-import '../settings/internal/color_theme.dart';
+import 'package:inowa/src/firebase/fb_service.dart';
+import 'package:inowa/src/ui/device_detail/boulder_list_panel.dart.dart';
+import 'package:inowa/src/ui/home/add_boulder_screen.dart';
+import 'package:inowa/src/ui/home/boulder_list_drawer.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/settings/sections/settings_bluetooth_section.dart';
 
 enum PageMode { boulderList, sort, addBoulder, settings }
 
-class BoulderList extends StatefulWidget {
-  const BoulderList({super.key});
+class BoulderListScreen extends StatefulWidget {
+  const BoulderListScreen({super.key});
 
   @override
-  State<BoulderList> createState() => _BoulderListState();
+  State<BoulderListScreen> createState() => _BoulderListScreenState();
 }
 
-class _BoulderListState extends State<BoulderList> {
+class _BoulderListScreenState extends State<BoulderListScreen> {
   final ScrollController scrollController = ScrollController();
 
   bool isSelected = false;
@@ -27,7 +29,27 @@ class _BoulderListState extends State<BoulderList> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer<FirebaseService>(builder: (_, firebase, __) {
+      Consumer2<FirebaseService, ConnectionStateUpdate>(
+          builder: (_, firebase, connectionStateUpdate, __) {
+        /// Gibt an, ob auto-connect eingeschaltet ist.
+        bool isConnected() {
+          bool isConnected = connectionStateUpdate.connectionState ==
+              DeviceConnectionState.connected;
+          return isConnected;
+        }
+
+        Widget panel;
+        switch (pageMode) {
+          case PageMode.sort:
+            panel = BoulderListPanel();
+          case PageMode.addBoulder:
+            panel = AddBoulderScreen();
+          case PageMode.settings:
+            panel = BluetoothSection();
+          default:
+            panel = BoulderListPanel();
+        }
+
         return Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.mnu_Problems),
@@ -39,11 +61,11 @@ class _BoulderListState extends State<BoulderList> {
               // if drawer has been closed
               setState(() {});
             },
-            bottomNavigationBar: bottomNavigationBar(),
-            body: BoulderListPanel());
+            bottomNavigationBar: bottomNavigationBar(isConnected()),
+            body: panel);
       });
 
-  BottomNavigationBar bottomNavigationBar() {
+  BottomNavigationBar bottomNavigationBar(bool isConnected) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
@@ -84,7 +106,9 @@ class _BoulderListState extends State<BoulderList> {
           label: 'Add',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
+          icon: Icon(isConnected
+              ? Icons.lightbulb_rounded
+              : Icons.lightbulb_outline_rounded),
           label: 'Settings',
         ),
       ],

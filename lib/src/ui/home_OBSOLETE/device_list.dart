@@ -12,7 +12,7 @@ import '/src/ble/ble_scanner.dart';
 import '/src/constants.dart';
 import '/src/settings/ui_settings.dart';
 import '/src/ui/device_detail/device_detail_screen.dart';
-import '/src/ui/home/home_screen_drawer.dart';
+import '../home/boulder_list_drawer.dart';
 import '/src/ui/widgets/widgets.dart';
 
 // TODO: Umbauen zur Anzeige der Boulder
