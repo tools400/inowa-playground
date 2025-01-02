@@ -157,6 +157,17 @@ Zielordner: `[project_home]\build\app\outputs\flutter-apk\`
 
 - [Firebase Konsole](https://console.firebase.google.com/project/inowa-923ad/overview?hl=de)
 
+## Dart
+
+Der Befehl `dart analyze` analysiert das Projekt und erstellt eine Liste mit Vorschägen
+zur Verbesserung des Codes. Der Befehl wird beim Starten von VSCode automatisch ausgeführt
+und auf Nachfrage eine View mit den vorgeschlagenen Änderungen angezeigt.
+
+Während der Entwicklung kann der Befehl jederzeit ausgeführt werden. Die View mit den
+vorgeschlagenen Änderungen kann wie folgt geöffnet werden:
+
+![Dart Fixes Preview](docs/images/open-dart-preview-fixes.png)
+
 ## VSCode Erweiterungen
 
 - [Dart](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
