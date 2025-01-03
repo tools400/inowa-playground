@@ -98,7 +98,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
           }
         } else {
           String? deviceName = deviceNameController!.text;
-          deviceConnector.autoConnect(deviceName, deviceFoundCallback);
+          bleScanner.startScan(deviceName, [], deviceFoundCallback);
         }
       }
 

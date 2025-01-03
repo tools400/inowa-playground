@@ -29,13 +29,6 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
   StreamSubscription<ConnectionStateUpdate>? _connection;
   String? _connectedDeviceId;
 
-  /// Stellt automatisch eine Verbindung zu einem benannten Gerät her.
-  Future<void> autoConnect(String deviceName,
-      void Function(DiscoveredDevice device)? deviceFoundCallback) async {
-    _logMessage('Start auto-connecting to: $deviceName');
-    _scanner.startScan(deviceName, [], deviceFoundCallback);
-  }
-
   /// Stellt die Verbindung zu einem Geräte her. Die Identifizierung
   /// erfolgt über die Geräte-ID.
   Future<void> connect(String deviceId,
@@ -47,7 +40,8 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
             'ConnectionState for device $deviceId : ${update.connectionState}');
         _deviceConnectionController.add(update);
         _connectedDeviceId = deviceId;
-        if (connectedCallback != null) {
+        if (connectedCallback != null &&
+            update.connectionState == DeviceConnectionState.connected) {
           _logMessage('Calling: connected callback');
           connectedCallback(deviceId);
         }
