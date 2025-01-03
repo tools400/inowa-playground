@@ -23,9 +23,9 @@ class BoulderListScreen extends StatefulWidget {
 class _BoulderListScreenState extends State<BoulderListScreen> {
   final ScrollController scrollController = ScrollController();
 
-  bool isSelected = false;
+  bool _isSelected = false;
   int _currentIndex = 0;
-  PageMode pageMode = PageMode.boulderList;
+  PageMode _pageMode = PageMode.boulderList;
 
   @override
   Widget build(BuildContext context) =>
@@ -39,7 +39,7 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
         }
 
         Widget panel;
-        switch (pageMode) {
+        switch (_pageMode) {
           case PageMode.sort:
             panel = BoulderListPanel();
           case PageMode.addBoulder:
@@ -69,26 +69,26 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
-      selectedItemColor: isSelected ? Colors.orange : null,
+      selectedItemColor: _isSelected ? Colors.orange : null,
       onTap: (int index) {
         setState(() {
-          if (isSelected && index == _currentIndex) {
-            isSelected = false;
-            pageMode = PageMode.boulderList;
+          if (_isSelected && index == _currentIndex) {
+            _isSelected = false;
+            _pageMode = PageMode.boulderList;
             return;
           }
           _currentIndex = index;
 
           switch (_currentIndex) {
             case 0:
-              pageMode = PageMode.sort;
-              isSelected = true;
+              _pageMode = PageMode.sort;
+              _isSelected = true;
             case 1:
-              pageMode = PageMode.addBoulder;
-              isSelected = true;
+              _pageMode = PageMode.addBoulder;
+              _isSelected = true;
             case 2:
-              pageMode = PageMode.settings;
-              isSelected = true;
+              _pageMode = PageMode.settings;
+              _isSelected = true;
             default:
               throw UnsupportedError(
                 'Unsupported navigation item.',
