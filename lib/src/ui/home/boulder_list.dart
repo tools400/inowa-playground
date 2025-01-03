@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/ui/device_detail/boulder_list_panel.dart.dart';
 import 'package:inowa/src/ui/home/add_boulder_screen.dart';
@@ -29,13 +30,18 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer2<FirebaseService, ConnectionStateUpdate>(
-          builder: (_, firebase, connectionStateUpdate, __) {
+      Consumer3<FirebaseService, ConnectionStateUpdate, BleSettings>(
+          builder: (_, firebase, connectionStateUpdate, bleSettings, __) {
         /// Gibt an, ob auto-connect eingeschaltet ist.
         bool isConnected() {
           bool isConnected = connectionStateUpdate.connectionState ==
               DeviceConnectionState.connected;
           return isConnected;
+        }
+
+        /// Stellt die Verbindung her, insofern auto-connect aktiviert ist
+        if (!isConnected() && bleSettings.isAutoConnect) {
+          // TODO: erstellen auto-connect Klasse, auch für settings_bluetooth_section.dart
         }
 
         Widget panel;

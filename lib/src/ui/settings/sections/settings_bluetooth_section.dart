@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ble/ble_auto_connect.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
@@ -26,6 +27,8 @@ class BluetoothSection extends StatefulWidget {
 class _BluetoothSectionState extends State<BluetoothSection> {
   TextEditingController? deviceNameController;
 
+  BleAutoConnector? bleAutoConnector;
+
   @override
   void dispose() {
     deviceNameController?.dispose();
@@ -41,6 +44,10 @@ class _BluetoothSectionState extends State<BluetoothSection> {
       // Initialisieren Text Controller für den Geräte-Namen
       deviceNameController ??= TextEditingController()
         ..text = bleSettings.deviceName;
+
+      /// Manager für die automatische Herstellung einer Bluetooth Verbindung.
+      bleAutoConnector ??=
+          BleAutoConnector(context, bleScanner, deviceConnector);
 
       /// Gibt an, ob der Scanner läuft.
       bool isScanning() {
@@ -58,7 +65,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
       /// Liefert die Beschriftung für den 'Connect' Button.
       String titleConnectButton() {
         if (isScanning()) {
-          return AppLocalizations.of(context)!.btn_Stop;
+          return AppLocalizations.of(context)!.scanning;
         } else if (isConnected()) {
           return AppLocalizations.of(context)!.bluetooth_disconnect;
         } else {
@@ -66,39 +73,18 @@ class _BluetoothSectionState extends State<BluetoothSection> {
         }
       }
 
-      /// Callback, wird nach erfolgreicher Verbindung zum
-      /// Bluetooth Gerät aufgerufen.
-      connectedCallback(String deviceId) {
-        ScaffoldSnackbar.of(context)
-            .show(AppLocalizations.of(context)!.txt_connection_established);
-      }
-
-      /// Callback, wird nach erfolgreicher Trennung der
-      /// Verbindung zum Bluetooth Gerät aufgerufen.
-      disconnectedCallback(String deviceId) {
-        ScaffoldSnackbar.of(context)
-            .show(AppLocalizations.of(context)!.txt_connection_disconnected);
-      }
-
-      /// Callback, wird aufgerufen, sobald das gesuchte
-      /// Bluetooth Gerät gefunden worden ist.
-      deviceFoundCallback(DiscoveredDevice device) {
-        bleScanner.stopScan();
-        deviceConnector.connect(device.id, connectedCallback);
-      }
-
       /// Schaltet die Bluetoothverbindung hin und her.
-      void toggleConnection() {
+      toggleConnection() {
         if (isScanning()) {
-          bleScanner.stopScan();
+          // nichts tun
         } else if (isConnected()) {
           String? deviceId = deviceConnector.connectedDeviceId;
           if (deviceId != null) {
-            deviceConnector.disconnect(deviceId, disconnectedCallback);
+            bleAutoConnector!.disconnect(deviceId);
           }
         } else {
           String? deviceName = deviceNameController!.text;
-          bleScanner.startScan(deviceName, [], deviceFoundCallback);
+          bleAutoConnector!.scanAndConnect(deviceName);
         }
       }
 
@@ -133,11 +119,13 @@ class _BluetoothSectionState extends State<BluetoothSection> {
             trailing: SizedBox(
               width: 150,
               child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    toggleConnection();
-                  });
-                },
+                onPressed: isScanning()
+                    ? null
+                    : () {
+                        setState(() {
+                          toggleConnection();
+                        });
+                      },
                 child: Text(titleConnectButton()),
               ),
             ),

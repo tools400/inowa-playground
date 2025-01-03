@@ -20,6 +20,7 @@
   "about_colon": "Über:",
   "btn_Scan": "Scan",
   "btn_Stop": "Stop",
+  "scanning": "Scanning...",
   "general": "Allgemein",
   "logging": "Protokollierung",
   "logging_active": "Aktiviert",
