@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ui/device_detail/boulder_add_to_list_dialog.dart';
-import 'package:inowa/src/ui/home/display_boulder_screen.dart';
+import 'package:inowa/src/ui/home/actions/display_boulder_screen.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 import '/src/firebase/fb_service.dart';

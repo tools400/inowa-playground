@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
-import 'package:inowa/src/ui/home/boulder_list.dart';
+import 'package:inowa/src/ui/home/boulder_list_screen.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
