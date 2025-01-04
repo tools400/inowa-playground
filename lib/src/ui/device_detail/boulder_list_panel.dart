@@ -4,7 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ui/device_detail/boulder_add_to_list_dialog.dart';
+import 'package:inowa/src/ui/home/display_boulder_screen.dart';
+import 'package:inowa/src/utils/utils.dart';
+
 import '/src/firebase/fb_service.dart';
 
 /// Diese Klasse zeigt die Logdaten der App an.
@@ -48,12 +52,6 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
                   children: [
                     Text(AppLocalizations.of(context)!
                         .txt_no_boulders_available),
-                    OutlinedButton(
-                      onPressed: () {
-                        // openScreen(context, AddBoulderScreen());
-                      },
-                      child: Text('Add'),
-                    ),
                   ],
                 ),
               );
@@ -76,6 +74,7 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
             thickness: 16,
             thumbVisibility: true,
             interactive: true,
+            trackVisibility: false,
             child: ListView.builder(
               controller: scrollController,
               itemCount: items.length,
@@ -85,19 +84,54 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
                 final angle = item['angle'];
                 final grade = item['grade'];
 
-                return ListTile(
-                  title: Text(name),
-                  subtitle: Text('$angle / $grade'),
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                  ),
+                  child: ListTile(
+                    title: Text(name),
+                    onTap: () {
+                      displayAndLoadBoulder();
+                    },
+                    subtitle: Text('$angle / $grade'),
+                    leading: Icon(Icons.hourglass_bottom),
+                    trailing: boulderPopupMenu(item),
+                  ),
                 );
               },
             ),
           ),
         ),
-        OutlinedButton(
-          onPressed: () {
-            //openScreen(context, AddBoulderScreen());
-          },
-          child: Text('Add'),
+      ],
+    );
+  }
+
+  displayAndLoadBoulder() {
+    Utils.openScreen(context, DisplayBoulderScreen());
+  }
+
+  Widget boulderPopupMenu(QueryDocumentSnapshot<Object?> item) {
+    // return Icon(Icons.menu);
+
+    String? _selection;
+    return PopupMenuButton<String>(
+      icon: Icon(Icons.menu),
+      onSelected: (String value) => showDialog<void>(
+        context: context,
+        builder: (context) => BoulderAddToListDialog(list: value),
+      ),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          value: 'Value1',
+          child: Text('Choose value 1'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'Value2',
+          child: Text('Choose value 2'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'Value3',
+          child: Text('Choose value 3'),
         ),
       ],
     );

@@ -4,7 +4,7 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:functional_data/functional_data.dart';
 import 'package:provider/provider.dart';
 
-import '../device_detail/characteristic_interaction_dialog.dart';
+import 'characteristic_interaction_dialog.dart';
 
 import '/src/ble/ble_device_connector.dart';
 import '/src/ble/ble_device_interactor.dart';
