@@ -9,7 +9,6 @@ import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
-import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';

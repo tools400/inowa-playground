@@ -21,6 +21,7 @@ class AuthGate extends StatelessWidget {
           return VerificationScreen();
         } else {
           return BoulderListScreen();
+//          return HomeScreen();
         }
       },
     );

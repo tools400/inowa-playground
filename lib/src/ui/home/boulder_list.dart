@@ -9,7 +9,7 @@ import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/firebase/fb_service.dart';
-import 'package:inowa/src/ui/device_detail/boulder_list_panel.dart.dart';
+import 'package:inowa/src/ui/device_detail/boulder_list_panel.dart';
 import 'package:inowa/src/ui/home/add_boulder_screen.dart';
 import 'package:inowa/src/ui/home/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
@@ -89,6 +89,7 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
             body: panel);
       });
 
+  /// Navigationsmenü am unteren Bildschirmrand.
   BottomNavigationBar bottomNavigationBar(bool isConnected) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,

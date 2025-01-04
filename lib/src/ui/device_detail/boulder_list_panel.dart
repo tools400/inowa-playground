@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -72,8 +73,9 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
         Expanded(
           child: Scrollbar(
             controller: scrollController,
-            thickness: 8,
+            thickness: 16,
             thumbVisibility: true,
+            interactive: true,
             child: ListView.builder(
               controller: scrollController,
               itemCount: items.length,
