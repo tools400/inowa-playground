@@ -124,8 +124,12 @@ class BoulderListTile extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${_boulderItem.angleUI}°  / ${_boulderItem.gradeUI}'),
+            Text(
+              '${_boulderItem.angleUI}°  / ${_boulderItem.gradeUI}',
+              style: TextStyle(fontSize: 12),
+            ),
             Row(
+              spacing: 0,
               children: numStars,
             )
           ],
