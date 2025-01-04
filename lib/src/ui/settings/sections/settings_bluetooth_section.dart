@@ -100,13 +100,8 @@ class _BluetoothSectionState extends State<BluetoothSection> {
             bleAutoConnector!.disconnect(deviceId);
           }
         } else {
-          int timeout;
-          if (timeoutController != null && timeoutController!.text.isNotEmpty) {
-            timeout = int.parse(timeoutController!.text);
-          } else {
-            timeout = SCANNER_TIMEOUT;
-          }
-          String? deviceName = deviceNameController!.text;
+          var timeout = int.parse(timeoutController!.text);
+          String deviceName = deviceNameController!.text;
           bleAutoConnector!
               .scanAndConnect(serviceName: deviceName, timeout: timeout);
         }

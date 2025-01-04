@@ -4,6 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/ui/device_detail/boulder_list_panel.dart.dart';
@@ -28,10 +31,17 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
   int _currentIndex = 0;
   PageMode _pageMode = PageMode.boulderList;
 
+  BleAutoConnector? bleAutoConnector;
+
   @override
-  Widget build(BuildContext context) =>
-      Consumer3<FirebaseService, ConnectionStateUpdate, BleSettings>(
-          builder: (_, firebase, connectionStateUpdate, bleSettings, __) {
+  Widget build(BuildContext context) => Consumer5<
+              FirebaseService,
+              ConnectionStateUpdate,
+              BleSettings,
+              BleScanner,
+              BleDeviceConnector>(
+          builder: (_, firebase, connectionStateUpdate, bleSettings, bleScanner,
+              bleDeviceConnector, __) {
         /// Gibt an, ob auto-connect eingeschaltet ist.
         bool isConnected() {
           bool isConnected = connectionStateUpdate.connectionState ==
@@ -39,9 +49,17 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
           return isConnected;
         }
 
-        /// Stellt die Verbindung her, insofern auto-connect aktiviert ist
-        if (!isConnected() && bleSettings.isAutoConnect) {
-          // TODO: erstellen auto-connect Klasse, auch für settings_bluetooth_section.dart
+        /// Stellt die Verbindung her, insofern auto-connect aktiviert ist.
+        /// Nur einmal, beim ersten Anzeigend des Bildschirms.
+        if (bleAutoConnector == null &&
+            !isConnected() &&
+            bleSettings.isAutoConnect) {
+          bleAutoConnector =
+              BleAutoConnector(context, bleScanner, bleDeviceConnector);
+          var timeout = bleSettings.timeout;
+          String deviceName = bleSettings.deviceName;
+          bleAutoConnector!
+              .scanAndConnect(serviceName: deviceName, timeout: timeout);
         }
 
         Widget panel;
