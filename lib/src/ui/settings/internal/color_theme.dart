@@ -15,6 +15,8 @@ class ColorTheme {
   //Theme.of(context).colorScheme.outline;
 
   static const linkColor = Colors.blue;
+  static const navigatorSelectedColor = Colors.orange;
+  static const deviceConnectedIconColor = Colors.orange;
 
   static final light = ThemeData(
     colorSchemeSeed: _seedColor,

@@ -12,11 +12,9 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
     required BleScanner scanner,
     required void Function(String message) logMessage,
   })  : _ble = ble,
-        _scanner = scanner,
         _logMessage = logMessage;
 
   final FlutterReactiveBle _ble;
-  final BleScanner _scanner;
   final void Function(String message) _logMessage;
 
   @override

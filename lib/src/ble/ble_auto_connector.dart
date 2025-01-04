@@ -11,19 +11,17 @@ import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 class BleAutoConnector {
-  BleAutoConnector(this._context, this._scanner, this._connector,
-      [int? timeout])
-      : _timeout = timeout ?? SCANNER_TIMEOUT;
+  BleAutoConnector(this._context, this._scanner, this._connector);
 
   final BuildContext _context;
   final BleScanner _scanner;
   final BleDeviceConnector _connector;
-  final int _timeout;
   Timer? timeoutTimer;
 
-  void scanAndConnect(String serviceName) {
+  void scanAndConnect({required String serviceName, int? timeout}) {
+    timeout = timeout ?? SCANNER_TIMEOUT;
     _scanner.startScan(serviceName, [], _deviceFoundCallback);
-    timeoutTimer = Timer(const Duration(seconds: SCANNER_TIMEOUT), () {
+    timeoutTimer = Timer(Duration(seconds: timeout), () {
       _stopScan();
     });
   }

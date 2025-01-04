@@ -74,12 +74,17 @@ InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
   border: outlineInputBorder(),
 );
 
-InputDecoration inputDecoration({String? hintText}) {
+InputDecoration inputDecoration({String? hintText, Widget? suffixIcon}) {
   return InputDecoration(
     constraints: BoxConstraints.tight(const Size.fromHeight(50)),
     hintText: hintText,
+    suffixIcon: suffixIcon,
     border: OutlineInputBorder(
       borderRadius: _borderRadius,
+    ),
+    errorStyle: TextStyle(
+      fontSize: 14.0, // Smaller text for error message
+      height: 0.8, // Adjust height for compactness
     ),
   );
 }
@@ -88,6 +93,62 @@ OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: _borderRadius,
   );
+}
+
+String? integerOutOfRangeValidator(
+    {required BuildContext context,
+    required String value,
+    int? minValue,
+    int? maxValue}) {
+  if (value.isEmpty) {
+    return AppLocalizations.of(context)!.required;
+  }
+  var intValue = int.parse(value);
+  if (minValue != null && maxValue != null) {
+    if (intValue < minValue || intValue > maxValue) {
+      return '${AppLocalizations.of(context)!.err_value_out_of_range}($minValue - $maxValue)';
+    }
+  } else if (minValue != null && maxValue == null) {
+    if (intValue < minValue) {
+      return '${AppLocalizations.of(context)!.err_value_out_of_range}($minValue - n)';
+    }
+  } else if (maxValue != null && minValue == null) {
+    if (intValue > maxValue) {
+      return '${AppLocalizations.of(context)!.err_value_out_of_range}(n - $maxValue)';
+    }
+  } else {
+    if (value.isEmpty) {
+      return AppLocalizations.of(context)!.required;
+    }
+  }
+  return null;
+}
+
+String? textOutOfLengthValidator(
+    {required BuildContext context,
+    required String value,
+    int? minLength,
+    int? maxLength}) {
+  var length = value.length;
+  if (minLength != null && maxLength != null) {
+    if (length < minLength || length > maxLength) {
+      return '${AppLocalizations.of(context)!.err_value_out_of_range}($minLength - $maxLength)';
+    }
+  } else if (minLength != null && maxLength == null) {
+    if (length < minLength) {
+      return '${AppLocalizations.of(context)!.err_value_out_of_range}($minLength - n)';
+    }
+  } else if (maxLength != null && minLength == null) {
+    if (length > maxLength) {
+      return '${AppLocalizations.of(context)!.err_value_out_of_range}(n - $maxLength)';
+    }
+  } else {
+    if (value.isEmpty) {
+      return AppLocalizations.of(context)!.required;
+    }
+  }
+
+  return null;
 }
 
 BorderRadius get _borderRadius => BorderRadius.circular(8);
@@ -103,10 +164,14 @@ class EmailText extends StatelessWidget {
   Widget build(BuildContext context) => TextFormField(
         initialValue: email,
         controller: controller,
-        decoration: InputDecoration(
+        decoration:
+            inputDecoration(hintText: AppLocalizations.of(context)!.email),
+/*        
+        InputDecoration(
           hintText: AppLocalizations.of(context)!.email,
           border: const OutlineInputBorder(),
         ),
+*/
         keyboardType: TextInputType.emailAddress,
         autofillHints: const [AutofillHints.email],
         validator: (value) => value != null && value.isNotEmpty
@@ -134,9 +199,8 @@ class _PasswordTextState extends State<PasswordText> {
   Widget build(BuildContext context) => TextFormField(
         controller: widget.controller,
         obscureText: !passwordVisible,
-        decoration: InputDecoration(
+        decoration: inputDecoration(
           hintText: AppLocalizations.of(context)!.password,
-          border: const OutlineInputBorder(),
           suffixIcon: IconButton(
             icon: Icon(
               passwordVisible ? Icons.visibility : Icons.visibility_off,
@@ -169,9 +233,11 @@ class ResetPasswordLink extends StatelessWidget {
 
 /// Dieses Widget erzeugt ein "Fehler" Banner.
 class ErrorBanner extends StatefulWidget {
-  ErrorBanner({super.key, required this.error});
+  const ErrorBanner(
+      {super.key, required this.errorMessage, required this.onClearError});
 
-  String error;
+  final String errorMessage;
+  final VoidCallback onClearError;
 
   @override
   State<ErrorBanner> createState() => _ErrorBannerState();
@@ -181,33 +247,35 @@ class _ErrorBannerState extends State<ErrorBanner> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: widget.error.isNotEmpty,
-      child: MaterialBanner(
-        backgroundColor: ColorTheme.errorContainer(context),
-        content: SelectableText(
-          widget.error,
-          style: TextStyle(color: ColorTheme.error(context)),
-        ),
-        actions: [
-          TextButton(
-            onPressed: clearError,
-            child: Text(
-              AppLocalizations.of(context)!.dismiss,
+      visible: isVisible(),
+      child: Column(
+        children: [
+          MaterialBanner(
+            backgroundColor: ColorTheme.errorContainer(context),
+            content: SelectableText(
+              widget.errorMessage,
               style: TextStyle(color: ColorTheme.error(context)),
             ),
+            actions: [
+              TextButton(
+                onPressed: widget.onClearError,
+                child: Text(
+                  AppLocalizations.of(context)!.dismiss,
+                  style: TextStyle(color: ColorTheme.error(context)),
+                ),
+              ),
+            ],
+            contentTextStyle:
+                TextStyle(color: ColorTheme.errorContainer(context)),
+            padding: const EdgeInsets.all(10),
           ),
+          const VSpace(),
         ],
-        contentTextStyle: TextStyle(color: ColorTheme.errorContainer(context)),
-        padding: const EdgeInsets.all(10),
       ),
     );
   }
 
-  void clearError() {
-    setState(() {
-      widget.error = '';
-    });
-  }
+  bool isVisible() => widget.errorMessage.isNotEmpty;
 }
 
 /// Klasse zur Anzeige einer "SnackBar" am unteren Bildschirmrand.

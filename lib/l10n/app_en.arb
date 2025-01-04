@@ -8,6 +8,9 @@
   "mnu_Settings": "Settings",
   "mnu_Logging": "Log",
   "mnu_Problems": "Boulder",
+  "mnu_BottomNavigator_Sort":"Sort",
+  "mnu_BottomNavigator_Add":"Add",
+  "mnu_BottomNavigator_Settings":"Settings",
 
   "app_project": "App Project",
   "indoor_north_wall": "Indoor North Wall",
@@ -21,6 +24,7 @@
   "btn_Scan": "Scan",
   "btn_Stop": "Stop",
   "scanning": "Scanning...",
+  "scanner_timeout": "Timeout (s)",
   "general": "General",
   "logging": "Logging",
   "logging_active": "Active",
@@ -71,5 +75,9 @@
   "txt_no_boulders_available": "Keine Boulder vorhanden.",
 
   "err_invalid_uuid_format": "Invalid UUID format",
-  "err_error_resetting": "Error resetting"
+  "err_error_resetting": "Error resetting",
+  "err_missing_value": "Missing value.",
+  "err_missing_or_incorrect_values": "Missing or incorrect values.",
+  "err_value_out_of_range": "Value out of range.",
+  "err_length_out_of_range": "Length out of range."
 }

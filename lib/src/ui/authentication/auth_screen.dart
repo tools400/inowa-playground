@@ -71,9 +71,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ErrorBanner(
-                            error: error,
+                            errorMessage: error,
+                            onClearError: clearError,
                           ),
-                          VSpace(flex: 2),
                           Column(
                             // Anmeldedaten: Email & Passwort
                             children: [
@@ -140,24 +140,29 @@ class _AuthScreenState extends State<AuthScreen> {
   /// Führt die Anmeldung oder Registrierung aus.
   Future<void> _emailAndPassword() async {
     var isFormValid = formKey.currentState?.validate() ?? false;
-    if (isFormValid) {
-      try {
-        if (mode == AuthMode.login) {
-          await auth.signInWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-        } else if (mode == AuthMode.register) {
-          await auth.createUserWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-        }
-      } on FirebaseAuthException catch (e) {
-        setError((e).message ?? '');
-      } catch (e) {
-        setError(e.toString());
+    if (!isFormValid) {
+      setError(AppLocalizations.of(context)!.err_missing_or_incorrect_values);
+      return;
+    } else {
+      clearError();
+    }
+
+    try {
+      if (mode == AuthMode.login) {
+        await auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } else if (mode == AuthMode.register) {
+        await auth.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
       }
+    } on FirebaseAuthException catch (e) {
+      setError((e).message ?? '');
+    } catch (e) {
+      setError(e.toString());
     }
   }
 

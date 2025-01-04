@@ -75,7 +75,7 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
-      selectedItemColor: _isSelected ? Colors.orange : null,
+      selectedItemColor: _isSelected ? ColorTheme.navigatorSelectedColor : null,
       onTap: (int index) {
         setState(() {
           if (_isSelected && index == _currentIndex) {
@@ -105,17 +105,20 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.sort),
-          label: 'Sort',
+          label: AppLocalizations.of(context)!.mnu_BottomNavigator_Sort,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.plus_one),
-          label: 'Add',
+          label: AppLocalizations.of(context)!.mnu_BottomNavigator_Add,
         ),
         BottomNavigationBarItem(
-          icon: Icon(isConnected
-              ? Icons.lightbulb_rounded
-              : Icons.lightbulb_outline_rounded),
-          label: 'Settings',
+          icon: Icon(
+            isConnected
+                ? Icons.lightbulb_rounded
+                : Icons.lightbulb_outline_rounded,
+            color: isConnected ? ColorTheme.deviceConnectedIconColor : null,
+          ),
+          label: AppLocalizations.of(context)!.mnu_BottomNavigator_Settings,
         ),
       ],
     );

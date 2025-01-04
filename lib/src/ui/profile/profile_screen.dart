@@ -78,7 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       children: [
                         ErrorBanner(
-                          error: error,
+                          errorMessage: error,
+                          onClearError: clearError,
                         ),
                         const VSpace(),
                         Text(
@@ -174,10 +175,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   /// Example code for delete user profile.
   Future<void> _deleteProfile() async {
-    clearError();
     var isFormValid = formKey.currentState?.validate() ?? false;
     if (!isFormValid) {
+      setError(AppLocalizations.of(context)!.err_missing_or_incorrect_values);
       return;
+    } else {
+      clearError();
     }
 
     // Einholen Bestätigung zum Löschen des Benutzerprofils

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Dieses Widget erzeugt ein Eingabefeld.
-class SimpleText extends StatefulWidget {
-  const SimpleText(
+class SimpleInteger extends StatefulWidget {
+  const SimpleInteger(
       {super.key,
       required this.controller,
       this.hintText,
@@ -19,17 +19,19 @@ class SimpleText extends StatefulWidget {
   final Iterable<String>? autofillHints;
 
   @override
-  State<SimpleText> createState() => _SimpleText();
+  State<SimpleInteger> createState() => _SimpleText();
 }
 
-class _SimpleText extends State<SimpleText> {
+class _SimpleText extends State<SimpleInteger> {
   bool passwordVisible = false;
 
   @override
   Widget build(BuildContext context) => SizedBox(
         width: 200,
+        height: 50,
         child: TextFormField(
           controller: widget.controller,
+          keyboardType: TextInputType.number,
           onChanged: widget.onChanged ?? _onChanged,
           decoration: inputDecoration(hintText: widget.hintText),
           autofillHints: widget.autofillHints,
@@ -41,3 +43,10 @@ class _SimpleText extends State<SimpleText> {
     widget.controller.text = value;
   }
 }
+
+/*
+        validator: (value) => value != null && value.isNotEmpty
+            ? null
+            : AppLocalizations.of(context)!.required,
+
+*/
