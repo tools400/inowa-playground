@@ -37,10 +37,6 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
           );
         }
 
-        Future<void> addData(String name, Angle angle, Grade grade) async {
-          firebase.addBoulder(name, angle, grade);
-        }
-
         return Scaffold(
           appBar: AppBar(
             title: Text('Anzeigen Boulder'),
