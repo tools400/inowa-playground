@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
-import 'package:inowa/src/ui/device_detail/device_log_tab.dart';
+import 'package:inowa/src/ui/logging/device_log_tab.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 
 /// Diese Klasse zeigt das App Protokoll an.
