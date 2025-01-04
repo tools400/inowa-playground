@@ -12,7 +12,7 @@ enum Angle {
   final double id;
   final String label;
 
-  static Angle byID(int id) {
+  static Angle byID(double id) {
     for (int i = 0; i < values.length; i++) {
       Angle angle = values[i];
       if (angle.id == id) {

@@ -39,7 +39,7 @@ enum Grade {
   final String id;
   final String label;
 
-  static Grade byID(int id) {
+  static Grade byID(String id) {
     for (int i = 0; i < values.length; i++) {
       Grade angle = values[i];
       if (angle.id == id) {

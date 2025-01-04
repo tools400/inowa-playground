@@ -11,8 +11,8 @@ class BleLogger {
     required ble,
   }) : _ble = ble;
 
-  static final key_is_active = 'isActive';
-  static final key_log_level = 'logLevel';
+  static final keyIsActive = 'isActive';
+  static final keyLogLevel = 'logLevel';
 
   final ble.FlutterReactiveBle _ble;
 
@@ -29,18 +29,18 @@ class BleLogger {
   /// Liefert 'true', wenn die Protokollierung grundsätzlich
   /// eingeschaltet ist, sonst 'false'.
   bool get loggingEnabled {
-    bool isActive = preferences.getBool(key_is_active) ?? false;
+    bool isActive = preferences.getBool(keyIsActive) ?? false;
     return isActive;
   }
 
   /// Schaltet die Protokollierung grundsätzlich ein oder aus.
   set loggingEnabled(bool enabled) {
-    preferences.setBool(key_is_active, enabled);
+    preferences.setBool(keyIsActive, enabled);
   }
 
   /// Liefert die eingestellte Protokollierungsstufe.
   LogLevel get logLevel {
-    int level = preferences.getInt(key_log_level) ?? -1;
+    int level = preferences.getInt(keyLogLevel) ?? -1;
     for (int i = 0; i < LogLevel.values.length; i++) {
       LogLevel logLevel = LogLevel.values[i];
       if (logLevel.level == level) {
@@ -62,7 +62,7 @@ class BleLogger {
   set logLevel(LogLevel? logLevel) {
     logLevel ??= defaultLogLevel;
 
-    preferences.setInt(key_log_level, logLevel.level);
+    preferences.setInt(keyLogLevel, logLevel.level);
     _cachedLogLevel = logLevel.level;
 
     if (_isLoggingEnabledFor(LogLevel.verbose)) {

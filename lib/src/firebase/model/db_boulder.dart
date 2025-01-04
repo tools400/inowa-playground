@@ -1,23 +1,29 @@
-import '/src/firebase/angle_enum.dart';
-import '/src/firebase/grade_enum.dart';
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-// TODO: kann man das noch brauchen?
-class Boulder {
-  Boulder(
-      {uuid, required String name, required Angle angle, required Grade grade})
-      : _grade = grade,
-        _angle = angle,
-        _name = name,
-        _id = uuid ?? Uuid().v7();
+import '/src/firebase/angle_enum.dart';
+import '/src/firebase/grade_enum.dart';
 
+class FbBoulder {
+  FbBoulder(QueryDocumentSnapshot<Object?> this.boulderItem)
+      : _id = boulderItem[keyID] ?? Uuid().toString();
+
+  static const String keyID = 'id';
+  static const String keyName = 'name';
+  static const String keyAngle = 'angle';
+  static const String keyGrade = 'grade';
+  static const String keyStars = 'stars';
+
+  dynamic boulderItem;
   final String _id;
-  final String _name;
-  final Angle _angle;
-  final Grade _grade;
 
   String get id => _id;
-  String get name => _name;
-  Angle get angle => _angle;
-  Grade get grade => _grade;
+  String get name => boulderItem[keyName];
+  Angle get angle => Angle.byID(boulderItem[keyAngle]);
+  Grade get grade => Grade.byID(boulderItem[keyGrade]);
+  String get angleUI => angle.label;
+  String get gradeUI => grade.label;
+  int get stars => boulderItem[keyStars].round();
 }

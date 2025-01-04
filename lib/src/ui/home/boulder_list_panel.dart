@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/ui/home/actions/display_boulder_screen.dart';
 import 'package:inowa/src/ui/home/dialogs/boulder_add_to_list_dialog.dart';
 import 'package:inowa/src/utils/utils.dart';
@@ -79,25 +80,8 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
               controller: scrollController,
               itemCount: items.length,
               itemBuilder: (context, index) {
-                final item = items[index];
-                final name = item['name'];
-                final angle = item['angle'];
-                final grade = item['grade'];
-
-                return Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                  ),
-                  child: ListTile(
-                    title: Text(name),
-                    onTap: () {
-                      displayAndLoadBoulder();
-                    },
-                    subtitle: Text('$angle / $grade'),
-                    leading: Icon(Icons.hourglass_bottom),
-                    trailing: boulderPopupMenu(item),
-                  ),
-                );
+                FbBoulder boulder = FbBoulder(items[index]);
+                return BoulderListTile(context, boulder);
               },
             ),
           ),
@@ -105,35 +89,76 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
       ],
     );
   }
+}
 
-  displayAndLoadBoulder() {
-    Utils.openScreen(context, DisplayBoulderScreen());
-  }
+class BoulderListTile extends StatelessWidget {
+  const BoulderListTile(
+    this._context,
+    this._boulderItem,
+  );
 
-  Widget boulderPopupMenu(QueryDocumentSnapshot<Object?> item) {
-    // return Icon(Icons.menu);
+  final BuildContext _context;
+  final FbBoulder _boulderItem;
 
-    String? _selection;
-    return PopupMenuButton<String>(
-      icon: Icon(Icons.menu),
-      onSelected: (String value) => showDialog<void>(
-        context: context,
-        builder: (context) => BoulderAddToListDialog(list: value),
+  @override
+  Widget build(BuildContext context) {
+    int stars = _boulderItem.stars;
+    int maxStars = 5;
+
+    final numStars = <Widget>[];
+    for (var i = 0; i < maxStars; i++) {
+      numStars.add(i < stars
+          ? Icon(Icons.star, color: Colors.yellow)
+          : Icon(Icons.star_outline, color: Colors.grey));
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(),
       ),
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        const PopupMenuItem<String>(
-          value: 'Value1',
-          child: Text('Choose value 1'),
+      child: ListTile(
+        title: Text(_boulderItem.name),
+        onTap: () {
+          Utils.openScreen(context, DisplayBoulderScreen());
+        },
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('${_boulderItem.angleUI}°  / ${_boulderItem.gradeUI}'),
+            Row(
+              children: numStars,
+            )
+          ],
         ),
-        const PopupMenuItem<String>(
-          value: 'Value2',
-          child: Text('Choose value 2'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'Value3',
-          child: Text('Choose value 3'),
-        ),
-      ],
+        leading: Icon(Icons.hourglass_bottom),
+        trailing: BoulderPopupMenu(context: context, itemItem: _boulderItem),
+      ),
     );
   }
+}
+
+Widget BoulderPopupMenu(
+    {required BuildContext context, required FbBoulder itemItem}) {
+  String? _selection;
+  return PopupMenuButton<String>(
+    icon: Icon(Icons.menu),
+    onSelected: (String value) => showDialog<void>(
+      context: context,
+      builder: (context) => BoulderAddToListDialog(list: value),
+    ),
+    itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+      const PopupMenuItem<String>(
+        value: 'Value1',
+        child: Text('Choose value 1'),
+      ),
+      const PopupMenuItem<String>(
+        value: 'Value2',
+        child: Text('Choose value 2'),
+      ),
+      const PopupMenuItem<String>(
+        value: 'Value3',
+        child: Text('Choose value 3'),
+      ),
+    ],
+  );
 }

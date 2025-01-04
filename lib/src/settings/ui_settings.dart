@@ -14,15 +14,15 @@ import 'package:inowa/src/ui/settings/internal/dark_mode_enum.dart';
 /// gelöscht werden.
 /// Einstellungen -> Apps -> iNoWa -> Speicher und Cache -> Speicherinhalt löschen
 class UIModel extends ChangeNotifier {
-  static final key_dark_mode = 'darkMode';
-  static final key_locale = 'locale';
+  static final keyDarkMode = 'darkMode';
+  static final keyLocale = 'locale';
 
   /// Liefert die Sprache, in der die App angezeigt wird.
   Locale get locale {
     Locale systemLocale = Locale(Platform.localeName);
 
     String languageCode =
-        preferences.getString(key_locale) ?? systemLocale.languageCode;
+        preferences.getString(keyLocale) ?? systemLocale.languageCode;
 
     for (int i = 0; i < supportedLocales.length; i++) {
       if (supportedLocales[i].languageCode == languageCode) {
@@ -50,7 +50,7 @@ class UIModel extends ChangeNotifier {
       return;
     }
 
-    preferences.setString(key_locale, locale.languageCode);
+    preferences.setString(keyLocale, locale.languageCode);
     notifyListeners();
   }
 
@@ -62,7 +62,7 @@ class UIModel extends ChangeNotifier {
   /// Design (System/Hell/Dunkel), mit dem die App angezeigt wird.
   DarkMode get darkMode {
     String themeModeName =
-        preferences.getString(key_dark_mode) ?? DarkMode.system.name;
+        preferences.getString(keyDarkMode) ?? DarkMode.system.name;
 
     for (int i = 0; i < darkModes.length; i++) {
       if (darkModes[i].name == themeModeName) {
@@ -79,7 +79,7 @@ class UIModel extends ChangeNotifier {
       return;
     }
 
-    preferences.setString(key_dark_mode, darkMode.name);
+    preferences.setString(keyDarkMode, darkMode.name);
     notifyListeners();
   }
 
