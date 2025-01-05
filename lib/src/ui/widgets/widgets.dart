@@ -67,16 +67,19 @@ class HSpace extends StatelessWidget {
 }
 
 // Verschiedene Widget Properties, zur Vereinheitlichung hier abgelegt.
-InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
-  // isDense: true,
-  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
-  border: outlineInputBorder(),
-);
+InputDecorationTheme get inputDecorationTheme {
+  return InputDecorationTheme(
+    // isDense: true,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+    constraints: boxContraints,
+    border: outlineInputBorder,
+  );
+}
 
+/// Darstellung von Text und Integer Felder.
 InputDecoration inputDecoration({String? hintText, Widget? suffixIcon}) {
   return InputDecoration(
-    constraints: BoxConstraints.tight(const Size.fromHeight(50)),
+    constraints: boxContraints,
     hintText: hintText,
     suffixIcon: suffixIcon,
     border: OutlineInputBorder(
@@ -89,7 +92,15 @@ InputDecoration inputDecoration({String? hintText, Widget? suffixIcon}) {
   );
 }
 
-OutlineInputBorder outlineInputBorder() {
+const double widgetWidth = 200;
+
+const double widgetHeight = 50;
+
+BoxConstraints get boxContraints {
+  return BoxConstraints.tight(const Size.fromHeight(widgetHeight));
+}
+
+OutlineInputBorder get outlineInputBorder {
   return OutlineInputBorder(
     borderRadius: _borderRadius,
   );

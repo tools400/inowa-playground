@@ -27,7 +27,7 @@ class _SimpleText extends State<SimpleText> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: 200,
+        width: widgetWidth,
         child: TextFormField(
           controller: widget.controller,
           onChanged: widget.onChanged ?? _onChanged,

@@ -17,7 +17,7 @@ class SettingsDropDownMenu<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu<T>(
-      width: 200,
+      width: widgetWidth,
       inputDecorationTheme: inputDecorationTheme,
       initialSelection: initialSelection,
       onSelected: onSelected,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import 'package:provider/provider.dart';
 
@@ -58,7 +59,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                 SettingsListTile(
                   title: 'Angle',
                   trailing: DropdownMenu<Angle>(
-                      width: 200,
+                      width: widgetWidth,
                       initialSelection: angle,
                       onSelected: (Angle? value) {
                         setState(() {
@@ -72,7 +73,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                 SettingsListTile(
                   title: 'Grade',
                   trailing: DropdownMenu<Grade>(
-                      width: 200,
+                      width: widgetWidth,
                       initialSelection: grade,
                       onSelected: (Grade? value) {
                         setState(() {
