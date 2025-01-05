@@ -57,7 +57,6 @@ class _CommonSectionState extends State<CommonSection> {
                   .toList(),
             ),
           ),
-          VSpace(),
           SettingsListTile(
             title: AppLocalizations.of(context)!.language,
             icon: Icons.language,
