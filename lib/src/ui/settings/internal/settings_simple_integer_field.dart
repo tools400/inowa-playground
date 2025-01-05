@@ -28,7 +28,6 @@ class _SimpleText extends State<SimpleInteger> {
   @override
   Widget build(BuildContext context) => SizedBox(
         width: 200,
-        height: 50,
         child: TextFormField(
           controller: widget.controller,
           keyboardType: TextInputType.number,
