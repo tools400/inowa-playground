@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
+
 import '/src/firebase/angle_enum.dart';
 import '/src/firebase/fb_service.dart';
 import '/src/firebase/grade_enum.dart';
@@ -53,7 +55,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                   controller: _nameController,
                   decoration: InputDecoration(labelText: 'Name'),
                 ),
-                _CustomListTile(
+                SettingsListTile(
                   title: 'Angle',
                   trailing: DropdownMenu<Angle>(
                       width: 200,
@@ -67,7 +69,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                           .map((item) => angleToMenuItem(item))
                           .toList()),
                 ),
-                _CustomListTile(
+                SettingsListTile(
                   title: 'Grade',
                   trailing: DropdownMenu<Grade>(
                       width: 200,
@@ -102,20 +104,5 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
 
   bool isValidated() {
     return _nameController.text.isNotEmpty && angle != null && grade != null;
-  }
-}
-
-class _CustomListTile extends StatelessWidget {
-  final String title;
-  final Widget? trailing;
-  const _CustomListTile({required this.title, this.trailing});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      trailing: trailing,
-      onTap: () {},
-    );
   }
 }
