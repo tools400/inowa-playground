@@ -118,7 +118,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
-                // Timeout Button
+                // Timeout
                 SettingsListTile(
                   title: AppLocalizations.of(context)!.scanner_timeout,
                   trailing: SimpleInteger(
@@ -133,7 +133,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                       });
                     },
                     validator: (value) {
-                      return integerOutOfRangeValidator(
+                      return validateIntRange(
                           context: context,
                           value: value,
                           minValue: 15,
@@ -141,7 +141,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                     },
                   ),
                 ),
-                // Gerätename Button
+                // Gerätename
                 SettingsListTile(
                   title: AppLocalizations.of(context)!.bluetooth_device_name,
                   trailing: SimpleText(
@@ -153,13 +153,14 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                         });
                       },
                       validator: (value) {
-                        return textOutOfLengthValidator(
+                        return validateTextLength(
                             context: context, value: value);
                       }),
                 ),
               ],
             ),
           ),
+          // Auto-connect
           SettingsListTile(
             title: AppLocalizations.of(context)!.bluetooth_auto_connect,
             trailing: Switch(
@@ -171,6 +172,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               },
             ),
           ),
+          // Connect/Disconnect
           SettingsListTile(
             title: AppLocalizations.of(context)!.bluetooth_connection,
             trailing: SizedBox(

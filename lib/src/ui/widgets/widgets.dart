@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:inowa/src/firebase/angle_enum.dart';
+import 'package:inowa/src/firebase/grade_enum.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 
 class BluetoothIcon extends StatelessWidget {
   const BluetoothIcon({super.key});
@@ -94,7 +97,7 @@ InputDecoration inputDecoration({String? hintText, Widget? suffixIcon}) {
 
 const double widgetWidth = 200;
 
-const double widgetHeight = 50;
+const double widgetHeight = 45;
 
 BoxConstraints get boxContraints {
   return BoxConstraints.tight(const Size.fromHeight(widgetHeight));
@@ -106,11 +109,19 @@ OutlineInputBorder get outlineInputBorder {
   );
 }
 
-String? integerOutOfRangeValidator(
-    {required BuildContext context,
-    required String value,
-    int? minValue,
-    int? maxValue}) {
+String? validateIntNotNull({
+  required BuildContext context,
+  required String value,
+}) {
+  return validateIntRange(context: context, value: value);
+}
+
+String? validateIntRange({
+  required BuildContext context,
+  required String value,
+  int? minValue,
+  int? maxValue,
+}) {
   if (value.isEmpty) {
     return AppLocalizations.of(context)!.required;
   }
@@ -135,11 +146,19 @@ String? integerOutOfRangeValidator(
   return null;
 }
 
-String? textOutOfLengthValidator(
-    {required BuildContext context,
-    required String value,
-    int? minLength,
-    int? maxLength}) {
+String? validateTextNotEmpty({
+  required BuildContext context,
+  required String value,
+}) {
+  return validateTextLength(context: context, value: value);
+}
+
+String? validateTextLength({
+  required BuildContext context,
+  required String value,
+  int? minLength,
+  int? maxLength,
+}) {
   var length = value.length;
   if (minLength != null && maxLength != null) {
     if (length < minLength || length > maxLength) {
@@ -349,6 +368,74 @@ class UrlLink extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Widgets zur Eingabe der Wandneigung.
+class AngleDropDownMenu extends StatefulWidget {
+  const AngleDropDownMenu({
+    super.key,
+    this.initialSelection,
+    this.onSelected,
+  });
+
+  final Angle? initialSelection;
+  final ValueChanged<Angle?>? onSelected;
+
+  @override
+  State<AngleDropDownMenu> createState() => _AngleDropDownMenu();
+}
+
+class _AngleDropDownMenu extends State<AngleDropDownMenu> {
+  Angle? angle;
+
+  @override
+  Widget build(BuildContext context) => SettingsDropDownMenu<Angle>(
+        initialSelection: widget.initialSelection,
+        onSelected: widget.onSelected,
+        dropdownMenuEntries:
+            Angle.values.map((item) => angleToMenuItem(item)).toList(),
+      );
+
+  DropdownMenuEntry<Angle> angleToMenuItem(Angle item) {
+    return DropdownMenuEntry(
+      label: item.label,
+      value: item,
+    );
+  }
+}
+
+/// Widgets zur Eingabe der Schwierigkeitsgrades.
+class GradeDropDownMenu extends StatefulWidget {
+  const GradeDropDownMenu({
+    super.key,
+    this.initialSelection,
+    this.onSelected,
+  });
+
+  final Grade? initialSelection;
+  final ValueChanged<Grade?>? onSelected;
+
+  @override
+  State<GradeDropDownMenu> createState() => _GradeDropDownMenu();
+}
+
+class _GradeDropDownMenu extends State<GradeDropDownMenu> {
+  Grade? angle;
+
+  @override
+  Widget build(BuildContext context) => SettingsDropDownMenu<Grade>(
+        initialSelection: widget.initialSelection,
+        onSelected: widget.onSelected,
+        dropdownMenuEntries:
+            Grade.values.map((item) => gradeToMenuItem(item)).toList(),
+      );
+
+  DropdownMenuEntry<Grade> gradeToMenuItem(Grade item) {
+    return DropdownMenuEntry(
+      label: item.label,
+      value: item,
     );
   }
 }

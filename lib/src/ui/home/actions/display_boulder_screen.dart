@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
+import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import '/src/firebase/angle_enum.dart';
 import '/src/firebase/fb_service.dart';
@@ -25,67 +27,35 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<FirebaseService>(builder: (_, firebase, __) {
-        /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
-        DropdownMenuEntry<Angle> angleToMenuItem(Angle item) {
-          return DropdownMenuEntry(
-            label: item.label,
-            value: item,
-          );
-        }
-
-        DropdownMenuEntry<Grade> gradeToMenuItem(Grade item) {
-          return DropdownMenuEntry(
-            label: item.label,
-            value: item,
-          );
-        }
-
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Anzeigen Boulder'),
-          ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                TextField(
-/*
-                  controller: _nameController,
-*/
-                  decoration: InputDecoration(labelText: 'Name'),
+                SettingsListTile(
+                  title: 'Name',
+                  trailing: SimpleText(),
                 ),
                 SettingsListTile(
-                  title: 'Angle',
-                  trailing: DropdownMenu<Angle>(
-                      width: widgetWidth,
+                    title: 'Angle',
+                    trailing: AngleDropDownMenu(
                       initialSelection: angle,
-/*
-                      onSelected: (Angle? value) {
+                      onSelected: (value) {
                         setState(() {
                           angle = value;
                         });
                       },
-*/
-                      dropdownMenuEntries: Angle.values
-                          .map((item) => angleToMenuItem(item))
-                          .toList()),
-                ),
+                    )),
                 SettingsListTile(
-                  title: 'Grade',
-                  trailing: DropdownMenu<Grade>(
-                      width: widgetWidth,
+                    title: 'Grade',
+                    trailing: GradeDropDownMenu(
                       initialSelection: grade,
-/*
-                      onSelected: (Grade? value) {
+                      onSelected: (value) {
                         setState(() {
                           grade = value;
                         });
                       },
-*/
-                      dropdownMenuEntries: Grade.values
-                          .map((item) => gradeToMenuItem(item))
-                          .toList()),
-                ),
+                    )),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
