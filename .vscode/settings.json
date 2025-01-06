@@ -51,5 +51,7 @@
     "REVIEW",
     "HACK",
     "REF"
-  ]
+  ],
+  "dartimportsorter.sortOnSave": true,
+  "window.newWindowDimensions": "inherit"
 }
