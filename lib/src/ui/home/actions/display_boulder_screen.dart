@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
+import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/led/led_connector.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -26,7 +27,12 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer<FirebaseService>(builder: (_, firebase, __) {
+      Consumer2<FirebaseService, BleConnector>(
+          builder: (_, firebase, bleConnector, __) {
+        var ledConnector = LEDConnector(bleConnector);
+
+        ledConnector.sendBoulderToDevice('N5+M6/M9/J9/J10/G10/E8/B9/B11');
+
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(16.0),
