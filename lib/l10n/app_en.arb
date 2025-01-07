@@ -79,5 +79,8 @@
   "err_missing_value": "Missing value.",
   "err_missing_or_incorrect_values": "Missing or incorrect values.",
   "err_value_out_of_range": "Value out of range.",
-  "err_length_out_of_range": "Length out of range."
+  "err_length_out_of_range": "Length out of range.",
+  "err_device_not_found": "Device not found.",
+  "err_service_not_found": "LED Service not found.",
+  "err_characteristic_not_found": "Characteristic not found."
 }

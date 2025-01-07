@@ -6,9 +6,11 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_auto_connector.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
+import 'package:inowa/src/ui/home/connection_status_handler.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -29,7 +31,6 @@ class _BluetoothSectionState extends State<BluetoothSection> {
   TextEditingController? deviceNameController;
   TextEditingController? timeoutController;
 
-  BleAutoConnector? bleAutoConnector;
   String error = '';
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -42,18 +43,18 @@ class _BluetoothSectionState extends State<BluetoothSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer6<BleLogger, ConnectionStateUpdate, BleDeviceConnector,
-            BleSettings, BleScanner, BleScannerState>(
-        builder: (_, logger, connectionStateUpdate, deviceConnector,
-            bleSettings, bleScanner, scannerState, __) {
+    return Consumer5<BleLogger, ConnectionStateUpdate, BleSettings,
+            BleScannerState, BleConnector>(
+        builder: (_, logger, connectionStateUpdate, bleSettings, scannerState,
+            bleAutoConnector, __) {
+      ConnectionStatusCallbackHandler callbackHandler =
+          ConnectionStatusCallbackHandler(context);
+
       // Initialisieren Text Controller für den Geräte-Namen
       deviceNameController ??= TextEditingController()
         ..text = bleSettings.deviceName;
       timeoutController ??= TextEditingController()
         ..text = bleSettings.timeout.toString();
-
-      /// Manager für die automatische Herstellung einer Bluetooth Verbindung.
-      bleAutoConnector ??= BleAutoConnector(bleScanner, deviceConnector);
 
       /// Gibt an, ob der Scanner läuft.
       bool isScanning() {
@@ -93,17 +94,17 @@ class _BluetoothSectionState extends State<BluetoothSection> {
         if (isScanning()) {
           // nichts tun
         } else if (isConnected()) {
-          String? deviceId = deviceConnector.connectedDeviceId;
+          String? deviceId = bleAutoConnector.connectedDeviceId;
           if (deviceId != null) {
-            bleAutoConnector!.disconnect(deviceId);
+            bleAutoConnector.disconnect(deviceId);
           }
         } else {
           var timeout = int.parse(timeoutController!.text);
           String deviceName = deviceNameController!.text;
-          bleAutoConnector!.scanAndConnect(
+          bleAutoConnector.scanAndConnect(
               serviceName: deviceName,
               timeout: timeout,
-              statusCallback: statusCallback);
+              statusCallback: callbackHandler.statusCallback);
         }
       }
 
@@ -203,18 +204,5 @@ class _BluetoothSectionState extends State<BluetoothSection> {
     setState(() {
       error = errorText;
     });
-  }
-
-  statusCallback(status) async {
-    switch (status) {
-      case Status.connected:
-        ScaffoldSnackbar.of(context)
-            .show(AppLocalizations.of(context)!.txt_connection_established);
-        break;
-      case Status.disconnected:
-        ScaffoldSnackbar.of(context)
-            .show(AppLocalizations.of(context)!.txt_connection_disconnected);
-        break;
-    }
   }
 }

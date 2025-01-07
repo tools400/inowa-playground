@@ -5,16 +5,14 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_auto_connector.dart';
-import 'package:inowa/src/ble/ble_device_connector.dart';
-import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/ui/home/actions/add_boulder_screen.dart';
 import 'package:inowa/src/ui/home/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home/boulder_list_panel.dart';
+import 'package:inowa/src/ui/home/connection_status_handler.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/sections/settings_bluetooth_section.dart';
-import 'package:inowa/src/ui/widgets/widgets.dart';
 
 enum PageMode { boulderList, sort, addBoulder, settings }
 
@@ -32,17 +30,16 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
   int _currentIndex = 0;
   PageMode _pageMode = PageMode.boulderList;
 
-  BleAutoConnector? bleAutoConnector;
+  BleConnector? bleAutoConnector;
 
   @override
-  Widget build(BuildContext context) => Consumer5<
-              FirebaseService,
-              ConnectionStateUpdate,
-              BleSettings,
-              BleScanner,
-              BleDeviceConnector>(
-          builder: (_, firebase, connectionStateUpdate, bleSettings, bleScanner,
-              bleDeviceConnector, __) {
+  Widget build(BuildContext context) => Consumer4<FirebaseService,
+              ConnectionStateUpdate, BleSettings, BleConnector>(
+          builder: (_, firebase, connectionStateUpdate, bleSettings,
+              bleAutoConnector, __) {
+        ConnectionStatusCallbackHandler callbackHandler =
+            ConnectionStatusCallbackHandler(context);
+
         /// Gibt an, ob auto-connect eingeschaltet ist.
         bool isConnected() {
           bool isConnected = connectionStateUpdate.connectionState ==
@@ -55,13 +52,12 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
         if (bleAutoConnector == null &&
             !isConnected() &&
             bleSettings.isAutoConnect) {
-          bleAutoConnector = BleAutoConnector(bleScanner, bleDeviceConnector);
           var timeout = bleSettings.timeout;
           String deviceName = bleSettings.deviceName;
           bleAutoConnector!.scanAndConnect(
               serviceName: deviceName,
               timeout: timeout,
-              statusCallback: statusCallback);
+              statusCallback: callbackHandler.statusCallback);
         }
 
         Widget panel;
@@ -143,18 +139,5 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
         ),
       ],
     );
-  }
-
-  statusCallback(status) async {
-    switch (status) {
-      case Status.connected:
-        ScaffoldSnackbar.of(context)
-            .show(AppLocalizations.of(context)!.txt_connection_established);
-        break;
-      case Status.disconnected:
-        ScaffoldSnackbar.of(context)
-            .show(AppLocalizations.of(context)!.txt_connection_disconnected);
-        break;
-    }
   }
 }

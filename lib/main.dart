@@ -6,6 +6,8 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:inowa/src/ble/ble_auto_connector.dart';
+
 import '/src/ble/ble_device_connector.dart';
 import '/src/ble/ble_device_interactor.dart';
 import '/src/ble/ble_logger.dart';
@@ -52,6 +54,9 @@ void main() async {
     requestMtu: ble.requestMtu,
   );
 
+  final bleAutoConnector =
+      BleConnector(scanner, connector, serviceDiscoverer, bleLogger);
+
   packageInfo = await PackageInfo.fromPlatform();
   preferences = await SharedPreferences.getInstance();
 
@@ -61,6 +66,7 @@ void main() async {
       monitor: monitor,
       connector: connector,
       serviceDiscoverer: serviceDiscoverer,
+      bleAutoConnector: bleAutoConnector,
       bleLogger: bleLogger,
       firebaseService: firebaseService));
 }

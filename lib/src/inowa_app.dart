@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ble/ble_auto_connector.dart';
+
 import '/main.dart';
 import '/src/ble/ble_device_connector.dart';
 import '/src/ble/ble_device_interactor.dart';
@@ -24,6 +26,7 @@ class INoWaApp extends StatelessWidget {
     required BleStatusMonitor monitor,
     required BleDeviceConnector connector,
     required BleDeviceInteractor serviceDiscoverer,
+    required BleConnector bleAutoConnector,
     required BleLogger bleLogger,
     required FirebaseService firebaseService,
   })  : _settings = settings,
@@ -31,6 +34,7 @@ class INoWaApp extends StatelessWidget {
         _monitor = monitor,
         _connector = connector,
         _serviceDiscoverer = serviceDiscoverer,
+        _bleAutoConnector = bleAutoConnector,
         _bleLogger = bleLogger,
         _firebaseService = firebaseService;
 
@@ -39,6 +43,7 @@ class INoWaApp extends StatelessWidget {
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;
   final BleDeviceInteractor _serviceDiscoverer;
+  final BleConnector _bleAutoConnector;
   final BleLogger _bleLogger;
   final FirebaseService _firebaseService;
 
@@ -51,6 +56,7 @@ class INoWaApp extends StatelessWidget {
         Provider.value(value: _monitor),
         Provider.value(value: _connector),
         Provider.value(value: _serviceDiscoverer),
+        Provider.value(value: _bleAutoConnector),
         Provider.value(value: _bleLogger),
         Provider.value(value: _firebaseService),
         StreamProvider<BleScannerState?>(

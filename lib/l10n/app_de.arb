@@ -67,7 +67,7 @@
   "txt_forgot_Password": "Passwort vergessen?",
   "txt_enter_a_UUID_above_and_tap_start_to_begin_scanning": "Eingegben einer UUID und auf Start 'Scan' drücken.",
   "txt_tap_a_device_to_connect_to_it": "Zum Verbinden auf ein Gerät tippen.",
-  "txt_connection_established": "Verbindung hersgestellt.",
+  "txt_connection_established": "Verbindung hergestellt.",
   "txt_connection_disconnected": "Verbindung getrennt.",
   "txt_please_sign_in": " , bitte melden Sie sich an!",
   "txt_please_sign_up": " , bitte melden Sie sich an!",
@@ -79,5 +79,8 @@
   "err_missing_value": "Fehlernder Wert.",
   "err_missing_or_incorrect_values": "Fehlende oder fehlerhafte Werte.",
   "err_value_out_of_range": "Wert ausserhalb des Bereichs.",
-  "err_length_out_of_range": "Länge ausserhalb des Bereichs."
+  "err_length_out_of_range": "Länge ausserhalb des Bereichs.",
+  "err_device_not_found": "Gerät nicht gefunden.",
+  "err_service_not_found": "LED Service nicht gefunden.",
+  "err_characteristic_not_found": "Characteristic nicht gefunden."
 }
