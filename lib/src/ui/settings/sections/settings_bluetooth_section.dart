@@ -53,8 +53,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
         ..text = bleSettings.timeout.toString();
 
       /// Manager für die automatische Herstellung einer Bluetooth Verbindung.
-      bleAutoConnector ??=
-          BleAutoConnector(context, bleScanner, deviceConnector);
+      bleAutoConnector ??= BleAutoConnector(bleScanner, deviceConnector);
 
       /// Gibt an, ob der Scanner läuft.
       bool isScanning() {
@@ -101,8 +100,10 @@ class _BluetoothSectionState extends State<BluetoothSection> {
         } else {
           var timeout = int.parse(timeoutController!.text);
           String deviceName = deviceNameController!.text;
-          bleAutoConnector!
-              .scanAndConnect(serviceName: deviceName, timeout: timeout);
+          bleAutoConnector!.scanAndConnect(
+              serviceName: deviceName,
+              timeout: timeout,
+              statusCallback: statusCallback);
         }
       }
 
@@ -202,5 +203,18 @@ class _BluetoothSectionState extends State<BluetoothSection> {
     setState(() {
       error = errorText;
     });
+  }
+
+  statusCallback(status) async {
+    switch (status) {
+      case Status.connected:
+        ScaffoldSnackbar.of(context)
+            .show(AppLocalizations.of(context)!.txt_connection_established);
+        break;
+      case Status.disconnected:
+        ScaffoldSnackbar.of(context)
+            .show(AppLocalizations.of(context)!.txt_connection_disconnected);
+        break;
+    }
   }
 }

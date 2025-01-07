@@ -14,6 +14,7 @@ import 'package:inowa/src/ui/home/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home/boulder_list_panel.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/sections/settings_bluetooth_section.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 enum PageMode { boulderList, sort, addBoulder, settings }
 
@@ -54,12 +55,13 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
         if (bleAutoConnector == null &&
             !isConnected() &&
             bleSettings.isAutoConnect) {
-          bleAutoConnector =
-              BleAutoConnector(context, bleScanner, bleDeviceConnector);
+          bleAutoConnector = BleAutoConnector(bleScanner, bleDeviceConnector);
           var timeout = bleSettings.timeout;
           String deviceName = bleSettings.deviceName;
-          bleAutoConnector!
-              .scanAndConnect(serviceName: deviceName, timeout: timeout);
+          bleAutoConnector!.scanAndConnect(
+              serviceName: deviceName,
+              timeout: timeout,
+              statusCallback: statusCallback);
         }
 
         Widget panel;
@@ -141,5 +143,18 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
         ),
       ],
     );
+  }
+
+  statusCallback(status) async {
+    switch (status) {
+      case Status.connected:
+        ScaffoldSnackbar.of(context)
+            .show(AppLocalizations.of(context)!.txt_connection_established);
+        break;
+      case Status.disconnected:
+        ScaffoldSnackbar.of(context)
+            .show(AppLocalizations.of(context)!.txt_connection_disconnected);
+        break;
+    }
   }
 }
