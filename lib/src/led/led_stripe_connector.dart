@@ -7,11 +7,11 @@ class LEDStripeConnector {
 
   bool _isHorizontal = true;
 
-  static final color_start = 'g';
-  static final color_move1 = 'b';
-  static final color_move2 = 'l';
+  static final colorStart = 'g';
+  static final colorMove1 = 'b';
+  static final colorMove2 = 'l';
   static final color_top = 'r';
-  static final delimiter_moves = '/';
+  static final delimiterMoves = '/';
   static final eol = '#';
 
   set horizontalWireing(enabled) => _isHorizontal = enabled;
@@ -33,8 +33,8 @@ class LEDStripeConnector {
       String delimiter = '';
       if (i < 2) {
         // Startgriffe
-        color = color_start;
-        delimiter = delimiter_moves;
+        color = colorStart;
+        delimiter = delimiterMoves;
       } else if (i == parts.length - 1) {
         // Top Griff
         color = color_top;
@@ -42,11 +42,11 @@ class LEDStripeConnector {
       } else {
         // Boulderzüge, qbwechselnd blau/lila
         if (i % 2 == 0) {
-          color = color_move1;
+          color = colorMove1;
         } else {
-          color = color_move2;
+          color = colorMove2;
         }
-        delimiter = delimiter_moves;
+        delimiter = delimiterMoves;
       }
       arduinoCommand.add(_ledNumber(parts[i]) + ':' + color + delimiter);
     }
