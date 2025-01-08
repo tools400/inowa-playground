@@ -4,15 +4,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
+import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/ui/home/connection_status_handler.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
+import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import 'package:inowa/src/ui/settings//internal/settings_list_tile.dart';
@@ -42,14 +44,15 @@ class _BluetoothSectionState extends State<BluetoothSection> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer5<
+  Widget build(BuildContext context) => Consumer6<
+              LedSettings,
               BleLogger,
               ConnectionStateUpdate,
               BleSettings,
               BleScannerState,
               BlePeripheralConnector>(
-          builder: (_, logger, connectionStateUpdate, bleSettings, scannerState,
-              bleAutoConnector, __) {
+          builder: (_, ledSettings, logger, connectionStateUpdate, bleSettings,
+              scannerState, bleAutoConnector, __) {
         ConnectionStatusCallbackHandler callbackHandler =
             ConnectionStatusCallbackHandler(context);
 
@@ -192,6 +195,20 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                         },
                   child: Text(titleConnectButton()),
                 ),
+              ),
+            ),
+
+            SettingsListTile(
+              title: AppLocalizations.of(context)!.wireing,
+              trailing: WireingDownMenu(
+                initialSelection: ledSettings.isHorizontalWireing
+                    ? Wireing.horizontal
+                    : Wireing.vertical,
+                onSelected: (wireing) {
+                  setState(() {
+                    ledSettings.isHorizontalWireing = wireing!.isHorizontal;
+                  });
+                },
               ),
             ),
           ],

@@ -9,6 +9,7 @@ import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
+import 'package:inowa/src/led/led_settings.dart';
 
 import '/src/ble/ble_device_interactor.dart';
 import '/src/ble/ble_status_monitor.dart';
@@ -22,6 +23,7 @@ class INoWaApp extends StatelessWidget {
   const INoWaApp({
     super.key,
     required BleSettings settings,
+    required LedSettings ledSettings,
     required BleScanner scanner,
     required BleStatusMonitor monitor,
     required BleDeviceConnector connector,
@@ -30,6 +32,7 @@ class INoWaApp extends StatelessWidget {
     required BleLogger bleLogger,
     required FirebaseService firebaseService,
   })  : _settings = settings,
+        _ledSettings = ledSettings,
         _scanner = scanner,
         _monitor = monitor,
         _connector = connector,
@@ -39,6 +42,7 @@ class INoWaApp extends StatelessWidget {
         _firebaseService = firebaseService;
 
   final BleSettings _settings;
+  final LedSettings _ledSettings;
   final BleScanner _scanner;
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;
@@ -52,6 +56,7 @@ class INoWaApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider.value(value: _settings),
+        Provider.value(value: _ledSettings),
         Provider.value(value: _scanner),
         Provider.value(value: _monitor),
         Provider.value(value: _connector),

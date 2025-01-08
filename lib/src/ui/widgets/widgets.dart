@@ -8,6 +8,7 @@ import 'package:inowa/src/firebase/angle_enum.dart';
 import 'package:inowa/src/firebase/grade_enum.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
+import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
 
 class BluetoothIcon extends StatelessWidget {
   const BluetoothIcon({super.key});
@@ -433,6 +434,40 @@ class _GradeDropDownMenu extends State<GradeDropDownMenu> {
       );
 
   DropdownMenuEntry<Grade> gradeToMenuItem(Grade item) {
+    return DropdownMenuEntry(
+      label: item.label,
+      value: item,
+    );
+  }
+}
+
+/// Widgets zur Auswahl der Verdrahtung.
+class WireingDownMenu extends StatefulWidget {
+  const WireingDownMenu({
+    super.key,
+    this.initialSelection,
+    this.onSelected,
+  });
+
+  final Wireing? initialSelection;
+  final ValueChanged<Wireing?>? onSelected;
+
+  @override
+  State<WireingDownMenu> createState() => _WireingDownMenu();
+}
+
+class _WireingDownMenu extends State<WireingDownMenu> {
+  Wireing? wireing;
+
+  @override
+  Widget build(BuildContext context) => SettingsDropDownMenu<Wireing>(
+        initialSelection: widget.initialSelection,
+        onSelected: widget.onSelected,
+        dropdownMenuEntries:
+            Wireing.values.map((item) => wireingToMenuItem(item)).toList(),
+      );
+
+  DropdownMenuEntry<Wireing> wireingToMenuItem(Wireing item) {
     return DropdownMenuEntry(
       label: item.label,
       value: item,

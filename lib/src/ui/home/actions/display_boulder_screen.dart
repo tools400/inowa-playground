@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
+import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
@@ -33,9 +34,9 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer2<FirebaseService, BlePeripheralConnector>(
-          builder: (_, firebase, bleConnector, __) {
-        var ledConnector = LEDStripeConnector(bleConnector);
+      Consumer3<FirebaseService, BlePeripheralConnector, LedSettings>(
+          builder: (_, firebase, bleConnector, ledSettings, __) {
+        var ledConnector = LEDStripeConnector(bleConnector, ledSettings);
 
         _nameController.text = widget._boulderItem.name;
         _angle = widget._boulderItem.angle;

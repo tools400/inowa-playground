@@ -1,11 +1,12 @@
+import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/src/led/led_settings.dart';
 
 class LEDStripeConnector {
-  LEDStripeConnector(this.bleConnector);
+  LEDStripeConnector(this.bleConnector, this.ledSettings);
 
   final BlePeripheralConnector bleConnector;
-
-  bool _isHorizontal = true;
+  final LedSettings ledSettings;
 
   static final colorStart = 'g';
   static final colorMove1 = 'b';
@@ -13,8 +14,6 @@ class LEDStripeConnector {
   static final color_top = 'r';
   static final delimiterMoves = '/';
   static final eol = '#';
-
-  set horizontalWireing(enabled) => _isHorizontal = enabled;
 
   void sendBoulderToDevice(String ledCommand) {
     var arduinoCommand2 = arduinoCommand(ledCommand);
@@ -63,9 +62,7 @@ class LEDStripeConnector {
     int colNbr = 0;
     int rowNbr = 0;
 
-    print('_isHorizontal => $_isHorizontal');
-
-    if (_isHorizontal) {
+    if (ledSettings.isHorizontalWireing) {
       int ledsPerRow = 14;
       colNbr = column.codeUnits[0] - 'A'.codeUnits[0] + 1;
       rowNbr = int.parse(row);

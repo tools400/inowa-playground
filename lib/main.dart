@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:inowa/src/led/led_settings.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,7 @@ void main() async {
   auth = FirebaseAuth.instanceFor(app: app);
 
   final settings = BleSettings();
+  final ledSettings = LedSettings();
   final ble = FlutterReactiveBle();
   final bleLogger = BleLogger(ble: ble);
   final scanner = BleScanner(ble: ble, logMessage: bleLogger.info);
@@ -62,6 +64,7 @@ void main() async {
 
   runApp(INoWaApp(
       settings: settings,
+      ledSettings: ledSettings,
       scanner: scanner,
       monitor: monitor,
       connector: connector,
