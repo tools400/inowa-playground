@@ -119,7 +119,8 @@ class BoulderListTile extends StatelessWidget {
       child: ListTile(
         title: Text(_boulderItem.name),
         onTap: () {
-          Utils.openScreen(context, DisplayBoulderScreen());
+          Utils.openScreen(
+              context, DisplayBoulderScreen(boulder: _boulderItem));
         },
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

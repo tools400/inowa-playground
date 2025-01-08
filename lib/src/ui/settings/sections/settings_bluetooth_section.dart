@@ -42,159 +42,161 @@ class _BluetoothSectionState extends State<BluetoothSection> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer5<BleLogger, ConnectionStateUpdate, BleSettings,
-            BleScannerState, BleConnector>(
-        builder: (_, logger, connectionStateUpdate, bleSettings, scannerState,
-            bleAutoConnector, __) {
-      ConnectionStatusCallbackHandler callbackHandler =
-          ConnectionStatusCallbackHandler(context);
+  Widget build(BuildContext context) => Consumer5<
+              BleLogger,
+              ConnectionStateUpdate,
+              BleSettings,
+              BleScannerState,
+              BleConnector>(
+          builder: (_, logger, connectionStateUpdate, bleSettings, scannerState,
+              bleAutoConnector, __) {
+        ConnectionStatusCallbackHandler callbackHandler =
+            ConnectionStatusCallbackHandler(context);
 
-      // Initialisieren Text Controller für den Geräte-Namen
-      deviceNameController ??= TextEditingController()
-        ..text = bleSettings.deviceName;
-      timeoutController ??= TextEditingController()
-        ..text = bleSettings.timeout.toString();
+        // Initialisieren Text Controller für den Geräte-Namen
+        deviceNameController ??= TextEditingController()
+          ..text = bleSettings.deviceName;
+        timeoutController ??= TextEditingController()
+          ..text = bleSettings.timeout.toString();
 
-      /// Gibt an, ob der Scanner läuft.
-      bool isScanning() {
-        bool isScanning = scannerState.scanIsInProgress;
-        return isScanning;
-      }
-
-      /// Gibt an, ob auto-connect eingeschaltet ist.
-      bool isConnected() {
-        bool isConnected = connectionStateUpdate.connectionState ==
-            DeviceConnectionState.connected;
-        return isConnected;
-      }
-
-      /// Liefert die Beschriftung für den 'Connect' Button.
-      String titleConnectButton() {
-        if (isScanning()) {
-          return AppLocalizations.of(context)!.scanning;
-        } else if (isConnected()) {
-          return AppLocalizations.of(context)!.bluetooth_disconnect;
-        } else {
-          return AppLocalizations.of(context)!.bluetooth_connect;
-        }
-      }
-
-      /// Schaltet die Bluetoothverbindung hin und her.
-      toggleConnection() {
-        var isFormValid = formKey.currentState?.validate() ?? false;
-        if (!isFormValid) {
-          setError(
-              AppLocalizations.of(context)!.err_missing_or_incorrect_values);
-          return;
-        } else {
-          clearError();
+        /// Gibt an, ob der Scanner läuft.
+        bool isScanning() {
+          bool isScanning = scannerState.scanIsInProgress;
+          return isScanning;
         }
 
-        if (isScanning()) {
-          // nichts tun
-        } else if (isConnected()) {
-          String? deviceId = bleAutoConnector.connectedDeviceId;
-          if (deviceId != null) {
-            bleAutoConnector.disconnect(deviceId);
+        /// Gibt an, ob auto-connect eingeschaltet ist.
+        bool isConnected() {
+          bool isConnected = connectionStateUpdate.connectionState ==
+              DeviceConnectionState.connected;
+          return isConnected;
+        }
+
+        /// Liefert die Beschriftung für den 'Connect' Button.
+        String titleConnectButton() {
+          if (isScanning()) {
+            return AppLocalizations.of(context)!.scanning;
+          } else if (isConnected()) {
+            return AppLocalizations.of(context)!.bluetooth_disconnect;
+          } else {
+            return AppLocalizations.of(context)!.bluetooth_connect;
           }
-        } else {
-          var timeout = int.parse(timeoutController!.text);
-          String deviceName = deviceNameController!.text;
-          bleAutoConnector.scanAndConnect(
-              serviceName: deviceName,
-              timeout: timeout,
-              statusCallback: callbackHandler.statusCallback);
         }
-      }
 
-      return SingleSection(
-        title: AppLocalizations.of(context)!.bluetooth,
-        children: [
-          ErrorBanner(
-            errorMessage: error,
-            onClearError: clearError,
-          ),
-          Form(
-            key: formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [
-                // Timeout
-                SettingsListTile(
-                  title: AppLocalizations.of(context)!.scanner_timeout,
-                  trailing: SimpleInteger(
-                    controller: timeoutController!,
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isNotEmpty) {
-                          bleSettings.timeout = int.parse(value);
-                        } else {
-                          bleSettings.timeout = 0;
-                        }
-                      });
-                    },
-                    validator: (value) {
-                      return validateIntRange(
-                          context: context,
-                          value: value,
-                          minValue: 15,
-                          maxValue: 120);
-                    },
-                  ),
-                ),
-                // Gerätename
-                SettingsListTile(
-                  title: AppLocalizations.of(context)!.bluetooth_device_name,
-                  trailing: SimpleText(
-                      controller: deviceNameController!,
-                      hintText: AppLocalizations.of(context)!.generic_value,
+        /// Schaltet die Bluetoothverbindung hin und her.
+        toggleConnection() {
+          var isFormValid = formKey.currentState?.validate() ?? false;
+          if (!isFormValid) {
+            setError(
+                AppLocalizations.of(context)!.err_missing_or_incorrect_values);
+            return;
+          } else {
+            clearError();
+          }
+
+          if (isScanning()) {
+            // nichts tun
+          } else if (isConnected()) {
+            String? deviceId = bleAutoConnector.connectedDeviceId;
+            if (deviceId != null) {
+              bleAutoConnector.disconnect(deviceId);
+            }
+          } else {
+            var timeout = int.parse(timeoutController!.text);
+            String deviceName = deviceNameController!.text;
+            bleAutoConnector.scanAndConnect(
+                serviceName: deviceName,
+                timeout: timeout,
+                statusCallback: callbackHandler.statusCallback);
+          }
+        }
+
+        return SingleSection(
+          title: AppLocalizations.of(context)!.bluetooth,
+          children: [
+            ErrorBanner(
+              errorMessage: error,
+              onClearError: clearError,
+            ),
+            Form(
+              key: formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                children: [
+                  // Timeout
+                  SettingsListTile(
+                    title: AppLocalizations.of(context)!.scanner_timeout,
+                    trailing: SimpleInteger(
+                      controller: timeoutController!,
                       onChanged: (value) {
                         setState(() {
-                          bleSettings.deviceName = value;
+                          if (value.isNotEmpty) {
+                            bleSettings.timeout = int.parse(value);
+                          } else {
+                            bleSettings.timeout = 0;
+                          }
                         });
                       },
                       validator: (value) {
-                        return validateTextLength(
-                            context: context, value: value);
-                      }),
-                ),
-              ],
-            ),
-          ),
-          // Auto-connect
-          SettingsListTile(
-            title: AppLocalizations.of(context)!.bluetooth_auto_connect,
-            trailing: Switch(
-              value: bleSettings.isAutoConnect,
-              onChanged: (enabled) {
-                setState(() {
-                  bleSettings.autoConnectEnabled = enabled;
-                });
-              },
-            ),
-          ),
-          // Connect/Disconnect
-          SettingsListTile(
-            title: AppLocalizations.of(context)!.bluetooth_connection,
-            trailing: SizedBox(
-              width: 150,
-              child: ElevatedButton(
-                onPressed: isScanning()
-                    ? null
-                    : () {
-                        setState(() {
-                          toggleConnection();
-                        });
+                        return validateIntRange(
+                            context: context,
+                            value: value,
+                            minValue: 15,
+                            maxValue: 120);
                       },
-                child: Text(titleConnectButton()),
+                    ),
+                  ),
+                  // Gerätename
+                  SettingsListTile(
+                    title: AppLocalizations.of(context)!.bluetooth_device_name,
+                    trailing: SimpleText(
+                        controller: deviceNameController!,
+                        hintText: AppLocalizations.of(context)!.generic_value,
+                        onChanged: (value) {
+                          setState(() {
+                            bleSettings.deviceName = value;
+                          });
+                        },
+                        validator: (value) {
+                          return validateTextLength(
+                              context: context, value: value);
+                        }),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
-      );
-    });
-  }
+            // Auto-connect
+            SettingsListTile(
+              title: AppLocalizations.of(context)!.bluetooth_auto_connect,
+              trailing: Switch(
+                value: bleSettings.isAutoConnect,
+                onChanged: (enabled) {
+                  setState(() {
+                    bleSettings.autoConnectEnabled = enabled;
+                  });
+                },
+              ),
+            ),
+            // Connect/Disconnect
+            SettingsListTile(
+              title: AppLocalizations.of(context)!.bluetooth_connection,
+              trailing: SizedBox(
+                width: 150,
+                child: ElevatedButton(
+                  onPressed: isScanning()
+                      ? null
+                      : () {
+                          setState(() {
+                            toggleConnection();
+                          });
+                        },
+                  child: Text(titleConnectButton()),
+                ),
+              ),
+            ),
+          ],
+        );
+      });
 
   void clearError() {
     setError('');

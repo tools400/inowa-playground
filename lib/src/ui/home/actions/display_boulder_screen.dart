@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/led/led_connector.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -13,7 +16,10 @@ import '/src/firebase/fb_service.dart';
 import '/src/firebase/grade_enum.dart';
 
 class DisplayBoulderScreen extends StatefulWidget {
-  const DisplayBoulderScreen({super.key});
+  const DisplayBoulderScreen({super.key, required boulder})
+      : this._boulderItem = boulder;
+
+  final FbBoulder _boulderItem;
 
   @override
   State<DisplayBoulderScreen> createState() => _DisplayBoulderScreenState();
@@ -22,8 +28,8 @@ class DisplayBoulderScreen extends StatefulWidget {
 class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
   final TextEditingController _nameController = TextEditingController();
 
-  Angle? angle;
-  Grade? grade;
+  Angle? _angle;
+  Grade? _grade;
 
   @override
   Widget build(BuildContext context) =>
@@ -31,34 +37,44 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
           builder: (_, firebase, bleConnector, __) {
         var ledConnector = LEDConnector(bleConnector);
 
+        _nameController.text = widget._boulderItem.name;
+        _angle = widget._boulderItem.angle;
+        _grade = widget._boulderItem.grade;
+
         ledConnector.sendBoulderToDevice('N5+M6/M9/J9/J10/G10/E8/B9/B11');
 
         return Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.mnu_Display_Problem),
+            backgroundColor: ColorTheme.inversePrimary(context),
+          ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 SettingsListTile(
-                  title: 'Name',
-                  trailing: SimpleText(),
+                  title: AppLocalizations.of(context)!.name,
+                  trailing: SimpleText(
+                    controller: _nameController,
+                  ),
                 ),
                 SettingsListTile(
-                    title: 'Angle',
+                    title: AppLocalizations.of(context)!.angle,
                     trailing: AngleDropDownMenu(
-                      initialSelection: angle,
+                      initialSelection: _angle,
                       onSelected: (value) {
                         setState(() {
-                          angle = value;
+                          _angle = value;
                         });
                       },
                     )),
                 SettingsListTile(
-                    title: 'Grade',
+                    title: AppLocalizations.of(context)!.grade,
                     trailing: GradeDropDownMenu(
-                      initialSelection: grade,
+                      initialSelection: _grade,
                       onSelected: (value) {
                         setState(() {
-                          grade = value;
+                          _grade = value;
                         });
                       },
                     )),
@@ -76,6 +92,6 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
       });
 
   bool isValidated() {
-    return _nameController.text.isNotEmpty && angle != null && grade != null;
+    return _nameController.text.isNotEmpty && _angle != null && _grade != null;
   }
 }

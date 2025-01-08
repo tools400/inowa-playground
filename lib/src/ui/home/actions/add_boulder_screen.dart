@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/firebase/angle_enum.dart';
-import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -42,7 +42,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
             child: Column(
               children: [
                 SettingsListTile(
-                  title: 'Name',
+                  title: AppLocalizations.of(context)!.name,
                   trailing: SimpleText(
                     controller: _nameController,
                     focusNode: nameFocus,
@@ -53,7 +53,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                   ),
                 ),
                 SettingsListTile(
-                  title: 'Angle',
+                  title: AppLocalizations.of(context)!.angle,
                   trailing: AngleDropDownMenu(
                     initialSelection: angle,
                     onSelected: (value) {
@@ -64,7 +64,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                   ),
                 ),
                 SettingsListTile(
-                  title: 'Grade',
+                  title: AppLocalizations.of(context)!.grade,
                   trailing: GradeDropDownMenu(
                     initialSelection: grade,
                     onSelected: (Grade? value) {
@@ -75,7 +75,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                   ),
                 ),
                 SettingsListTile(
-                  title: 'Moves',
+                  title: AppLocalizations.of(context)!.moves,
                   trailing: SimpleText(
                     controller: _movesController,
                   ),

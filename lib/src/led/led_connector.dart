@@ -1,4 +1,10 @@
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
 import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_device_interactor.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_scanner.dart';
 
 class LEDConnector {
   LEDConnector(this.bleConnector);
@@ -82,17 +88,34 @@ class LEDConnector {
 }
 
 void main(List<String> arguments) {
-/*
-  var ledConnector = LEDConnector();
+/*  
+  var ble = FlutterReactiveBle();
+  // var bleLogger = BleLogger(ble: ble);
+  var scanner = BleScanner(ble: ble);
+  var connector = BleDeviceConnector(
+    ble: ble,
+    scanner: scanner,
+  );
+  var serviceDiscoverer = BleDeviceInteractor(
+    bleDiscoverServices: (deviceId) async {
+      await ble.discoverAllServices(deviceId);
+      return ble.getDiscoveredServices(deviceId);
+    },
+    readRssi: ble.readRssi,
+    requestMtu: ble.requestMtu,
+  );
+  var bleConnector =
+      BleConnector(scanner, connector, serviceDiscoverer);
+  var ledConnector = LEDConnector(bleConnector);
 
-  List<String> arduinoCOmmand;
+  List<String> arduinoCommand;
 
   ledConnector.horizontalWireing = true;
-  arduinoCOmmand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
-  print('Horizontal => ' + arduinoCOmmand.join());
+  arduinoCommand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
+  print('Horizontal => ' + arduinoCommand.join());
 
   ledConnector.horizontalWireing = false;
-  arduinoCOmmand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
-  print('Vertical => ' + arduinoCOmmand.join());
+  arduinoCommand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
+  print('Vertical => ' + arduinoCommand.join());
 */
 }
