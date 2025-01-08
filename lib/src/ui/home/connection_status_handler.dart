@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 class ConnectionStatusCallbackHandler {

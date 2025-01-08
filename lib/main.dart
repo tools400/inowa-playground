@@ -6,13 +6,13 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_device_interactor.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_scanner.dart';
+import 'package:inowa/src/ble/ble_status_monitor.dart';
 
-import '/src/ble/ble_device_connector.dart';
-import '/src/ble/ble_device_interactor.dart';
-import '/src/ble/ble_logger.dart';
-import '/src/ble/ble_scanner.dart';
-import '/src/ble/ble_status_monitor.dart';
 import '/src/firebase/fb_service.dart';
 import '/src/inowa_app.dart';
 import 'firebase_options.dart';
@@ -55,7 +55,7 @@ void main() async {
   );
 
   final bleAutoConnector =
-      BleConnector(scanner, connector, serviceDiscoverer, bleLogger);
+      BlePeripheralConnector(scanner, connector, serviceDiscoverer, bleLogger);
 
   packageInfo = await PackageInfo.fromPlatform();
   preferences = await SharedPreferences.getInstance();

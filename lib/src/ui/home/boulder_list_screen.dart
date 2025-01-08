@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/ui/home/actions/add_boulder_screen.dart';
@@ -30,11 +30,11 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
   int _currentIndex = 0;
   PageMode _pageMode = PageMode.boulderList;
 
-  BleConnector? bleAutoConnector;
+  BlePeripheralConnector? bleAutoConnector;
 
   @override
   Widget build(BuildContext context) => Consumer4<FirebaseService,
-              ConnectionStateUpdate, BleSettings, BleConnector>(
+              ConnectionStateUpdate, BleSettings, BlePeripheralConnector>(
           builder: (_, firebase, connectionStateUpdate, bleSettings,
               bleAutoConnector, __) {
         ConnectionStatusCallbackHandler callbackHandler =

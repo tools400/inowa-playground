@@ -1,15 +1,9 @@
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 
-import 'package:inowa/src/ble/ble_auto_connector.dart';
-import 'package:inowa/src/ble/ble_device_connector.dart';
-import 'package:inowa/src/ble/ble_device_interactor.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/ble/ble_scanner.dart';
+class LEDStripeConnector {
+  LEDStripeConnector(this.bleConnector);
 
-class LEDConnector {
-  LEDConnector(this.bleConnector);
-
-  final BleConnector bleConnector;
+  final BlePeripheralConnector bleConnector;
 
   bool _isHorizontal = true;
 

@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
@@ -47,7 +47,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               ConnectionStateUpdate,
               BleSettings,
               BleScannerState,
-              BleConnector>(
+              BlePeripheralConnector>(
           builder: (_, logger, connectionStateUpdate, bleSettings, scannerState,
               bleAutoConnector, __) {
         ConnectionStatusCallbackHandler callbackHandler =

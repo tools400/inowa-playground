@@ -9,8 +9,8 @@ import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/utils/utils.dart';
 
-class BleConnector {
-  BleConnector(
+class BlePeripheralConnector {
+  BlePeripheralConnector(
       this._scanner, this._connector, this._serviceDiscoverer, this._logger);
 
   final BleScanner _scanner;

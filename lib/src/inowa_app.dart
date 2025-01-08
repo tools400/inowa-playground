@@ -4,13 +4,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_auto_connector.dart';
+import 'package:inowa/main.dart';
+import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/src/ble/ble_scanner.dart';
 
-import '/main.dart';
-import '/src/ble/ble_device_connector.dart';
 import '/src/ble/ble_device_interactor.dart';
-import '/src/ble/ble_logger.dart';
-import '/src/ble/ble_scanner.dart';
 import '/src/ble/ble_status_monitor.dart';
 import '/src/firebase/fb_service.dart';
 import '/src/settings/ui_settings.dart';
@@ -26,7 +26,7 @@ class INoWaApp extends StatelessWidget {
     required BleStatusMonitor monitor,
     required BleDeviceConnector connector,
     required BleDeviceInteractor serviceDiscoverer,
-    required BleConnector bleAutoConnector,
+    required BlePeripheralConnector bleAutoConnector,
     required BleLogger bleLogger,
     required FirebaseService firebaseService,
   })  : _settings = settings,
@@ -43,7 +43,7 @@ class INoWaApp extends StatelessWidget {
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;
   final BleDeviceInteractor _serviceDiscoverer;
-  final BleConnector _bleAutoConnector;
+  final BlePeripheralConnector _bleAutoConnector;
   final BleLogger _bleLogger;
   final FirebaseService _firebaseService;
 
