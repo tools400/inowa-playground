@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:inowa/src/ui/widgets/bluetooth_icon.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_device_connector.dart';

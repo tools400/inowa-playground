@@ -8,7 +8,6 @@ import 'package:inowa/src/ui/settings/internal/dark_mode_enum.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
-import 'package:inowa/src/ui/widgets/widgets.dart';
 
 class CommonSection extends StatefulWidget {
   const CommonSection({

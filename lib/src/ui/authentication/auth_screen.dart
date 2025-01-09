@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/widgets/email_text.dart';
+import 'package:inowa/src/ui/widgets/error_banner.dart';
+import 'package:inowa/src/ui/widgets/password_text.dart';
+import 'package:inowa/src/ui/widgets/reset_password_link.dart';
+import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';

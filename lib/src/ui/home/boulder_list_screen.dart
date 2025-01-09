@@ -30,8 +30,6 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
   int _currentIndex = 0;
   PageMode _pageMode = PageMode.boulderList;
 
-  BlePeripheralConnector? bleAutoConnector;
-
   @override
   Widget build(BuildContext context) => Consumer4<FirebaseService,
               ConnectionStateUpdate, BleSettings, BlePeripheralConnector>(
@@ -49,12 +47,10 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
 
         /// Stellt die Verbindung her, insofern auto-connect aktiviert ist.
         /// Nur einmal, beim ersten Anzeigend des Bildschirms.
-        if (bleAutoConnector == null &&
-            !isConnected() &&
-            bleSettings.isAutoConnect) {
+        if (!isConnected() && bleSettings.isAutoConnect) {
           var timeout = bleSettings.timeout;
           String deviceName = bleSettings.deviceName;
-          bleAutoConnector!.scanAndConnect(
+          bleAutoConnector.scanAndConnect(
               serviceName: deviceName,
               timeout: timeout,
               statusCallback: callbackHandler.statusCallback);

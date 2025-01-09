@@ -10,7 +10,8 @@ import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
-import 'package:inowa/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
+import 'package:inowa/src/ui/widgets/grade_drop_down_menu.dart';
 
 import '/src/firebase/angle_enum.dart';
 import '/src/firebase/fb_service.dart';

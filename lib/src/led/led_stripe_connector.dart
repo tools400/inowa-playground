@@ -1,4 +1,3 @@
-import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/led/led_settings.dart';
 

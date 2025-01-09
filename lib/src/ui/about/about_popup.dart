@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:inowa/main.dart';
+import 'package:inowa/src/ui/widgets/url_link.dart';
 import '/src/constants.dart';
 import '/src/ui/widgets/widgets.dart';
 

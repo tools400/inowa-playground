@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
+import 'package:inowa/src/ui/widgets/grade_drop_down_menu.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/firebase/angle_enum.dart';

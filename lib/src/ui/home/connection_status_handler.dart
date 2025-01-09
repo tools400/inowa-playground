@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
-import 'package:inowa/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 
 class ConnectionStatusCallbackHandler {
   const ConnectionStatusCallbackHandler(
