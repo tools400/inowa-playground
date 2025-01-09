@@ -2,10 +2,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/src/ble/ble_scanner.dart';
+import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/firebase/angle_enum.dart';
 import 'package:inowa/src/firebase/grade_enum.dart';
+import 'package:inowa/src/led/led_settings.dart';
+import 'package:inowa/src/ui/home/connection_status_handler.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
@@ -441,7 +449,7 @@ class _GradeDropDownMenu extends State<GradeDropDownMenu> {
   }
 }
 
-/// Widgets zur Auswahl der Verdrahtung.
+/// Widget for selecting the wireing of the LED stripe.
 class WireingDropDownMenu extends StatefulWidget {
   const WireingDropDownMenu({
     super.key,
@@ -472,5 +480,54 @@ class _WireingDownMenu extends State<WireingDropDownMenu> {
       label: item.label,
       value: item,
     );
+  }
+}
+
+/// Widget Connecting/Disconnecting the Bluetooth device.
+class ConnectDisconnectButton extends StatefulWidget {
+  const ConnectDisconnectButton({
+    super.key,
+    this.onPressed,
+  });
+
+  final VoidCallback? onPressed;
+
+  @override
+  State<ConnectDisconnectButton> createState() => _ConnectDisconnectButton();
+}
+
+class _ConnectDisconnectButton extends State<ConnectDisconnectButton> {
+  TextEditingController? deviceNameController;
+  TextEditingController? timeoutController;
+
+  String error = '';
+
+  @override
+  Widget build(BuildContext context) =>
+      Consumer2<ConnectionStateUpdate, BleScannerState>(
+          builder: (_, connectionStateUpdate, scannerState, __) {
+        /// Liefert die Beschriftung für den 'Connect' Button.
+        String titleConnectButton() {
+          if (isScanning(scannerState)) {
+            return AppLocalizations.of(context)!.scanning;
+          } else if (isConnected(connectionStateUpdate)) {
+            return AppLocalizations.of(context)!.bluetooth_disconnect;
+          } else {
+            return AppLocalizations.of(context)!.bluetooth_connect;
+          }
+        }
+
+        return ElevatedButton(
+          onPressed: widget.onPressed,
+          child: Text(titleConnectButton()),
+        );
+      });
+
+  bool isScanning(BleScannerState scannerState) =>
+      scannerState.scanIsInProgress;
+
+  bool isConnected(ConnectionStateUpdate connectionStateUpdate) {
+    return connectionStateUpdate.connectionState ==
+        DeviceConnectionState.connected;
   }
 }

@@ -53,6 +53,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               BlePeripheralConnector>(
           builder: (_, ledSettings, logger, connectionStateUpdate, bleSettings,
               scannerState, bleAutoConnector, __) {
+        // Connection status callback  handler
         ConnectionStatusCallbackHandler callbackHandler =
             ConnectionStatusCallbackHandler(context);
 
@@ -61,30 +62,6 @@ class _BluetoothSectionState extends State<BluetoothSection> {
           ..text = bleSettings.deviceName;
         timeoutController ??= TextEditingController()
           ..text = bleSettings.timeout.toString();
-
-        /// Gibt an, ob der Scanner läuft.
-        bool isScanning() {
-          bool isScanning = scannerState.scanIsInProgress;
-          return isScanning;
-        }
-
-        /// Gibt an, ob auto-connect eingeschaltet ist.
-        bool isConnected() {
-          bool isConnected = connectionStateUpdate.connectionState ==
-              DeviceConnectionState.connected;
-          return isConnected;
-        }
-
-        /// Liefert die Beschriftung für den 'Connect' Button.
-        String titleConnectButton() {
-          if (isScanning()) {
-            return AppLocalizations.of(context)!.scanning;
-          } else if (isConnected()) {
-            return AppLocalizations.of(context)!.bluetooth_disconnect;
-          } else {
-            return AppLocalizations.of(context)!.bluetooth_connect;
-          }
-        }
 
         /// Schaltet die Bluetoothverbindung hin und her.
         toggleConnection() {
@@ -97,9 +74,9 @@ class _BluetoothSectionState extends State<BluetoothSection> {
             clearError();
           }
 
-          if (isScanning()) {
-            // nichts tun
-          } else if (isConnected()) {
+          if (isScanning(scannerState)) {
+            bleAutoConnector.stopScan();
+          } else if (isConnected(connectionStateUpdate)) {
             String? deviceId = bleAutoConnector.connectedDeviceId;
             if (deviceId != null) {
               bleAutoConnector.disconnect(deviceId);
@@ -185,19 +162,16 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               title: AppLocalizations.of(context)!.bluetooth_connection,
               trailing: SizedBox(
                 width: 150,
-                child: ElevatedButton(
-                  onPressed: isScanning()
-                      ? null
-                      : () {
-                          setState(() {
-                            toggleConnection();
-                          });
-                        },
-                  child: Text(titleConnectButton()),
+                child: ConnectDisconnectButton(
+                  onPressed: () {
+                    setState(() {
+                      toggleConnection();
+                    });
+                  },
                 ),
               ),
             ),
-
+            // Wireing: horizontal/vertical
             SettingsListTile(
               title: AppLocalizations.of(context)!.wireing,
               trailing: WireingDropDownMenu(
@@ -214,6 +188,14 @@ class _BluetoothSectionState extends State<BluetoothSection> {
           ],
         );
       });
+
+  bool isScanning(BleScannerState scannerState) =>
+      scannerState.scanIsInProgress;
+
+  bool isConnected(ConnectionStateUpdate connectionStateUpdate) {
+    return connectionStateUpdate.connectionState ==
+        DeviceConnectionState.connected;
+  }
 
   void clearError() {
     setError('');

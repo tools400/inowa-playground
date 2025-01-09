@@ -32,7 +32,7 @@ class BlePeripheralConnector {
     _timeoutTimer = Timer(Duration(seconds: timeout), () {
       _statusCallback!(Status.deviceNotFound, serviceName);
       _logger.error('Device not found: $serviceName');
-      _stopScan();
+      stopScan();
     });
   }
 
@@ -55,11 +55,11 @@ class BlePeripheralConnector {
     if (_timeoutTimer != null) {
       _timeoutTimer!.cancel();
     }
-    _stopScan();
+    stopScan();
     _connector.connect(device.id, _connectedCallback);
   }
 
-  void _stopScan() {
+  void stopScan() {
     _scanner.stopScan();
   }
 
