@@ -2,14 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
-import 'package:inowa/src/ble/ble_scanner.dart';
-
 import 'ble_reactive_state.dart';
 
 class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
   BleDeviceConnector({
     required FlutterReactiveBle ble,
-    required BleScanner scanner,
     required void Function(String message) logMessage,
   })  : _ble = ble,
         _logMessage = logMessage;

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/led/led_settings.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
+import 'package:inowa/src/led/led_settings.dart';
 
 import '/src/firebase/fb_service.dart';
 import '/src/inowa_app.dart';
@@ -42,7 +42,6 @@ void main() async {
 
   final connector = BleDeviceConnector(
     ble: ble,
-    scanner: scanner,
     logMessage: bleLogger.info,
   );
 
