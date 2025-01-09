@@ -53,5 +53,6 @@
     "REF"
   ],
   "dartimportsorter.sortOnSave": true,
-  "window.newWindowDimensions": "inherit"
+  "window.newWindowDimensions": "inherit",
+  "editor.fontSize": 16
 }
