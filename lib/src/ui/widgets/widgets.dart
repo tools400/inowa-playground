@@ -442,8 +442,8 @@ class _GradeDropDownMenu extends State<GradeDropDownMenu> {
 }
 
 /// Widgets zur Auswahl der Verdrahtung.
-class WireingDownMenu extends StatefulWidget {
-  const WireingDownMenu({
+class WireingDropDownMenu extends StatefulWidget {
+  const WireingDropDownMenu({
     super.key,
     this.initialSelection,
     this.onSelected,
@@ -453,10 +453,10 @@ class WireingDownMenu extends StatefulWidget {
   final ValueChanged<Wireing?>? onSelected;
 
   @override
-  State<WireingDownMenu> createState() => _WireingDownMenu();
+  State<WireingDropDownMenu> createState() => _WireingDownMenu();
 }
 
-class _WireingDownMenu extends State<WireingDownMenu> {
+class _WireingDownMenu extends State<WireingDropDownMenu> {
   Wireing? wireing;
 
   @override

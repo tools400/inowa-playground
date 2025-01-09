@@ -200,7 +200,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
 
             SettingsListTile(
               title: AppLocalizations.of(context)!.wireing,
-              trailing: WireingDownMenu(
+              trailing: WireingDropDownMenu(
                 initialSelection: ledSettings.isHorizontalWireing
                     ? Wireing.horizontal
                     : Wireing.vertical,
