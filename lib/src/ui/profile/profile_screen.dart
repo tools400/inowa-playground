@@ -32,11 +32,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String error = '';
   late BleLogger logger;
+  StreamSubscription? subscribeStream;
 
   @override
   void initState() {
     user = auth.currentUser!;
-    auth.userChanges().listen((event) {
+    subscribeStream = auth.userChanges().listen((event) {
       if (event != null && mounted) {
         setState(() {
           user = event;
@@ -48,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
+    subscribeStream!.cancel();
     passwordController.dispose();
     super.dispose();
   }
