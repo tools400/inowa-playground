@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/led/led_settings.dart';
 
@@ -50,6 +52,38 @@ class LEDStripeConnector {
     }
 
     return arduinoCommand;
+  }
+
+  int ledNumberByUICoordinates(Offset position, Size size) {
+    var ledNbr = 0;
+
+    // calculate grid coordinates
+    var gridHeight = size.height / 14;
+    var gridWidth = size.width / 14;
+    var rowOffset = 3;
+
+    var positionDX = position.dx;
+    var widget__x = (positionDX / gridWidth).toInt();
+    if (positionDX % gridWidth > 0) {
+      widget__x = widget__x + 1;
+    }
+
+    var positionDY = (position.dy - size.height) * -1;
+    var widget__y = (positionDY / gridHeight).toInt();
+    if (positionDY % gridHeight > 0) {
+      widget__y = widget__y + 1;
+    }
+    widget__y = widget__y - rowOffset;
+
+    if (ledSettings.isHorizontalWireing) {
+      var ledsPerRow = 14;
+      ledNbr = widget__x + ((widget__y - 1) * ledsPerRow);
+    } else {
+      var ledsPerColumn = 11;
+      ledNbr = widget__y + ((widget__x - 1) * ledsPerColumn);
+    }
+
+    return ledNbr;
   }
 
   String _ledNumber(String coordinate) {

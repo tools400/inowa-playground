@@ -56,7 +56,11 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
                     child: TabBarView(
                       children: [
                         BoulderPropertiesTab(boulder: widget._boulderItem),
-                        BoulderMovesTab(boulder: widget._boulderItem),
+                        BoulderMovesTab(
+                          boulder: widget._boulderItem,
+                          bleConnector: bleConnector,
+                          ledSettings: ledSettings,
+                        ),
                       ],
                     ),
                   ),

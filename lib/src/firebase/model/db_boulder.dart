@@ -23,5 +23,5 @@ class FbBoulder {
   Grade get grade => Grade.byID(boulderItem[keyGrade]);
   String get angleUI => angle.label;
   String get gradeUI => grade.label;
-  int get stars => boulderItem[keyStars].round();
+  int get stars => boulderItem[keyStars].toInt();
 }
