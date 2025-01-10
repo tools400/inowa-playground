@@ -8,3 +8,6 @@ const SCANNER_TIMEOUT = 30;
 // Application properties
 const URL_APP_PROJECT = 'https://github.com/tools400/inowa-playground';
 const URL_INOWA_HOMPAGE = 'https://i-nowa.com/';
+
+// Resources
+const IMAGE_BOARD_2 = 'assets/images/board_2.png';

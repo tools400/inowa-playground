@@ -16,9 +16,9 @@ class LEDStripeConnector {
 
   void sendBoulderToDevice(String ledCommand) {
     var arduinoCommand2 = arduinoCommand(ledCommand);
-    arduinoCommand2.forEach((value) {
+    for (var value in arduinoCommand2) {
       bleConnector.writeCharacteristicWithResponse(value);
-    });
+    }
   }
 
   List<String> arduinoCommand(String appCommand) {
@@ -46,7 +46,7 @@ class LEDStripeConnector {
         }
         delimiter = delimiterMoves;
       }
-      arduinoCommand.add(_ledNumber(parts[i]) + ':' + color + delimiter);
+      arduinoCommand.add('${_ledNumber(parts[i])}:$color$delimiter');
     }
 
     return arduinoCommand;

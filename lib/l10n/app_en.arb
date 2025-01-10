@@ -14,6 +14,7 @@
   "mnu_BottomNavigator_Add":"Add",
   "mnu_BottomNavigator_Settings":"Settings",
 
+  "properties": "Properties",
   "app_project": "App Project",
   "indoor_north_wall": "Indoor North Wall",
   "service_name_colon": "Service name:",

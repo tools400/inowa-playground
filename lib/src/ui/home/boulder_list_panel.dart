@@ -92,10 +92,7 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
 }
 
 class BoulderListTile extends StatelessWidget {
-  const BoulderListTile(
-    this._context,
-    this._boulderItem,
-  );
+  const BoulderListTile(this._context, this._boulderItem, {super.key});
 
   final BuildContext _context;
   final FbBoulder _boulderItem;
@@ -144,7 +141,7 @@ class BoulderListTile extends StatelessWidget {
 
 Widget BoulderPopupMenu(
     {required BuildContext context, required FbBoulder itemItem}) {
-  String? _selection;
+  String? selection;
   return PopupMenuButton<String>(
     icon: Icon(Icons.menu),
     onSelected: (String value) => showDialog<void>(
