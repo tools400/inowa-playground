@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
+import 'package:inowa/src/led/led.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
+import 'package:inowa/src/led/moves.dart';
 import 'package:inowa/src/ui/widgets/boulder_board.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
-/// Widget for selecting the wireing of the LED stripe.
+/// Widget for editing the boulder moves.
 class BoulderMovesTab extends StatefulWidget {
   const BoulderMovesTab(
       {super.key,
@@ -28,57 +30,18 @@ class BoulderMovesTab extends StatefulWidget {
 
 class _BoulderMovesTab extends State<BoulderMovesTab> {
   late LEDStripeConnector ledStripeConnector;
+  late bool isHorizontalWireing;
 
-  int _led = 0;
-  String _ledID = '';
-
-  final columnID = 'ABCDEFGHIJKLMN';
+  LED? _led;
+  Moves _moves = Moves();
 
   @override
   void initState() {
     ledStripeConnector =
         LEDStripeConnector(widget._bleConnector, widget._ledSettings);
+    isHorizontalWireing = widget._ledSettings.isHorizontalWireing;
+    _moves = widget._boulderItem.moves;
     super.initState();
-  }
-
-  String ledNumberToID(int led) {
-    var rows = 0;
-    var columns = 0;
-
-    if (true) {
-      var numLedsPerRow = 14;
-      rows = (led / numLedsPerRow).toInt();
-      columns = led % numLedsPerRow;
-      if (led % numLedsPerRow == 0) {
-        columns = numLedsPerRow;
-      }
-
-      // adjust offset for 'columnID' array
-      columns--;
-
-      if (led % numLedsPerRow > 0) {
-        rows++;
-      }
-/*
-    } else {
-      var numLedsPerColumn = 11;
-      columns = (led / numLedsPerColumn).toInt();
-      rows = led % numLedsPerColumn;
-      if (led % numLedsPerColumn == 0) {
-        rows = numLedsPerColumn;
-      }
-
-      // adjust offset for 'columnID' array
-      columns--;
-
-      if (led % numLedsPerColumn > 0) {
-        rows++;
-      }
-*/
-    }
-    var ledID = columnID.substring(columns, columns + 1) + rows.toString();
-
-    return ledID;
   }
 
   @override
@@ -86,8 +49,11 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
     // Executed on tapping the boulder wall image
     void onTapDown(Offset position, Size size) {
       setState(() {
-        _led = ledStripeConnector.ledNumberByUICoordinates(position, size);
-        _ledID = ledNumberToID(_led);
+        _led = LEDStripeConnector.ledNumberByUICoordinates(
+            position, size, isHorizontalWireing);
+        if (_led != null) {
+          _moves.add(_led!);
+        }
       });
     }
 
@@ -95,7 +61,34 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       children: [
         BoulderWall(onTapDown: onTapDown),
         VSpace(),
-        Text('LED: $_led -> $_ledID'),
+        Column(
+          children: [
+            IconButton(
+              onPressed: _moves.isEmpty
+                  ? null
+                  : () {
+                      setState(() {
+                        _moves.removeLast();
+                      });
+                    },
+              icon: Icon(Icons.delete),
+            ),
+            IconButton(
+              onPressed: _moves.isEmpty
+                  ? null
+                  : () {
+                      setState(() {
+                        _moves.clear();
+                      });
+                    },
+              icon: Icon(Icons.delete_sweep),
+            ),
+          ],
+        ),
+        VSpace(),
+        Text('LED: ${_led?.uiName} -> ${_led?.ledNbr}'),
+        Text('Moves: ${_moves.toString()}'),
+        Text('Arduiono: ${ledStripeConnector.sendBoulderToDevice(_moves.all)}'),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/src/led/led.dart';
 import 'package:inowa/src/led/led_settings.dart';
 
 class LEDStripeConnector {
@@ -16,46 +17,57 @@ class LEDStripeConnector {
   static final delimiterMoves = '/';
   static final eol = '#';
 
-  void sendBoulderToDevice(String ledCommand) {
-    var arduinoCommand2 = arduinoCommand(ledCommand);
-    for (var value in arduinoCommand2) {
-      bleConnector.writeCharacteristicWithResponse(value);
+  String sendBoulderToDevice(List<LED> moves) {
+    StringBuffer buffer = StringBuffer();
+
+    var cmd = '';
+    for (int i = 1; i <= moves.length; i++) {
+      LED led = moves.elementAt(i - 1);
+      cmd = arduinoCommand(led, i, moves.length);
+      bleConnector.writeCharacteristicWithResponse(cmd);
+      buffer.write(cmd);
     }
+    return buffer.toString();
   }
 
-  List<String> arduinoCommand(String appCommand) {
-    final regex = RegExp(r'[+/]');
-    List<String> parts = appCommand.split(regex);
-    List<String> arduinoCommand = [];
-
-    for (int i = 0; i < parts.length; i++) {
-      String color = '';
-      String delimiter = '';
-      if (i < 2) {
-        // Startgriffe
-        color = colorStart;
-        delimiter = delimiterMoves;
-      } else if (i == parts.length - 1) {
-        // Top Griff
-        color = color_top;
-        delimiter = eol;
+  String arduinoCommand(LED led, int sequence, length) {
+    String color = '';
+    String delimiter = '';
+    if (sequence <= 2) {
+      // start holds
+      color = colorStart;
+      delimiter = delimiterMoves;
+    } else if (sequence == length) {
+      // top hold
+      color = color_top;
+      delimiter = eol;
+    } else {
+      // intermediate holds alternating: blue/purple
+      if (sequence % 2 == 0) {
+        color = colorMove1;
       } else {
-        // Boulderzüge, qbwechselnd blau/lila
-        if (i % 2 == 0) {
-          color = colorMove1;
-        } else {
-          color = colorMove2;
-        }
-        delimiter = delimiterMoves;
+        color = colorMove2;
       }
-      arduinoCommand.add('${_ledNumber(parts[i])}:$color$delimiter');
+      delimiter = delimiterMoves;
     }
+
+    var arduinoCommand = led.ledNbr.toString() + ':' + color + delimiter;
 
     return arduinoCommand;
   }
 
-  int ledNumberByUICoordinates(Offset position, Size size) {
+  static LED ledNumberByName(String name) {
+    var led = LED(uiName: name, ledNbr: 1);
+    return led;
+  }
+
+  static LED ledNumberByUICoordinates(
+      Offset position, Size size, bool isHorizontalWireing) {
     var ledNbr = 0;
+
+    // board dimensions;
+    var ledsPerRow = 14;
+    var ledsPerColumn = 11;
 
     // calculate grid coordinates
     var gridHeight = size.height / 14;
@@ -63,29 +75,38 @@ class LEDStripeConnector {
     var rowOffset = 3;
 
     var positionDX = position.dx;
-    var widget__x = (positionDX / gridWidth).toInt();
+    var column = (positionDX / gridWidth).toInt();
     if (positionDX % gridWidth > 0) {
-      widget__x = widget__x + 1;
+      column = column + 1;
     }
 
     var positionDY = (position.dy - size.height) * -1;
-    var widget__y = (positionDY / gridHeight).toInt();
+    var row = (positionDY / gridHeight).toInt();
     if (positionDY % gridHeight > 0) {
-      widget__y = widget__y + 1;
+      row = row + 1;
     }
-    widget__y = widget__y - rowOffset;
+    row = row - rowOffset;
 
-    if (ledSettings.isHorizontalWireing) {
-      var ledsPerRow = 14;
-      ledNbr = widget__x + ((widget__y - 1) * ledsPerRow);
+    if (isHorizontalWireing) {
+      if (row % 2 == 0) {
+        column = (ledsPerRow - column).abs() + 1;
+      }
+      ledNbr = column + ((row - 1) * ledsPerRow);
     } else {
-      var ledsPerColumn = 11;
-      ledNbr = widget__y + ((widget__x - 1) * ledsPerColumn);
+      if (column % 2 == 0) {
+        row = (ledsPerColumn - row).abs() + 1;
+      }
+      ledNbr = row + ((column - 1) * ledsPerColumn);
     }
 
-    return ledNbr;
-  }
+    final columnID = 'ABCDEFGHIJKLMN';
+    var offset = column - 1;
+    var ledID = columnID.substring(offset, offset + 1) + row.toString();
+    print(ledID);
 
+    return LED(uiName: ledID, ledNbr: ledNbr);
+  }
+/*
   String _ledNumber(String coordinate) {
     var column = coordinate.substring(0, 1).toUpperCase();
     var row = coordinate.substring(1);
@@ -109,6 +130,7 @@ class LEDStripeConnector {
 
     return ledNbr.toString();
   }
+*/
 }
 
 void main(List<String> arguments) {

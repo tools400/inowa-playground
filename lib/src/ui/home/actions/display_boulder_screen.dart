@@ -23,7 +23,32 @@ class DisplayBoulderScreen extends StatefulWidget {
   State<DisplayBoulderScreen> createState() => _DisplayBoulderScreenState();
 }
 
-class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
+class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
+    with SingleTickerProviderStateMixin {
+  static const List<Tab> myTabs = <Tab>[
+    Tab(text: 'LEFT'),
+    Tab(text: 'RIGHT'),
+  ];
+
+  late TabController _tabBarController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabBarController = TabController(length: 2, vsync: this);
+    _tabBarController.addListener(() {
+      if (_tabBarController.indexIsChanging) {
+        setState(() {
+          if (_tabBarController.previousIndex != 0 &&
+              _tabBarController.index == 0) {
+            print('Saving boulder');
+          }
+        });
+        print("Selected Index: " + _tabBarController.index.toString());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) =>
       Consumer3<FirebaseService, BlePeripheralConnector, LedSettings>(
@@ -31,7 +56,7 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
         var ledConnector = LEDStripeConnector(bleConnector, ledSettings);
 
         // Send boulder to Bluetooth device
-        ledConnector.sendBoulderToDevice('N5+M6/M9/J9/J10/G10/E8/B9/B11');
+        ledConnector.sendBoulderToDevice(widget._boulderItem.moves.all);
 
         return DefaultTabController(
           length: 2,
@@ -40,6 +65,10 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
               title: Text(AppLocalizations.of(context)!.mnu_Display_Problem),
               backgroundColor: ColorTheme.inversePrimary(context),
               bottom: TabBar(
+                controller: _tabBarController,
+                onTap: (value) {
+                  return;
+                },
                 tabs: [
                   Tab(text: AppLocalizations.of(context)!.properties),
                   Tab(text: AppLocalizations.of(context)!.moves),
@@ -54,6 +83,7 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen> {
                 children: [
                   Expanded(
                     child: TabBarView(
+                      controller: _tabBarController,
                       children: [
                         BoulderPropertiesTab(boulder: widget._boulderItem),
                         BoulderMovesTab(
