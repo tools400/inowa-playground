@@ -6,6 +6,7 @@ import 'package:inowa/src/led/led.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
+import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/boulder_board.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
@@ -31,6 +32,7 @@ class BoulderMovesTab extends StatefulWidget {
 class _BoulderMovesTab extends State<BoulderMovesTab> {
   late LEDStripeConnector ledStripeConnector;
   late bool isHorizontalWireing;
+  final TextEditingController _nameController = TextEditingController();
 
   LED? _led;
   Moves _moves = Moves();
@@ -40,12 +42,14 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
     ledStripeConnector =
         LEDStripeConnector(widget._bleConnector, widget._ledSettings);
     isHorizontalWireing = widget._ledSettings.isHorizontalWireing;
-    _moves = widget._boulderItem.moves;
+    _moves = widget._boulderItem.moves(isHorizontalWireing);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _nameController.text = widget._boulderItem.name;
+
     // Executed on tapping the boulder wall image
     void onTapDown(Offset position, Size size) {
       setState(() {
@@ -59,29 +63,36 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
 
     return Column(
       children: [
-        BoulderWall(onTapDown: onTapDown),
+        Text(widget._boulderItem.name),
+        VSpace(),
+        BoulderWall(holds: _moves.all, onTapDown: onTapDown),
         VSpace(),
         Column(
           children: [
-            IconButton(
-              onPressed: _moves.isEmpty
-                  ? null
-                  : () {
-                      setState(() {
-                        _moves.removeLast();
-                      });
-                    },
-              icon: Icon(Icons.delete),
-            ),
-            IconButton(
-              onPressed: _moves.isEmpty
-                  ? null
-                  : () {
-                      setState(() {
-                        _moves.clear();
-                      });
-                    },
-              icon: Icon(Icons.delete_sweep),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _moves.isEmpty
+                      ? null
+                      : () {
+                          setState(() {
+                            _moves.removeLast();
+                          });
+                        },
+                  icon: Icon(Icons.clear),
+                ),
+                IconButton(
+                  onPressed: _moves.isEmpty
+                      ? null
+                      : () {
+                          setState(() {
+                            _moves.clear();
+                          });
+                        },
+                  icon: Icon(Icons.clear_all),
+                ),
+              ],
             ),
           ],
         ),

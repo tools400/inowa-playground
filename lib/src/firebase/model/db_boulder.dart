@@ -11,7 +11,7 @@ import '/src/firebase/grade_enum.dart';
 class FbBoulder {
   FbBoulder(QueryDocumentSnapshot<Object?> this.boulderItem)
       : _id = boulderItem[keyID] ?? Uuid().toString(),
-        _moves = _parseMoves(boulderItem[keyMoves]);
+        _moves = boulderItem[keyMoves];
 
   static const String keyID = 'id';
   static const String keyName = 'name';
@@ -22,7 +22,7 @@ class FbBoulder {
 
   dynamic boulderItem;
   final String _id;
-  final Moves _moves;
+  final String _moves;
 
   String get id => _id;
   String get name => boulderItem[keyName];
@@ -31,9 +31,11 @@ class FbBoulder {
   String get angleUI => angle.label;
   String get gradeUI => grade.label;
   int get stars => boulderItem[keyStars].toInt();
-  Moves get moves => _moves;
+  Moves moves(bool isHorizontalWireing) {
+    return _parseMoves(_moves, isHorizontalWireing);
+  }
 
-  static _parseMoves(String movesAsString) {
+  static _parseMoves(String movesAsString, bool isHorizontalWireing) {
     Moves moves = Moves();
 
     final regex = RegExp(r'[+/]');
@@ -41,7 +43,8 @@ class FbBoulder {
     // TODO: check what happens if 'moves' is empty!
     if (parts.isNotEmpty) {
       for (int i = 0; i < parts.length; i++) {
-        var led = LEDStripeConnector.ledNumberByName(parts[i]);
+        var led =
+            LEDStripeConnector.ledNumberByName(parts[i], isHorizontalWireing);
         moves.add(led);
       }
     }

@@ -7,15 +7,16 @@ import 'package:inowa/src/led/led_settings.dart';
 class LEDStripeConnector {
   LEDStripeConnector(this.bleConnector, this.ledSettings);
 
-  final BlePeripheralConnector bleConnector;
-  final LedSettings ledSettings;
-
+  static final columnsAsChar = 'ABCDEFGHIJKLMN';
   static final colorStart = 'g';
   static final colorMove1 = 'b';
   static final colorMove2 = 'l';
-  static final color_top = 'r';
+  static final colorTop = 'r';
   static final delimiterMoves = '/';
   static final eol = '#';
+
+  final BlePeripheralConnector bleConnector;
+  final LedSettings ledSettings;
 
   String sendBoulderToDevice(List<LED> moves) {
     StringBuffer buffer = StringBuffer();
@@ -39,7 +40,7 @@ class LEDStripeConnector {
       delimiter = delimiterMoves;
     } else if (sequence == length) {
       // top hold
-      color = color_top;
+      color = colorTop;
       delimiter = eol;
     } else {
       // intermediate holds alternating: blue/purple
@@ -56,8 +57,75 @@ class LEDStripeConnector {
     return arduinoCommand;
   }
 
-  static LED ledNumberByName(String name) {
-    var led = LED(uiName: name, ledNbr: 1);
+  static int _ledsPerRow(bool isHorizontalWireing) {
+    var ledsPerRow = 0;
+    if (isHorizontalWireing) {
+      ledsPerRow = 14;
+    } else {
+      ledsPerRow = 11;
+    }
+    return ledsPerRow;
+  }
+
+  static Offset ledCoordinatesByName(String name, bool isHorizontalWireing) {
+    var row = int.parse(name.substring(1));
+    var columnChar = name.substring(0, 1);
+    var column = columnsAsChar.indexOf(columnChar) + 1;
+
+    var ledsPerRow = _ledsPerRow(isHorizontalWireing);
+/*
+    if (isHorizontalWireing) {
+      ledsPerRow = 14;
+    } else {
+      ledsPerRow = 11;
+    }
+*/
+
+    // invert column nummber on reverse wireing
+    if (row % 2 == 0) {
+      column = (ledsPerRow - column).abs() + 1;
+    }
+
+    row = row - 1;
+
+    return Offset(column.toDouble(), row.toDouble());
+  }
+
+  static LED ledNumberByName(String name, bool isHorizontalWireing) {
+/*
+    var row = int.parse(name.substring(1));
+    var columnChar = name.substring(0, 1);
+    var column = columnsAsChar.indexOf(columnChar) + 1;
+
+    var ledsPerRow = 0;
+    if (isHorizontalWireing) {
+      ledsPerRow = 14;
+    } else {
+      ledsPerRow = 11;
+    }
+
+    // invert column nummber on reverse wireing
+    if (row % 2 == 0) {
+      column = (ledsPerRow - column).abs() + 1;
+    }
+
+    row = row - 1;
+*/
+    var offset = ledCoordinatesByName(name, isHorizontalWireing);
+    int column = offset.dx.toInt();
+    int row = offset.dy.toInt();
+
+    var ledsPerRow = _ledsPerRow(isHorizontalWireing);
+/*
+    if (isHorizontalWireing) {
+      ledsPerRow = 14;
+    } else {
+      ledsPerRow = 11;
+    }
+*/
+    var ledNbr = (row * ledsPerRow) + column;
+    var led = LED(uiName: name, ledNbr: ledNbr);
+
     return led;
   }
 
@@ -66,8 +134,10 @@ class LEDStripeConnector {
     var ledNbr = 0;
 
     // board dimensions;
+/*
     var ledsPerRow = 14;
     var ledsPerColumn = 11;
+*/
 
     // calculate grid coordinates
     var gridHeight = size.height / 14;
@@ -87,50 +157,30 @@ class LEDStripeConnector {
     }
     row = row - rowOffset;
 
+    var offset;
     if (isHorizontalWireing) {
+      var ledsPerRow = _ledsPerRow(isHorizontalWireing);
+      offset = column - 1;
+      // invert column nummber on reverse wireing
       if (row % 2 == 0) {
         column = (ledsPerRow - column).abs() + 1;
       }
       ledNbr = column + ((row - 1) * ledsPerRow);
     } else {
+      var ledsPerColumn = _ledsPerRow(isHorizontalWireing);
+      offset = row - 1;
+      // invert column nummber on reverse wireing
       if (column % 2 == 0) {
         row = (ledsPerColumn - row).abs() + 1;
       }
       ledNbr = row + ((column - 1) * ledsPerColumn);
     }
 
-    final columnID = 'ABCDEFGHIJKLMN';
-    var offset = column - 1;
-    var ledID = columnID.substring(offset, offset + 1) + row.toString();
+    var ledID = columnsAsChar.substring(offset, offset + 1) + row.toString();
     print(ledID);
 
     return LED(uiName: ledID, ledNbr: ledNbr);
   }
-/*
-  String _ledNumber(String coordinate) {
-    var column = coordinate.substring(0, 1).toUpperCase();
-    var row = coordinate.substring(1);
-
-    int ledNbr = 0;
-
-    int colNbr = 0;
-    int rowNbr = 0;
-
-    if (ledSettings.isHorizontalWireing) {
-      int ledsPerRow = 14;
-      colNbr = column.codeUnits[0] - 'A'.codeUnits[0] + 1;
-      rowNbr = int.parse(row);
-      ledNbr = colNbr + ((rowNbr - 1) * ledsPerRow);
-    } else {
-      int ledsPerColumn = 11;
-      colNbr = int.parse(row);
-      rowNbr = column.codeUnits[0] - 'A'.codeUnits[0] + 1;
-      ledNbr = colNbr + ((rowNbr - 1) * ledsPerColumn);
-    }
-
-    return ledNbr.toString();
-  }
-*/
 }
 
 void main(List<String> arguments) {

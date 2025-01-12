@@ -53,10 +53,12 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
   Widget build(BuildContext context) =>
       Consumer3<FirebaseService, BlePeripheralConnector, LedSettings>(
           builder: (_, firebase, bleConnector, ledSettings, __) {
+        var isHorizontalWireing = ledSettings.isHorizontalWireing;
         var ledConnector = LEDStripeConnector(bleConnector, ledSettings);
 
         // Send boulder to Bluetooth device
-        ledConnector.sendBoulderToDevice(widget._boulderItem.moves.all);
+        ledConnector.sendBoulderToDevice(
+            widget._boulderItem.moves(isHorizontalWireing).all);
 
         return DefaultTabController(
           length: 2,
