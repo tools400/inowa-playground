@@ -29,6 +29,7 @@ class BoulderMovesTab extends StatefulWidget {
 }
 
 class _BoulderMovesTab extends State<BoulderMovesTab> {
+  // TODO: remove debug code
   late LEDStripeConnector ledStripeConnector;
   late bool isHorizontalWireing;
   final TextEditingController _nameController = TextEditingController();
@@ -38,6 +39,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
 
   @override
   void initState() {
+    // TODO: remove debug code
     ledStripeConnector =
         LEDStripeConnector(widget._bleConnector, widget._ledSettings);
     isHorizontalWireing = widget._ledSettings.isHorizontalWireing;
@@ -96,9 +98,10 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
           ],
         ),
         VSpace(),
-        Text('LED: ${_led?.uiName} -> ${_led?.ledNbr}'),
         Text('Moves: ${_moves.toString()}'),
-        Text('Arduiono: ${ledStripeConnector.sendBoulderToDevice(_moves.all)}'),
+        VSpace(),
+        // TODO: remove debug code
+        Text('${ledStripeConnector.sendBoulderToDevice(_moves.all)}'),
       ],
     );
   }
