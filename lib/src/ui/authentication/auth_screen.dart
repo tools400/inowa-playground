@@ -82,6 +82,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           Column(
                             // Anmeldedaten: Email & Passwort
                             children: [
+                              VSpace(),
                               EmailText(controller: emailController),
                               VSpace(),
                               PasswordText(
