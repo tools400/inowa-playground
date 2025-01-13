@@ -37,11 +37,6 @@ class _BoulderPropertiesTab extends State<BoulderPropertiesTab> {
         SettingsListTile(
           title: AppLocalizations.of(context)!.name,
           trailing: Text(widget._boulderItem.name),
-/*          
-          SimpleText(
-            controller: _nameController,
-          ),
-*/
         ),
         SettingsListTile(
             title: AppLocalizations.of(context)!.angle,
