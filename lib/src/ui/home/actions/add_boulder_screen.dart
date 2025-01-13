@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
-import 'package:inowa/src/ui/widgets/grade_drop_down_menu.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/firebase/angle_enum.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
+import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
+import 'package:inowa/src/ui/widgets/grade_drop_down_menu.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import '/src/firebase/fb_service.dart';
@@ -40,7 +40,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
 
         return Scaffold(
           body: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: appBoarder,
             child: Column(
               children: [
                 SettingsListTile(

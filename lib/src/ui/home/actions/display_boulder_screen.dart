@@ -10,6 +10,7 @@ import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/ui/home/tabs/boulder_moves_tab.dart';
 import 'package:inowa/src/ui/home/tabs/boulder_properties_tab.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import '/src/firebase/fb_service.dart';
 
@@ -77,33 +78,39 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
                 ],
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabBarController,
-                      children: [
-                        BoulderPropertiesTab(boulder: widget._boulderItem),
-                        BoulderMovesTab(
-                          boulder: widget._boulderItem,
-                          bleConnector: bleConnector,
-                          ledSettings: ledSettings,
-                        ),
-                      ],
+            body:
+
+                // Anstelle von Padding
+                SingleChildScrollView(
+              padding: appBoarder,
+              child: Container(
+                height: 1000,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabBarController,
+                        children: [
+                          BoulderPropertiesTab(boulder: widget._boulderItem),
+                          BoulderMovesTab(
+                            boulder: widget._boulderItem,
+                            bleConnector: bleConnector,
+                            ledSettings: ledSettings,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Close'),
-                  ),
-                ],
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Close'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -71,53 +71,55 @@ class _BoulderBoard extends State<BoulderWall> {
     double width = size.width;
     double height = size.height;
 
-    return Flexible(
-      child: FractionallySizedBox(
-        heightFactor: width > height ? 0.7 : null,
-        child:
-
+    return
+/*    
+    FractionallySizedBox(
+      heightFactor: width > height ? 0.1 : null,
+      child:
+*/
 /*
       ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 150),
         child: 
 */
 
-            Stack(
-          fit: StackFit.passthrough,
-          children: [
-            GestureDetector(
-              onTapDown: !isInitialized
-                  ? null
-                  : (details) {
-                      final position = details.localPosition;
-                      widget._onTapDown(position, widgetSize!);
-                    },
-              child: MeasuredSize(
-                  onChange: (size) {
-                    setState(() {
-                      widgetSize = size;
-                      isScreenBuilt = true;
-                    });
-                  },
-                  child: image),
-            ),
-            // Custom overlay
-            CustomPaint(
-              painter: !isInitialized
-                  ? null
-                  : HoldsPainter(
-                      size: widgetSize,
-                      holds: widget._holds,
-                      isHorizontalWireing: widget.isHorizontalWireing),
-            ),
-          ],
+        Stack(
+      fit: StackFit.passthrough,
+      children: [
+        GestureDetector(
+          onTapDown: !isInitialized
+              ? null
+              : (details) {
+                  final position = details.localPosition;
+                  widget._onTapDown(position, widgetSize!);
+                },
+          child: MeasuredSize(
+              onChange: (size) {
+                setState(() {
+                  widgetSize = size;
+                  isScreenBuilt = true;
+                });
+              },
+              child: image),
         ),
+        // Custom overlay
+        CustomPaint(
+          painter: !isInitialized
+              ? null
+              : HoldsPainter(
+                  size: widgetSize,
+                  holds: widget._holds,
+                  isHorizontalWireing: widget.isHorizontalWireing),
+        ),
+      ],
+    );
 
 /*
       ),
 */
-      ),
+/*
     );
+*/
   }
 
   bool get isInitialized => isImageloaded && isScreenBuilt;
