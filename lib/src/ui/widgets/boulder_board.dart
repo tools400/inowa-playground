@@ -73,7 +73,9 @@ class _BoulderBoard extends State<BoulderWall> {
 
     return Flexible(
       child: FractionallySizedBox(
+/*
         heightFactor: 0.3,
+*/
         child:
 
 /*
