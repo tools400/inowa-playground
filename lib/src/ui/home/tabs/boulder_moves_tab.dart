@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
-import 'package:inowa/src/led/led.dart';
+import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
-import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/boulder_board.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
@@ -34,7 +33,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
   late bool isHorizontalWireing;
   final TextEditingController _nameController = TextEditingController();
 
-  LED? _led;
+  Hold? _led;
   Moves _moves = Moves();
 
   @override

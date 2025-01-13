@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/ui/widgets/error_banner.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_logger.dart';
@@ -15,6 +14,7 @@ import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dar
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
 import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
 import 'package:inowa/src/ui/widgets/connect_disconnect_button.dart';
+import 'package:inowa/src/ui/widgets/error_banner.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:inowa/src/ui/widgets/wireing_drop_down_menu.dart';
 
@@ -31,16 +31,16 @@ class BluetoothSection extends StatefulWidget {
 }
 
 class _BluetoothSectionState extends State<BluetoothSection> {
-  TextEditingController? deviceNameController;
-  TextEditingController? timeoutController;
+  TextEditingController? _deviceNameController;
+  TextEditingController? _timeoutController;
 
-  String error = '';
+  String _error = '';
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    deviceNameController?.dispose();
+    _deviceNameController?.dispose();
     super.dispose();
   }
 
@@ -54,19 +54,15 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               BlePeripheralConnector>(
           builder: (_, ledSettings, logger, connectionStateUpdate, bleSettings,
               scannerState, bleAutoConnector, __) {
-        // Connection status callback  handler
-        ConnectionStatusCallbackHandler callbackHandler =
-            ConnectionStatusCallbackHandler(context);
-
         // Initialisieren Text Controller für den Geräte-Namen
-        deviceNameController ??= TextEditingController()
+        _deviceNameController ??= TextEditingController()
           ..text = bleSettings.deviceName;
-        timeoutController ??= TextEditingController()
+        _timeoutController ??= TextEditingController()
           ..text = bleSettings.timeout.toString();
 
         /// Schaltet die Bluetoothverbindung hin und her.
         toggleConnection() {
-          var isFormValid = formKey.currentState?.validate() ?? false;
+          var isFormValid = _formKey.currentState?.validate() ?? false;
           if (!isFormValid) {
             setError(
                 AppLocalizations.of(context)!.err_missing_or_incorrect_values);
@@ -83,12 +79,12 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               bleAutoConnector.disconnect(deviceId);
             }
           } else {
-            var timeout = int.parse(timeoutController!.text);
-            String deviceName = deviceNameController!.text;
+            var timeout = int.parse(_timeoutController!.text);
+            String deviceName = _deviceNameController!.text;
             bleAutoConnector.scanAndConnect(
                 serviceName: deviceName,
                 timeout: timeout,
-                statusCallback: callbackHandler.statusCallback);
+                statusCallback: ConnectionStatusCallbackHandler.statusCallback);
           }
         }
 
@@ -96,11 +92,11 @@ class _BluetoothSectionState extends State<BluetoothSection> {
           title: AppLocalizations.of(context)!.bluetooth,
           children: [
             ErrorBanner(
-              errorMessage: error,
+              errorMessage: _error,
               onClearError: clearError,
             ),
             Form(
-              key: formKey,
+              key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
@@ -108,7 +104,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                   SettingsListTile(
                     title: AppLocalizations.of(context)!.scanner_timeout,
                     trailing: SimpleInteger(
-                      controller: timeoutController!,
+                      controller: _timeoutController!,
                       onChanged: (value) {
                         setState(() {
                           if (value.isNotEmpty) {
@@ -131,7 +127,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                   SettingsListTile(
                     title: AppLocalizations.of(context)!.bluetooth_device_name,
                     trailing: SimpleText(
-                        controller: deviceNameController!,
+                        controller: _deviceNameController!,
                         hintText: AppLocalizations.of(context)!.generic_value,
                         onChanged: (value) {
                           setState(() {
@@ -204,7 +200,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
 
   void setError(String errorText) {
     setState(() {
-      error = errorText;
+      _error = errorText;
     });
   }
 }

@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:measured_size/measured_size.dart';
 
 import 'package:inowa/src/constants.dart';
-import 'package:inowa/src/led/led.dart';
+import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 
 class BoulderWall extends StatefulWidget {
-  const BoulderWall({super.key, required List<LED> holds, required onTapDown})
+  const BoulderWall({super.key, required List<Hold> holds, required onTapDown})
       : _holds = holds,
         _onTapDown = onTapDown;
 
-  final List<LED> _holds;
+  final List<Hold> _holds;
   final Function(Offset offset, Size size) _onTapDown;
 
   // TODO: pass as parameter
@@ -63,35 +63,60 @@ class _BoulderBoard extends State<BoulderWall> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.passthrough,
-      children: [
-        GestureDetector(
-          onTapDown: !isInitialized
-              ? null
-              : (details) {
-                  final position = details.localPosition;
-                  widget._onTapDown(position, widgetSize!);
-                },
-          child: MeasuredSize(
-              onChange: (size) {
-                setState(() {
-                  widgetSize = size;
-                  isScreenBuilt = true;
-                });
-              },
-              child: image),
+    // TODO: fix code when device is in horizontal position
+    ui.FlutterView view =
+        WidgetsBinding.instance.platformDispatcher.views.first;
+    Size size = view.physicalSize;
+
+    double width = size.width;
+    double height = size.height;
+
+    return Flexible(
+      child: FractionallySizedBox(
+        heightFactor: 0.3,
+        child:
+
+/*
+      ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 150),
+        child: 
+*/
+
+            Stack(
+          fit: StackFit.passthrough,
+          children: [
+            GestureDetector(
+              onTapDown: !isInitialized
+                  ? null
+                  : (details) {
+                      final position = details.localPosition;
+                      widget._onTapDown(position, widgetSize!);
+                    },
+              child: MeasuredSize(
+                  onChange: (size) {
+                    setState(() {
+                      widgetSize = size;
+                      isScreenBuilt = true;
+                    });
+                  },
+                  child: image),
+            ),
+            // Custom overlay
+            CustomPaint(
+              painter: !isInitialized
+                  ? null
+                  : HoldsPainter(
+                      size: widgetSize,
+                      holds: widget._holds,
+                      isHorizontalWireing: widget.isHorizontalWireing),
+            ),
+          ],
         ),
-        // Custom overlay
-        CustomPaint(
-          painter: !isInitialized
-              ? null
-              : HoldsPainter(
-                  size: widgetSize,
-                  holds: widget._holds,
-                  isHorizontalWireing: widget.isHorizontalWireing),
-        ),
-      ],
+
+/*
+      ),
+*/
+      ),
     );
   }
 
@@ -100,11 +125,11 @@ class _BoulderBoard extends State<BoulderWall> {
 
 class HoldsPainter extends CustomPainter {
   HoldsPainter(
-      {required List<LED> this.holds,
+      {required List<Hold> this.holds,
       Size? this.size,
       required bool this.isHorizontalWireing});
 
-  final List<LED> holds;
+  final List<Hold> holds;
   final Size? size;
   final bool isHorizontalWireing;
 
@@ -118,10 +143,6 @@ class HoldsPainter extends CustomPainter {
 
     // Set up paint
     final strokeWidth = 2.0;
-
-    final paint = Paint()
-      ..color = Colors.red.withOpacity(0.5)
-      ..style = PaintingStyle.fill;
 
     // start holds
     final Paint startHoldsBorder = Paint()

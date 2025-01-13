@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:inowa/src/led/led.dart';
+import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
 
@@ -39,13 +39,15 @@ class FbBoulder {
     Moves moves = Moves();
 
     final regex = RegExp(r'[+/]');
-    List<String> parts = movesAsString.split(regex);
-    // TODO: check what happens if 'moves' is empty!
-    if (parts.isNotEmpty) {
-      for (int i = 0; i < parts.length; i++) {
-        var led =
-            LEDStripeConnector.ledNumberByName(parts[i], isHorizontalWireing);
-        moves.add(led);
+    if (movesAsString.isNotEmpty) {
+      List<String> listOfMoves = movesAsString.split(regex);
+      if (listOfMoves.isNotEmpty) {
+        listOfMoves.forEach((moveItem) {
+          var ledNbr =
+              LEDStripeConnector.ledNumberByName(moveItem, isHorizontalWireing);
+          Hold hold = Hold(uiName: moveItem, ledNbr: ledNbr);
+          moves.add(hold);
+        });
       }
     }
 

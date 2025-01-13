@@ -41,6 +41,8 @@ class INoWaApp extends StatelessWidget {
         _bleLogger = bleLogger,
         _firebaseService = firebaseService;
 
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   final BleSettings _settings;
   final LedSettings _ledSettings;
   final BleScanner _scanner;
@@ -96,6 +98,7 @@ class INoWaApp extends StatelessWidget {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: uiModel.locale,
             home: const AuthGate(),
+            navigatorKey: INoWaApp.navigatorKey,
           );
         }),
       ),

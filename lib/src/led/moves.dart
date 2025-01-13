@@ -1,9 +1,9 @@
-import 'package:inowa/src/led/led.dart';
+import 'package:inowa/src/led/hold.dart';
 
 class Moves {
   Moves();
 
-  final List<LED> _moves = [];
+  final List<Hold> _moves = [];
   final delimiterStartHolds = '+';
   final delimiterHolds = '/';
 
@@ -13,7 +13,7 @@ class Moves {
 
   get all => _moves;
 
-  add(LED move) {
+  add(Hold move) {
     _moves.add(move);
   }
 

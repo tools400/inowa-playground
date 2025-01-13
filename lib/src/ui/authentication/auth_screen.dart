@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:inowa/src/ui/widgets/email_text.dart';
-import 'package:inowa/src/ui/widgets/error_banner.dart';
-import 'package:inowa/src/ui/widgets/password_text.dart';
-import 'package:inowa/src/ui/widgets/reset_password_link.dart';
-import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/email_text.dart';
+import 'package:inowa/src/ui/widgets/error_banner.dart';
+import 'package:inowa/src/ui/widgets/password_text.dart';
+import 'package:inowa/src/ui/widgets/reset_password_link.dart';
+import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// The mode of the current auth session, either [AuthMode.login] or [AuthMode.register].
@@ -175,7 +175,6 @@ class _AuthScreenState extends State<AuthScreen> {
   Future _resetPassword() async {
     clearError();
 
-    String? email;
     await showDialog(
       context: context,
       builder: (context) {
@@ -183,7 +182,6 @@ class _AuthScreenState extends State<AuthScreen> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                email = null;
                 Navigator.of(context).pop();
               },
               child: Text('Cancel'),
@@ -201,19 +199,15 @@ class _AuthScreenState extends State<AuthScreen> {
             children: [
               Text(AppLocalizations.of(context)!.enter_your_email),
               VSpace(),
-              TextFormField(
-                onChanged: (value) {
-                  email = value;
-                },
-              ),
+              EmailText(controller: emailController),
             ],
           ),
         );
       },
     );
 
-    if (email != null) {
-      sendPasswordResetEmail(email!);
+    if (emailController.text.isNotEmpty) {
+      sendPasswordResetEmail(emailController.text);
     }
   }
 

@@ -35,9 +35,6 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
               ConnectionStateUpdate, BleSettings, BlePeripheralConnector>(
           builder: (_, firebase, connectionStateUpdate, bleSettings,
               bleAutoConnector, __) {
-        ConnectionStatusCallbackHandler callbackHandler =
-            ConnectionStatusCallbackHandler(context);
-
         /// Gibt an, ob auto-connect eingeschaltet ist.
         bool isConnected() {
           bool isConnected = connectionStateUpdate.connectionState ==
@@ -53,7 +50,7 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
           bleAutoConnector.scanAndConnect(
               serviceName: deviceName,
               timeout: timeout,
-              statusCallback: callbackHandler.statusCallback);
+              statusCallback: ConnectionStatusCallbackHandler.statusCallback);
         }
 
         Widget panel;

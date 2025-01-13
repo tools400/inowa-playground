@@ -6,7 +6,6 @@ import 'package:inowa/src/firebase/angle_enum.dart';
 import 'package:inowa/src/firebase/grade_enum.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
-import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
 import 'package:inowa/src/ui/widgets/grade_drop_down_menu.dart';
 

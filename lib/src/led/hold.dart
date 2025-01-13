@@ -1,5 +1,5 @@
-class LED {
-  const LED({required uiName, ledNbr})
+class Hold {
+  const Hold({required uiName, ledNbr})
       : _uiName = uiName,
         _ledNbr = ledNbr;
 
