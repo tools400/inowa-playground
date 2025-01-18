@@ -6,7 +6,7 @@ import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
-import 'package:inowa/src/ui/widgets/boulder_board.dart';
+import 'package:inowa/src/ui/widgets/boulder_wall.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Widget for editing the boulder moves.
@@ -62,47 +62,49 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       });
     }
 
-    return Column(
-      children: [
-        Text(widget._boulderItem.name),
-        VSpace(),
-        BoulderWall(holds: _moves.all, onTapDown: onTapDown),
-        VSpace(),
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: _moves.isEmpty
-                      ? null
-                      : () {
-                          setState(() {
-                            _moves.removeLast();
-                          });
-                        },
-                  icon: Icon(Icons.clear),
-                ),
-                IconButton(
-                  onPressed: _moves.isEmpty
-                      ? null
-                      : () {
-                          setState(() {
-                            _moves.clear();
-                          });
-                        },
-                  icon: Icon(Icons.clear_all),
-                ),
-              ],
-            ),
-          ],
-        ),
-        VSpace(),
-        Text('Moves: ${_moves.toString()}'),
-        VSpace(),
-        // TODO: remove debug code
-        Text('${ledStripeConnector.sendBoulderToDevice(_moves.all)}'),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Text(widget._boulderItem.name),
+          VSpace(),
+          BoulderWall(holds: _moves.all, onTapDown: onTapDown),
+          VSpace(),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: _moves.isEmpty
+                        ? null
+                        : () {
+                            setState(() {
+                              _moves.removeLast();
+                            });
+                          },
+                    icon: Icon(Icons.clear),
+                  ),
+                  IconButton(
+                    onPressed: _moves.isEmpty
+                        ? null
+                        : () {
+                            setState(() {
+                              _moves.clear();
+                            });
+                          },
+                    icon: Icon(Icons.clear_all),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          VSpace(),
+          Text('Moves: ${_moves.toString()}'),
+          VSpace(),
+          // TODO: remove debug code
+          Text('${ledStripeConnector.sendBoulderToDevice(_moves.all)}'),
+        ],
+      ),
     );
   }
 }

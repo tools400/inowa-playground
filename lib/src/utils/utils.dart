@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:inowa/src/inowa_app.dart';
+
 class Utils {
   Utils._(); // Private constructor to prevent instantiation
 
@@ -31,4 +33,19 @@ class Utils {
   static bool equalsIgnoreCase(String? string1, String? string2) {
     return string1?.toLowerCase() == string2?.toLowerCase();
   }
+}
+
+class NavigationService {
+  NavigationService._(); // Private constructor to prevent instantiation
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
+  static BuildContext get context => INoWaApp.navigatorKey.currentContext!;
+}
+
+class PlatformUI {
+  PlatformUI._(); // Private constructor to prevent instantiation
+  static double screenWidth =
+      MediaQuery.of(NavigationService.context).size.width;
+  static double screenHeight =
+      MediaQuery.of(NavigationService.context).size.height;
 }

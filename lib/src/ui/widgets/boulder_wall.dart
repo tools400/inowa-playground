@@ -3,11 +3,10 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-import 'package:measured_size/measured_size.dart';
-
 import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
+import 'package:inowa/src/utils/utils.dart';
 
 class BoulderWall extends StatefulWidget {
   const BoulderWall({super.key, required List<Hold> holds, required onTapDown})
@@ -25,12 +24,10 @@ class BoulderWall extends StatefulWidget {
 }
 
 class _BoulderBoard extends State<BoulderWall> {
-  Size? imageSize;
   Size? widgetSize;
 
   late Image image;
   bool isImageloaded = false;
-  bool isScreenBuilt = false;
 
   @override
   void initState() {
@@ -46,10 +43,7 @@ class _BoulderBoard extends State<BoulderWall> {
         .resolve(ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) {
       completer.complete(info.image);
-      var height = info.image.height;
-      var width = info.image.width;
       setState(() {
-        imageSize = Size(width.toDouble(), height.toDouble());
         isImageloaded = true;
       });
     }));
@@ -64,65 +58,47 @@ class _BoulderBoard extends State<BoulderWall> {
   @override
   Widget build(BuildContext context) {
     // TODO: fix code when device is in horizontal position
-    ui.FlutterView view =
-        WidgetsBinding.instance.platformDispatcher.views.first;
-    Size size = view.physicalSize;
 
-    double width = size.width;
-    double height = size.height;
+    double fraction = 0.9;
+    double imageWidth = 0;
+    double imageHeight = 0;
+    if (PlatformUI.screenWidth > PlatformUI.screenHeight) {
+      imageWidth = PlatformUI.screenWidth * fraction;
+      imageHeight = imageWidth;
+    } else {
+      imageWidth = PlatformUI.screenHeight * fraction;
+      imageHeight = imageWidth;
+    }
 
-    return
-/*    
-    FractionallySizedBox(
-      heightFactor: width > height ? 0.1 : null,
-      child:
-*/
-/*
-      ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 150),
-        child: 
-*/
-
-        Stack(
-      fit: StackFit.passthrough,
-      children: [
-        GestureDetector(
-          onTapDown: !isInitialized
-              ? null
-              : (details) {
-                  final position = details.localPosition;
-                  widget._onTapDown(position, widgetSize!);
-                },
-          child: MeasuredSize(
-              onChange: (size) {
-                setState(() {
-                  widgetSize = size;
-                  isScreenBuilt = true;
-                });
-              },
-              child: image),
-        ),
-        // Custom overlay
-        CustomPaint(
-          painter: !isInitialized
-              ? null
-              : HoldsPainter(
-                  size: widgetSize,
-                  holds: widget._holds,
-                  isHorizontalWireing: widget.isHorizontalWireing),
-        ),
-      ],
-    );
-
-/*
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: imageWidth,
+        maxHeight: imageHeight,
       ),
-*/
-/*
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: [
+          GestureDetector(
+            onTapDown: !isImageloaded
+                ? null
+                : (details) {
+                    final position = details.localPosition;
+                    widget._onTapDown(position, widgetSize!);
+                  },
+            child: image,
+          ),
+          // Custom overlay
+          CustomPaint(
+            painter: !isImageloaded
+                ? null
+                : HoldsPainter(
+                    holds: widget._holds,
+                    isHorizontalWireing: widget.isHorizontalWireing),
+          ),
+        ],
+      ),
     );
-*/
   }
-
-  bool get isInitialized => isImageloaded && isScreenBuilt;
 }
 
 class HoldsPainter extends CustomPainter {

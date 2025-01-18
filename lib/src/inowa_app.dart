@@ -22,6 +22,7 @@ import 'ui/settings/internal/color_theme.dart';
 class INoWaApp extends StatelessWidget {
   const INoWaApp({
     super.key,
+    required GlobalKey<NavigatorState> navigatorKey,
     required BleSettings settings,
     required LedSettings ledSettings,
     required BleScanner scanner,

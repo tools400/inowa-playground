@@ -141,7 +141,6 @@ class BoulderListTile extends StatelessWidget {
 
 Widget BoulderPopupMenu(
     {required BuildContext context, required FbBoulder itemItem}) {
-  String? selection;
   return PopupMenuButton<String>(
     icon: Icon(Icons.menu),
     onSelected: (String value) => showDialog<void>(

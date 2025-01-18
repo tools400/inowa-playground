@@ -26,11 +26,6 @@ class DisplayBoulderScreen extends StatefulWidget {
 
 class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
     with SingleTickerProviderStateMixin {
-  static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'LEFT'),
-    Tab(text: 'RIGHT'),
-  ];
-
   late TabController _tabBarController;
 
   @override
@@ -78,39 +73,33 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
                 ],
               ),
             ),
-            body:
-
-                // Anstelle von Padding
-                SingleChildScrollView(
+            body: Padding(
               padding: appBoarder,
-              child: Container(
-                height: 1000,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: TabBarView(
-                        controller: _tabBarController,
-                        children: [
-                          BoulderPropertiesTab(boulder: widget._boulderItem),
-                          BoulderMovesTab(
-                            boulder: widget._boulderItem,
-                            bleConnector: bleConnector,
-                            ledSettings: ledSettings,
-                          ),
-                        ],
-                      ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabBarController,
+                      children: [
+                        BoulderPropertiesTab(boulder: widget._boulderItem),
+                        BoulderMovesTab(
+                          boulder: widget._boulderItem,
+                          bleConnector: bleConnector,
+                          ledSettings: ledSettings,
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Close'),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Close'),
+                  ),
+                ],
               ),
             ),
           ),

@@ -13,6 +13,7 @@ import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
 import 'package:inowa/src/led/led_settings.dart';
+import 'package:inowa/src/utils/utils.dart';
 
 import '/src/firebase/fb_service.dart';
 import '/src/inowa_app.dart';
@@ -62,6 +63,7 @@ void main() async {
   preferences = await SharedPreferences.getInstance();
 
   runApp(INoWaApp(
+      navigatorKey: NavigationService.navigatorKey,
       settings: settings,
       ledSettings: ledSettings,
       scanner: scanner,
