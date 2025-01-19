@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
@@ -39,7 +41,7 @@ class _ErrorBannerState extends State<ErrorBanner> {
             ],
             contentTextStyle:
                 TextStyle(color: ColorTheme.errorContainer(context)),
-            padding: const EdgeInsets.all(10),
+            padding: errorBannerBorder,
           ),
           const VSpace(),
         ],

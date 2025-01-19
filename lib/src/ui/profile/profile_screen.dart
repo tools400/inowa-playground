@@ -6,15 +6,15 @@ import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:inowa/src/ui/widgets/error_banner.dart';
-import 'package:inowa/src/ui/widgets/password_text.dart';
-import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/error_banner.dart';
+import 'package:inowa/src/ui/widgets/password_text.dart';
+import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
@@ -71,65 +71,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
             backgroundColor: ColorTheme.inversePrimary(context),
           ),
           body: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Column(
-                      children: [
-                        ErrorBanner(
-                          errorMessage: error,
-                          onClearError: clearError,
-                        ),
-                        const VSpace(),
-                        Text(
-                          isEmailVerified
-                              ? AppLocalizations.of(context)!.txt_Email_Verified
-                              : AppLocalizations.of(context)!
-                                  .txt_Email_has_not_been_verified,
-                          style: TextStyle(
-                            color: isEmailVerified
-                                ? ColorTheme.ok(context)
-                                : ColorTheme.error(context),
-                            fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: appBorder,
+              child: Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 1,
+                      child: Column(
+                        children: [
+                          ErrorBanner(
+                            errorMessage: error,
+                            onClearError: clearError,
                           ),
-                        ),
-                        if (!isEmailVerified) ...[
-                          VSpace(),
+                          const VSpace(),
+                          Text(
+                            isEmailVerified
+                                ? AppLocalizations.of(context)!
+                                    .txt_Email_Verified
+                                : AppLocalizations.of(context)!
+                                    .txt_Email_has_not_been_verified,
+                            style: TextStyle(
+                              color: isEmailVerified
+                                  ? ColorTheme.ok(context)
+                                  : ColorTheme.error(context),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if (!isEmailVerified) ...[
+                            VSpace(),
+                            ElevatedButton(
+                              onPressed: sendEmailAndWaitForResponse,
+                              child: Text(
+                                  AppLocalizations.of(context)!.verify_email),
+                            ),
+                          ],
+                          const VSpace(flex: 2),
                           ElevatedButton(
-                            onPressed: sendEmailAndWaitForResponse,
+                            onPressed: _signOut,
+                            child: Text(AppLocalizations.of(context)!.sign_out),
+                          ),
+                          const VSpace(flex: 2),
+                          ElevatedButton(
+                            onPressed: _deleteProfile,
                             child: Text(
-                                AppLocalizations.of(context)!.verify_email),
+                                AppLocalizations.of(context)!.delete_profile),
                           ),
                         ],
-                        const VSpace(flex: 2),
-                        ElevatedButton(
-                          onPressed: _signOut,
-                          child: Text(AppLocalizations.of(context)!.sign_out),
-                        ),
-                        const VSpace(flex: 2),
-                        ElevatedButton(
-                          onPressed: _deleteProfile,
-                          child: Text(
-                              AppLocalizations.of(context)!.delete_profile),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  const VSpace(flex: 2),
-                  FractionallySizedBox(
-                    widthFactor: .5,
-                    child: PasswordText(
-                      errorText: AppLocalizations.of(context)!.required,
-                      controller: passwordController,
+                    const VSpace(flex: 2),
+                    FractionallySizedBox(
+                      widthFactor: .5,
+                      child: PasswordText(
+                        errorText: AppLocalizations.of(context)!.required,
+                        controller: passwordController,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

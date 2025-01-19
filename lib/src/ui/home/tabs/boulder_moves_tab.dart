@@ -69,6 +69,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
     }
 
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: [
           VSpace(),

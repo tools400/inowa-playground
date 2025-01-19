@@ -39,9 +39,9 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
 
         nameFocus.requestFocus();
 
-        return Scaffold(
-          body: Padding(
-            padding: appBoarder,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: appBorder,
             child: Column(
               children: [
                 SettingsListTile(

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:inowa/src/ui/settings/internal/settings_constrained_box.dart';
 import 'package:inowa/src/ui/settings/sections/settings_bluetooth_section.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import 'internal/color_theme.dart';
 import 'sections/settings_common_section.dart';
@@ -31,17 +33,19 @@ class _SettingsScreenState extends State<_SettingsScreen> {
           title: Text(AppLocalizations.of(context)!.mnu_Settings),
           backgroundColor: ColorTheme.inversePrimary(context),
         ),
-        body: Container(
-          constraints: const BoxConstraints(maxWidth: 400),
-          child: ListView(
-            children: [
-              CommonSection(),
-              const Divider(),
-              const BluetoothSection(),
-              const Divider(),
-              const LoggingSection(),
-              const Divider(),
-            ],
+        body: Padding(
+          padding: appBorder,
+          child: SimpleConstrainedBox(
+            child: ListView(
+              children: [
+                CommonSection(),
+                const Divider(),
+                const BluetoothSection(),
+                const Divider(),
+                const LoggingSection(),
+                const Divider(),
+              ],
+            ),
           ),
         ),
       );

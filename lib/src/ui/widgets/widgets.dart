@@ -38,13 +38,16 @@ class HSpace extends StatelessWidget {
   }
 }
 
-const appBoarder = EdgeInsets.symmetric(horizontal: 16);
+const appBorder = EdgeInsets.all(8);
+
+const sectionBorder = EdgeInsets.all(8);
+
+const errorBannerBorder = EdgeInsets.all(8);
 
 InputDecorationTheme get inputDecorationTheme {
-  const edgeInsets = appBoarder;
   return InputDecorationTheme(
     // isDense: true,
-    contentPadding: edgeInsets,
+    contentPadding: appBorder,
     constraints: boxContraints,
     border: outlineInputBorder,
   );

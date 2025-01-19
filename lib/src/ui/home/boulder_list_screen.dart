@@ -60,7 +60,9 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
           case PageMode.addBoulder:
             panel = AddBoulderScreen();
           case PageMode.settings:
-            panel = BluetoothSection();
+            panel = SingleChildScrollView(
+              child: BluetoothSection(),
+            );
           default:
             panel = BoulderListPanel();
         }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 import '/src/ble/ble_logger.dart';
 
@@ -43,8 +45,7 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
                 thumbVisibility: true,
                 child: ListView.builder(
                   controller: scrollController,
-                  padding:
-                      EdgeInsets.only(top: 10, left: 10, bottom: 10, right: 1),
+                  padding: appBorder,
                   itemBuilder: (context, index) => Text(
                     widget.messages[index],
                     softWrap: true,

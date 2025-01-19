@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:inowa/src/ui/widgets/widgets.dart';
+
 class SingleSection extends StatelessWidget {
   final String? title;
   final List<Widget> children;
-  const SingleSection({super.key, 
+  const SingleSection({
+    super.key,
     this.title,
     required this.children,
   });
@@ -16,7 +19,7 @@ class SingleSection extends StatelessWidget {
       children: [
         if (title != null)
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: sectionBorder,
             child: Text(
               title!,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

@@ -33,23 +33,26 @@ class _BoulderPropertiesTab extends State<BoulderPropertiesTab> {
     _angle = widget._boulderItem.angle;
     _grade = widget._boulderItem.grade;
 
-    return Column(
-      children: [
-        SettingsListTile(
-          title: AppLocalizations.of(context)!.name,
-          trailing: SimpleNonEditableText(text: widget._boulderItem.name),
-        ),
-        SettingsListTile(
-            title: AppLocalizations.of(context)!.angle,
-            trailing: AngleDropDownMenu(
-              initialSelection: _angle,
-              onSelected: (value) {
-                setState(() {
-                  _angle = value;
-                });
-              },
-            )),
-        SettingsListTile(
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          SettingsListTile(
+            icon: Icons.abc,
+            title: AppLocalizations.of(context)!.name,
+            trailing: SimpleNonEditableText(text: widget._boulderItem.name),
+          ),
+          SettingsListTile(
+              title: AppLocalizations.of(context)!.angle,
+              trailing: AngleDropDownMenu(
+                initialSelection: _angle,
+                onSelected: (value) {
+                  setState(() {
+                    _angle = value;
+                  });
+                },
+              )),
+          SettingsListTile(
             title: AppLocalizations.of(context)!.grade,
             trailing: GradeDropDownMenu(
               initialSelection: _grade,
@@ -58,8 +61,10 @@ class _BoulderPropertiesTab extends State<BoulderPropertiesTab> {
                   _grade = value;
                 });
               },
-            )),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

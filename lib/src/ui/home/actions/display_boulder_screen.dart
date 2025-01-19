@@ -75,7 +75,7 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
               ),
             ),
             body: Padding(
-              padding: appBoarder,
+              padding: appBorder,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

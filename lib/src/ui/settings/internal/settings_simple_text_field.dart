@@ -19,7 +19,6 @@ class SimpleNonEditableText extends StatefulWidget {
 class _SimpleText extends State<SimpleNonEditableText> {
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: widgetWidth,
         child: Text(widget.text, style: TextTheme.of(context).bodyLarge),
       );
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/ui/widgets/widgets.dart';
+
 import '/src/ble/ble_device_interactor.dart';
 
 /// Diese Klasse zeigt einen Dialog für die Interaktion mit einer
@@ -42,7 +44,7 @@ class _CharacteristicInteractionDialogState
   @override
   Widget build(BuildContext context) => Dialog(
         child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: appBorder,
             child: Column(
               children: [
                 Text(widget.list),

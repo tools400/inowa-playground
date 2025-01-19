@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/settings/internal/settings_constrained_box.dart';
 import 'package:inowa/src/ui/widgets/email_text.dart';
 import 'package:inowa/src/ui/widgets/error_banner.dart';
 import 'package:inowa/src/ui/widgets/password_text.dart';
@@ -61,17 +62,16 @@ class _AuthScreenState extends State<AuthScreen> {
                 : AppLocalizations.of(context)!.hdg_Registration),
             backgroundColor: ColorTheme.inversePrimary(context),
           ),
-          body: Align(
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SafeArea(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: appBorder,
+              child: SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
                   child: Form(
                     key: formKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                    child: SimpleConstrainedBox(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
