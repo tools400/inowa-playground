@@ -19,7 +19,7 @@ import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:inowa/src/ui/widgets/wireing_drop_down_menu.dart';
 
 import 'package:inowa/src/ui/settings//internal/settings_list_tile.dart';
-import 'package:inowa/src/ui/settings//internal/settings_simple_text_field.dart';
+import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 
 class BluetoothSection extends StatefulWidget {
   const BluetoothSection({
@@ -126,7 +126,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                   // Gerätename
                   SettingsListTile(
                     title: AppLocalizations.of(context)!.bluetooth_device_name,
-                    trailing: SimpleText(
+                    trailing: SimpleEditableText(
                         controller: _deviceNameController!,
                         hintText: AppLocalizations.of(context)!.generic_value,
                         onChanged: (value) {

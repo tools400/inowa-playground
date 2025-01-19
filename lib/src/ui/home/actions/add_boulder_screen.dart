@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:inowa/src/firebase/angle_enum.dart';
 import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
-import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
+import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
 import 'package:inowa/src/ui/widgets/grade_drop_down_menu.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -46,7 +46,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
               children: [
                 SettingsListTile(
                   title: AppLocalizations.of(context)!.name,
-                  trailing: SimpleText(
+                  trailing: SimpleEditableText(
                     controller: _nameController,
                     focusNode: nameFocus,
                     validator: (value) {
@@ -79,7 +79,7 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                 ),
                 SettingsListTile(
                   title: AppLocalizations.of(context)!.moves,
-                  trailing: SimpleText(
+                  trailing: SimpleEditableText(
                     controller: _movesController,
                   ),
                 ),
