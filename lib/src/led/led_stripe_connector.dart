@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_settings.dart';
+import 'package:inowa/src/ui/logging/console_log.dart';
 
 class LEDStripeConnector {
   LEDStripeConnector(this.bleConnector, this.ledSettings);
@@ -117,9 +118,11 @@ class LEDStripeConnector {
     row = row - rowOffset;
 
     var offset;
+    var ledID;
     if (isHorizontalWireing) {
       var ledsPerRow = _ledsPerRow(isHorizontalWireing);
       offset = column - 1;
+      ledID = columnsAsChar.substring(offset, offset + 1) + row.toString();
       // invert column nummber on reverse wireing
       if (row % 2 == 0) {
         column = (ledsPerRow - column).abs() + 1;
@@ -127,16 +130,16 @@ class LEDStripeConnector {
       ledNbr = column + ((row - 1) * ledsPerRow);
     } else {
       var ledsPerColumn = _ledsPerRow(isHorizontalWireing);
-      offset = row - 1;
-      // invert column nummber on reverse wireing
+      offset = column - 1;
+      ledID = columnsAsChar.substring(offset, offset + 1) + row.toString();
+      // invert row nummber on reverse wireing
       if (column % 2 == 0) {
         row = (ledsPerColumn - row).abs() + 1;
       }
       ledNbr = row + ((column - 1) * ledsPerColumn);
     }
 
-    var ledID = columnsAsChar.substring(offset, offset + 1) + row.toString();
-    print(ledID);
+    ConsoleLog.log(ledID);
 
     return Hold(uiName: ledID, ledNbr: ledNbr);
   }
@@ -167,10 +170,10 @@ void main(List<String> arguments) {
 
   ledConnector.horizontalWireing = true;
   arduinoCommand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
-  print('Horizontal => ' + arduinoCommand.join());
+  ConsoleLog.log('Horizontal => ' + arduinoCommand.join());
 
   ledConnector.horizontalWireing = false;
   arduinoCommand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
-  print('Vertical => ' + arduinoCommand.join());
+  ConsoleLog.log('Vertical => ' + arduinoCommand.join());
 */
 }
