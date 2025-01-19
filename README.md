@@ -184,6 +184,10 @@ Gitlens erfordert eine Freigabe für GitHub um verschiedene Informationen anzeig
 
 - [FlutterViz](https://flutterviz.com/)
 
+## Interessante Plugins
+
+- [get 4.6.6, Navigation without context](https://pub.dev/packages/get)
+
 ## Dokumentation
 
 - [Dart Richtlinien](https://dart.dev/effective-dart/style)
