@@ -26,6 +26,12 @@ Zum Zeitpunkt Übertragung des Projekts nach GitHub waren bereits folgende Ände
 - Automatisches Verbinden mit dem **iNoWa** Peripheral Gerät, insofern es gefunden worden ist.
 - Senden von Text (Boulder Zügen) anstelle von Integer Werten an das Peripheral.
 
+### Adafruit NeoPixel
+
+Der Arduino Giga R1 wird von der Adafruit NeoPixel Bibliothek (noch) nicht nativ unterstützt. Es gibt aber einen [Pull Request](https://github.com/adafruit/Adafruit_NeoPixel/pull/407), der genau diese Unterstützung bringt.
+
+Siehe: [Adafruit NeoPixel für Giga R1](https://github.com/Haschtl/Adafruit_NeoPixel/tree/master)
+
 ### Bluetooth LE
 
 Bluetooth LE wird mit Hilfe der [flutter_reactive_ble](https://pub.dev/packages/flutter_reactive_ble) Bibliothek eingebunden.
