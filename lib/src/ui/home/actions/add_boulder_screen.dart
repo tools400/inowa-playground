@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/firebase/angle_enum.dart';
+import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_text_field.dart';
 import 'package:inowa/src/ui/widgets/angle_drop_down_menu.dart';
@@ -90,7 +91,8 @@ class _AddBoulderScreenState extends State<AddBoulderScreen> {
                     if (isValidated()) {
                       addData(title, angle!, grade!);
                     } else {
-                      print('Bitte alle Felder ausfüllen');
+                      // TODO: display error message on screen
+                      ConsoleLog.log('Bitte alle Felder ausfüllen');
                     }
                   },
                   child: Text('Hinzufügen'),

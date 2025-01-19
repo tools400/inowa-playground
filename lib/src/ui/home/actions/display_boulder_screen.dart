@@ -9,6 +9,7 @@ import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/ui/home/tabs/boulder_moves_tab.dart';
 import 'package:inowa/src/ui/home/tabs/boulder_properties_tab.dart';
+import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
@@ -37,10 +38,10 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
         setState(() {
           if (_tabBarController.previousIndex != 0 &&
               _tabBarController.index == 0) {
-            print('Saving boulder');
+            ConsoleLog.log('Saving boulder');
           }
         });
-        print("Selected Index: " + _tabBarController.index.toString());
+        ConsoleLog.log("Selected Index: " + _tabBarController.index.toString());
       }
     });
   }
@@ -60,7 +61,7 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              title: Text(AppLocalizations.of(context)!.mnu_Display_Problem),
+              title: Text(widget._boulderItem.name),
               backgroundColor: ColorTheme.inversePrimary(context),
               bottom: TabBar(
                 controller: _tabBarController,

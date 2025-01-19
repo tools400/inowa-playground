@@ -65,6 +65,8 @@
   "moves": "Moves",
   "wireing": "LED stripe arrangement",
   "enter_your_email": "Enter your email:",
+  "show_line": "Show line",
+  "hide_line": "Hide line",
 
   "txt_Delete_user_profile_continue": "Delete user profil. Continue?",
   "txt_Email_Verified": "Email Verified.",

@@ -3,113 +3,156 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
+import 'package:measured_size/measured_size.dart';
+
 import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
+import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 class BoulderWall extends StatefulWidget {
-  const BoulderWall({super.key, required List<Hold> holds, required onTapDown})
+  const BoulderWall(
+      {super.key,
+      required List<Hold> holds,
+      required onTapDown,
+      required bool isShowLine})
       : _holds = holds,
-        _onTapDown = onTapDown;
+        _onTapDown = onTapDown,
+        _isShowLine = isShowLine;
 
   final List<Hold> _holds;
   final Function(Offset offset, Size size) _onTapDown;
-
-  // TODO: pass as parameter
-  final bool isHorizontalWireing = true;
+  final bool _isShowLine;
 
   @override
   State<BoulderWall> createState() => _BoulderBoard();
 }
 
 class _BoulderBoard extends State<BoulderWall> {
-  Size? widgetSize;
+  GlobalKey _imageKey = GlobalKey();
 
-  late Image image;
-  bool isImageloaded = false;
+  Size? _widgetSize;
+
+  late Image _image;
+  bool _isImageLoaded = false;
+  bool _isPainterVisible = false;
 
   @override
   void initState() {
     super.initState();
 
-    image = Image.asset(
+    ConsoleLog.log('Initializing state...');
+    ConsoleLog.log('isShowLine: ${widget._isShowLine}');
+    ConsoleLog.log('isImageLoaded: $_isImageLoaded');
+    ConsoleLog.log('isPainterVisible: $_isPainterVisible');
+
+    _image = Image.asset(
       IMAGE_BOARD_2,
       fit: BoxFit.fitWidth,
     );
 
     Completer<ui.Image> completer = Completer<ui.Image>();
-    image.image
+    _image.image
         .resolve(ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) {
       completer.complete(info.image);
       setState(() {
-        isImageloaded = true;
+        _isImageLoaded = true;
+        ConsoleLog.log('Image has been loaded.');
       });
     }));
   }
 
-  Size getWidgetSize(GlobalKey key) {
-    final RenderBox renderBox =
-        key.currentContext?.findRenderObject() as RenderBox;
-    return renderBox.size;
+  void initWidgetSize(BuildContext context) {
+    if (_widgetSize == null) {
+      double fraction = 0.9;
+      double imageWidth = 0;
+      double imageHeight = 0;
+      double screenWidth = PlatformUI.screenWidth(context);
+      double screenHeight = PlatformUI.screenHeight(context);
+      if (screenWidth > screenHeight) {
+        imageWidth = screenWidth * fraction;
+        imageHeight = imageWidth;
+      } else {
+        imageWidth = screenHeight * fraction;
+        imageHeight = imageWidth;
+      }
+
+      _widgetSize = Size(imageWidth, imageHeight);
+      ConsoleLog.log(
+          'initWidgetSize() size: ${_widgetSize!.width}/${_widgetSize!.height})...');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: fix code when device is in horizontal position
 
-    double fraction = 0.9;
-    double imageWidth = 0;
-    double imageHeight = 0;
-    if (PlatformUI.screenWidth > PlatformUI.screenHeight) {
-      imageWidth = PlatformUI.screenWidth * fraction;
-      imageHeight = imageWidth;
+    initWidgetSize(context);
+
+    if (_isImageLoaded) {
+      _isPainterVisible = true;
+      ConsoleLog.log('Painter is visible, now.');
     } else {
-      imageWidth = PlatformUI.screenHeight * fraction;
-      imageHeight = imageWidth;
+      _isPainterVisible = false;
+      ConsoleLog.log('Painter is hidden, now.');
     }
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: imageWidth,
-        maxHeight: imageHeight,
-      ),
-      child: Stack(
-        fit: StackFit.passthrough,
-        children: [
-          GestureDetector(
-            onTapDown: !isImageloaded
-                ? null
-                : (details) {
-                    final position = details.localPosition;
-                    widget._onTapDown(position, widgetSize!);
-                  },
-            child: image,
-          ),
-          // Custom overlay
-          CustomPaint(
-            painter: !isImageloaded
-                ? null
-                : HoldsPainter(
-                    holds: widget._holds,
-                    isHorizontalWireing: widget.isHorizontalWireing),
-          ),
-        ],
-      ),
-    );
+    return LayoutBuilder(builder: (context, boxContrains) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: _widgetSize!.width,
+          maxHeight: _widgetSize!.height,
+        ),
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            MeasuredSize(
+              onChange: (size) {
+                if (_isImageLoaded) {
+                  setState(() {
+                    _widgetSize = Size(size.width, size.height);
+                    ConsoleLog.log(
+                        'MeasuredSize.onChange() size: ${_widgetSize!.width}/${_widgetSize!.height})...');
+                  });
+                }
+              },
+              child: GestureDetector(
+                key: _imageKey,
+                onTapDown: !_isImageLoaded
+                    ? null
+                    : (details) {
+                        final position = details.localPosition;
+                        widget._onTapDown(position, _widgetSize!);
+                      },
+                child: _isImageLoaded ? _image : CircularProgressIndicator(),
+              ),
+            ),
+            // Custom overlay drawing the boulder
+            if (_isPainterVisible)
+              CustomPaint(
+                painter: HoldsPainter(
+                  isShowLine: widget._isShowLine,
+                  size: _widgetSize,
+                  holds: widget._holds,
+                ),
+              ),
+          ],
+        ),
+      );
+    });
   }
 }
 
 class HoldsPainter extends CustomPainter {
   HoldsPainter(
-      {required List<Hold> this.holds,
-      Size? this.size,
-      required bool this.isHorizontalWireing});
+      {required List<Hold> holds, Size? this.size, bool this.isShowLine = true})
+      : _holds = holds;
 
-  final List<Hold> holds;
+  final List<Hold> _holds;
   final Size? size;
-  final bool isHorizontalWireing;
+  final bool isShowLine;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -118,6 +161,8 @@ class HoldsPainter extends CustomPainter {
     }
 
     size = this.size!;
+
+    ConsoleLog.log('paint() size: ${size.width}/${size.height})...');
 
     // Set up paint
     final strokeWidth = 2.0;
@@ -160,9 +205,9 @@ class HoldsPainter extends CustomPainter {
     Offset? startPos;
     Offset? endPos;
 
-    for (int i = 0; i < holds.length; i++) {
-      var offset = LEDStripeConnector.ledCoordinatesByName(
-          holds[i].uiName, isHorizontalWireing);
+    for (int i = 0; i < _holds.length; i++) {
+      var offset =
+          LEDStripeConnector.ledCoordinatesByName(_holds[i].uiName, true);
 
       int column = offset.dx.toInt();
       int row = offset.dy.toInt() + rowOffset;
@@ -184,7 +229,7 @@ class HoldsPainter extends CustomPainter {
       var sequence = i + 1;
       if (sequence <= 2) {
         circle = startHoldsBorder;
-      } else if (sequence == holds.length) {
+      } else if (sequence == _holds.length) {
         circle = topHoldBorder;
       } else {
         if (sequence % 2 == 0) {
@@ -203,7 +248,9 @@ class HoldsPainter extends CustomPainter {
       endPos = Offset(posX, posY);
       if (sequence > 2) {
         if (startPos != null) {
-          canvas.drawLine(startPos, endPos, path);
+          if (isShowLine) {
+            canvas.drawLine(startPos, endPos, path);
+          }
         }
       }
       // skip second start hold to draw the first line from

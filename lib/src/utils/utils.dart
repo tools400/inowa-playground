@@ -44,8 +44,16 @@ class NavigationService {
 
 class PlatformUI {
   PlatformUI._(); // Private constructor to prevent instantiation
-  static double screenWidth =
-      MediaQuery.of(NavigationService.context).size.width;
-  static double screenHeight =
-      MediaQuery.of(NavigationService.context).size.height;
+
+  static bool isLandscape(BuildContext context) {
+    return MediaQuery.of(context).orientation == Orientation.landscape;
+  }
+
+  static double screenWidth(BuildContext context) {
+    return MediaQuery.of(NavigationService.context).size.width;
+  }
+
+  static double screenHeight(BuildContext context) {
+    return MediaQuery.of(NavigationService.context).size.height;
+  }
 }
