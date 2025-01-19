@@ -30,7 +30,7 @@ class BoulderWall extends StatefulWidget {
 }
 
 class _BoulderBoard extends State<BoulderWall> {
-  GlobalKey _imageKey = GlobalKey();
+  final GlobalKey _imageKey = GlobalKey();
 
   Size? _widgetSize;
 
@@ -147,7 +147,7 @@ class _BoulderBoard extends State<BoulderWall> {
 
 class HoldsPainter extends CustomPainter {
   HoldsPainter(
-      {required List<Hold> holds, Size? this.size, bool this.isShowLine = true})
+      {required List<Hold> holds, this.size, this.isShowLine = true})
       : _holds = holds;
 
   final List<Hold> _holds;

@@ -41,7 +41,7 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
             ConsoleLog.log('Saving boulder');
           }
         });
-        ConsoleLog.log("Selected Index: " + _tabBarController.index.toString());
+        ConsoleLog.log("Selected Index: ${_tabBarController.index}");
       }
     });
   }

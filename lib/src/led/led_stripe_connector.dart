@@ -53,7 +53,7 @@ class LEDStripeConnector {
       delimiter = delimiterMoves;
     }
 
-    var arduinoCommand = led.ledNbr.toString() + ':' + color + delimiter;
+    var arduinoCommand = '${led.ledNbr}:$color$delimiter';
 
     return arduinoCommand;
   }
@@ -117,8 +117,8 @@ class LEDStripeConnector {
     }
     row = row - rowOffset;
 
-    var offset;
-    var ledID;
+    int offset;
+    String ledID;
     if (isHorizontalWireing) {
       var ledsPerRow = _ledsPerRow(isHorizontalWireing);
       offset = column - 1;

@@ -42,12 +42,12 @@ class FbBoulder {
     if (movesAsString.isNotEmpty) {
       List<String> listOfMoves = movesAsString.split(regex);
       if (listOfMoves.isNotEmpty) {
-        listOfMoves.forEach((moveItem) {
+        for (var moveItem in listOfMoves) {
           var ledNbr =
               LEDStripeConnector.ledNumberByName(moveItem, isHorizontalWireing);
           Hold hold = Hold(uiName: moveItem, ledNbr: ledNbr);
           moves.add(hold);
-        });
+        }
       }
     }
 

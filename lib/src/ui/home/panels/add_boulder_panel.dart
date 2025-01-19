@@ -14,14 +14,14 @@ import 'package:inowa/src/ui/widgets/widgets.dart';
 import '/src/firebase/fb_service.dart';
 import '/src/firebase/grade_enum.dart';
 
-class AddBoulderScreen extends StatefulWidget {
-  const AddBoulderScreen({super.key});
+class AddBoulderPanel extends StatefulWidget {
+  const AddBoulderPanel({super.key});
 
   @override
-  State<AddBoulderScreen> createState() => _AddBoulderScreenState();
+  State<AddBoulderPanel> createState() => _AddBoulderPanelState();
 }
 
-class _AddBoulderScreenState extends State<AddBoulderScreen> {
+class _AddBoulderPanelState extends State<AddBoulderPanel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _movesController = TextEditingController();
 

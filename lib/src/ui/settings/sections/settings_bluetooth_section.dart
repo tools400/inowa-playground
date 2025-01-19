@@ -9,7 +9,7 @@ import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/led/led_settings.dart';
-import 'package:inowa/src/ui/home/connection_status_handler.dart';
+import 'package:inowa/src/ui/home/internal/connection_status_handler.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
 import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
@@ -36,7 +36,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
 
   String _error = '';
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {

@@ -54,7 +54,7 @@ class Moves {
     var fromOffset = from <= _moves.length ? from - 1 : 0;
     var toOffset = to <= _moves.length ? to - 1 : _moves.length - 1;
 
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     for (int i = fromOffset; i < toOffset + 1; i++) {
       if (buffer.isNotEmpty) {
         buffer.write(delimiter);

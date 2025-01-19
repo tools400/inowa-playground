@@ -154,7 +154,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
           Text('Moves: ${_moves.toString()}'),
           VSpace(),
           // TODO: remove debug code
-          Text('${ledStripeConnector.sendBoulderToDevice(_moves.all)}'),
+          Text(ledStripeConnector.sendBoulderToDevice(_moves.all)),
         ],
       ),
     );

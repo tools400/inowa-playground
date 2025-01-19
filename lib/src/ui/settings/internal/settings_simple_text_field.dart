@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Dieses Widget erzeugt ein Textfeld.
 /// See also: https://api.flutter.dev/flutter/material/TextTheme-class.html
