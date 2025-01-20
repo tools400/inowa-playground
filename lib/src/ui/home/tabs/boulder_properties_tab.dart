@@ -22,10 +22,22 @@ class BoulderPropertiesTab extends StatefulWidget {
 }
 
 class _BoulderPropertiesTab extends State<BoulderPropertiesTab> {
-  final TextEditingController _nameController = TextEditingController();
+  late TextEditingController _nameController;
 
   Angle? _angle;
   Grade? _grade;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

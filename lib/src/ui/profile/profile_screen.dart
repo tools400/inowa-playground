@@ -29,7 +29,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final TextEditingController passwordController = TextEditingController();
+  late TextEditingController passwordController;
   late User user;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -39,6 +39,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    super.initState();
+    passwordController = TextEditingController();
     user = auth.currentUser!;
     subscribeStream = auth.userChanges().listen((event) {
       if (event != null && mounted) {
@@ -47,13 +49,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
       }
     });
-    super.initState();
   }
 
   @override
   void dispose() {
-    subscribeStream!.cancel();
     passwordController.dispose();
+    subscribeStream!.cancel();
     super.dispose();
   }
 

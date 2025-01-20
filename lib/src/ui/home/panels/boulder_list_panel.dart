@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
-import 'package:inowa/src/ui/home/display_boulder_screen.dart';
 import 'package:inowa/src/ui/home/dialogs/boulder_add_to_list_dialog.dart';
+import 'package:inowa/src/ui/home/display_boulder_screen.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 import '/src/firebase/fb_service.dart';
@@ -36,7 +36,19 @@ class _DeviceLogTab extends StatefulWidget {
 }
 
 class _DeviceLogTabState extends State<_DeviceLogTab> {
-  final ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   // TODO: add horizontal scrolling of the log messages, disable 'softWrap'.
   @override

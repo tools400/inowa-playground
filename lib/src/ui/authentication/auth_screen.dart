@@ -36,14 +36,21 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String error = '';
 
   AuthMode mode = AuthMode.login;
   bool passwordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
 
   @override
   void dispose() {

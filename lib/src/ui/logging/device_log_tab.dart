@@ -31,7 +31,19 @@ class _DeviceLogTab extends StatefulWidget {
 }
 
 class _DeviceLogTabState extends State<_DeviceLogTab> {
-  final ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   // TODO: add horizontal scrolling of the log messages, disable 'softWrap'.
   @override

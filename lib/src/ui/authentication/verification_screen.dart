@@ -6,9 +6,6 @@ import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:inowa/src/ui/widgets/error_banner.dart';
-import 'package:inowa/src/ui/widgets/password_text.dart';
-import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
@@ -16,6 +13,9 @@ import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/home/boulder_list_screen.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/error_banner.dart';
+import 'package:inowa/src/ui/widgets/password_text.dart';
+import 'package:inowa/src/ui/widgets/scaffold_snackbar.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse pflegt die Einstellungen der App.
@@ -30,7 +30,7 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  final TextEditingController passwordController = TextEditingController();
+  late TextEditingController passwordController;
   late User user;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -39,6 +39,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   void initState() {
+    super.initState();
+    passwordController = TextEditingController();
     user = auth.currentUser!;
     auth.userChanges().listen((event) {
       if (event != null && mounted) {
@@ -47,7 +49,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
         });
       }
     });
-    super.initState();
   }
 
   @override

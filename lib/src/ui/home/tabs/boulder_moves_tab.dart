@@ -14,7 +14,6 @@ import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/boulder_wall.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
-/// Widget for editing the boulder moves.
 class BoulderMovesTab extends StatefulWidget {
   const BoulderMovesTab(
       {super.key,
@@ -37,20 +36,28 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
   // TODO: remove debug code
   late LEDStripeConnector ledStripeConnector;
   late bool isHorizontalWireing;
-  final TextEditingController _nameController = TextEditingController();
+  late TextEditingController _nameController;
 
   Hold? _led;
   Moves _moves = Moves();
   bool _isShowLine = false;
+  bool _isImageLoaded = false;
 
   @override
   void initState() {
+    super.initState();
     // TODO: remove debug code
+    _nameController = TextEditingController();
     ledStripeConnector =
         LEDStripeConnector(widget._bleConnector, widget._ledSettings);
     isHorizontalWireing = widget._ledSettings.isHorizontalWireing;
     _moves = widget._boulderItem.moves(isHorizontalWireing);
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -132,20 +139,6 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
                           },
                     icon: Icon(Icons.clear_all),
                   ),
-/*
-                  SizedBox(
-                    child: SwitchListTile(
-                      title: const Text('Lights'),
-                      value: _isShowLine,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _isShowLine = value;
-                        });
-                      },
-                      secondary: const Icon(Icons.lightbulb_outline),
-                    ),
-                  ),
-*/
                 ],
               ),
             ],

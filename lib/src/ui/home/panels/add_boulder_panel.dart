@@ -22,13 +22,27 @@ class AddBoulderPanel extends StatefulWidget {
 }
 
 class _AddBoulderPanelState extends State<AddBoulderPanel> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _movesController = TextEditingController();
+  late TextEditingController _nameController;
+  late TextEditingController _movesController;
 
   Angle? angle = Angle.angle7_5;
   Grade? grade = Grade.grade2;
 
   FocusNode nameFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _movesController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _movesController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) =>
