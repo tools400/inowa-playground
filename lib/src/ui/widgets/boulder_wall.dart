@@ -99,12 +99,18 @@ class _BoulderBoard extends State<BoulderWall> {
       ConsoleLog.log('Painter is hidden, now.');
     }
 
-    return LayoutBuilder(builder: (context, boxContrains) {
-      return ConstrainedBox(
+    return OrientationBuilder(builder: (context, orientation) {
+      return
+
+/*      
+      ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: _widgetSize!.width,
           maxHeight: _widgetSize!.height,
         ),
+        child: 
+*/
+          SizedBox.square(
         child: Stack(
           fit: StackFit.passthrough,
           children: [
@@ -146,8 +152,7 @@ class _BoulderBoard extends State<BoulderWall> {
 }
 
 class HoldsPainter extends CustomPainter {
-  HoldsPainter(
-      {required List<Hold> holds, this.size, this.isShowLine = true})
+  HoldsPainter({required List<Hold> holds, this.size, this.isShowLine = true})
       : _holds = holds;
 
   final List<Hold> _holds;

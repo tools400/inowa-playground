@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
@@ -27,11 +27,14 @@ class DisplayBoulderScreen extends StatefulWidget {
 
 class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
     with SingleTickerProviderStateMixin {
+  late PageController _pageViewController;
   late TabController _tabBarController;
+  int _currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    _pageViewController = PageController();
     _tabBarController = TabController(length: 2, vsync: this);
     _tabBarController.addListener(() {
       if (_tabBarController.indexIsChanging) {
@@ -47,6 +50,13 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
   }
 
   @override
+  void dispose() {
+    _pageViewController.dispose();
+    _tabBarController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) =>
       Consumer3<FirebaseService, BlePeripheralConnector, LedSettings>(
           builder: (_, firebase, bleConnector, ledSettings, __) {
@@ -57,53 +67,151 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
         ledConnector.sendBoulderToDevice(
             widget._boulderItem.moves(isHorizontalWireing).all);
 
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(widget._boulderItem.name),
-              backgroundColor: ColorTheme.inversePrimary(context),
-              bottom: TabBar(
-                controller: _tabBarController,
-                onTap: (value) {
-                  return;
-                },
-                tabs: [
-                  Tab(text: AppLocalizations.of(context)!.properties),
-                  Tab(text: AppLocalizations.of(context)!.moves),
-                ],
-              ),
-            ),
-            body: Padding(
-              padding: appBorder,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabBarController,
-                      children: [
-                        BoulderPropertiesTab(boulder: widget._boulderItem),
-                        BoulderMovesTab(
-                          boulder: widget._boulderItem,
-                          bleConnector: bleConnector,
-                          ledSettings: ledSettings,
-                        ),
-                      ],
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(widget._boulderItem.name),
+            backgroundColor: ColorTheme.inversePrimary(context),
+          ),
+          body: Padding(
+            padding: appBorder,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                PageView(
+                  /// [PageView.scrollDirection] defaults to [Axis.horizontal].
+                  /// Use [Axis.vertical] to scroll vertically.
+                  controller: _pageViewController,
+                  onPageChanged: _handlePageViewChanged,
+                  children: <Widget>[
+                    BoulderPropertiesTab(boulder: widget._boulderItem),
+                    BoulderMovesTab(
+                      boulder: widget._boulderItem,
+                      bleConnector: bleConnector,
+                      ledSettings: ledSettings,
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Close'),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+                PageIndicator(
+                  numberOfPages: 2,
+                  tabController: _tabBarController,
+                  currentPageIndex: _currentPageIndex,
+                  onUpdateCurrentPageIndex: _updateCurrentPageIndex,
+                  isOnDesktopAndWeb: _isOnDesktopAndWeb,
+                ),
+              ],
             ),
           ),
         );
       });
+
+  void _handlePageViewChanged(int currentPageIndex) {
+    if (!_isOnDesktopAndWeb) {
+      return;
+    }
+    _tabBarController.index = currentPageIndex;
+    setState(() {
+      _currentPageIndex = currentPageIndex;
+    });
+  }
+
+  void _updateCurrentPageIndex(int index) {
+    _tabBarController.index = index;
+    _pageViewController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  bool get _isOnDesktopAndWeb {
+    if (kIsWeb) {
+      return true;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.macOS:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return true;
+      case TargetPlatform.android:
+        return true;
+      case TargetPlatform.iOS:
+      case TargetPlatform.fuchsia:
+        return false;
+    }
+  }
+}
+
+/// Page indicator for desktop and web platforms.
+///
+/// On Desktop and Web, drag gesture for horizontal scrolling in a PageView is disabled by default.
+/// You can defined a custom scroll behavior to activate drag gestures,
+/// see https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag.
+///
+/// In this sample, we use a TabPageSelector to navigate between pages,
+/// in order to build natural behavior similar to other desktop applications.
+class PageIndicator extends StatelessWidget {
+  const PageIndicator({
+    super.key,
+    required this.numberOfPages,
+    required this.tabController,
+    required this.currentPageIndex,
+    required this.onUpdateCurrentPageIndex,
+    required this.isOnDesktopAndWeb,
+  });
+
+  final int numberOfPages;
+  final int currentPageIndex;
+  final TabController tabController;
+  final void Function(int) onUpdateCurrentPageIndex;
+  final bool isOnDesktopAndWeb;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!isOnDesktopAndWeb) {
+      return const SizedBox.shrink();
+    }
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+            splashRadius: 16.0,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              if (currentPageIndex == 0) {
+                return;
+              }
+              onUpdateCurrentPageIndex(currentPageIndex - 1);
+            },
+            icon: const Icon(
+              Icons.arrow_left_rounded,
+              size: 32.0,
+            ),
+          ),
+          TabPageSelector(
+            controller: tabController,
+            color: colorScheme.surface,
+            selectedColor: colorScheme.primary,
+          ),
+          IconButton(
+            splashRadius: 16.0,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              if (currentPageIndex == numberOfPages) {
+                return;
+              }
+              onUpdateCurrentPageIndex(currentPageIndex + 1);
+            },
+            icon: const Icon(
+              Icons.arrow_right_rounded,
+              size: 32.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -75,80 +75,86 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       });
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: [
-          VSpace(),
-          BoulderWall(
-            holds: _moves.all,
-            onTapDown: onTapDown,
-            isShowLine: _isShowLine,
-          ),
+    return FractionallySizedBox(
+      alignment: FractionalOffset.topCenter,
+      heightFactor: .8,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            VSpace(),
+            BoulderWall(
+              holds: _moves.all,
+              onTapDown: onTapDown,
+              isShowLine: _isShowLine,
+            ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: _isShowLine
-                          ? AppLocalizations.of(context)!.hide_line
-                          : AppLocalizations.of(context)!.show_line,
-                      style: const TextStyle(
-                        color: ColorTheme.linkColor,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: _isShowLine
+                            ? AppLocalizations.of(context)!.hide_line
+                            : AppLocalizations.of(context)!.show_line,
+                        style: const TextStyle(
+                          color: ColorTheme.linkColor,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            setState(() {
+                              _isShowLine = !_isShowLine;
+                              ConsoleLog.log(
+                                  'Changed _isShowLine: $_isShowLine');
+                            });
+                          },
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          setState(() {
-                            _isShowLine = !_isShowLine;
-                            ConsoleLog.log('Changed _isShowLine: $_isShowLine');
-                          });
-                        },
+                    ],
+                  ),
+                ),
+                HSpace(),
+              ],
+            ),
+            VSpace(),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: _moves.isEmpty
+                          ? null
+                          : () {
+                              setState(() {
+                                _moves.removeLast();
+                              });
+                            },
+                      icon: Icon(Icons.clear),
+                    ),
+                    IconButton(
+                      onPressed: _moves.isEmpty
+                          ? null
+                          : () {
+                              setState(() {
+                                _moves.clear();
+                              });
+                            },
+                      icon: Icon(Icons.clear_all),
                     ),
                   ],
                 ),
-              ),
-              HSpace(),
-            ],
-          ),
-          VSpace(),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: _moves.isEmpty
-                        ? null
-                        : () {
-                            setState(() {
-                              _moves.removeLast();
-                            });
-                          },
-                    icon: Icon(Icons.clear),
-                  ),
-                  IconButton(
-                    onPressed: _moves.isEmpty
-                        ? null
-                        : () {
-                            setState(() {
-                              _moves.clear();
-                            });
-                          },
-                    icon: Icon(Icons.clear_all),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          VSpace(),
-          Text('Moves: ${_moves.toString()}'),
-          VSpace(),
-          // TODO: remove debug code
-          Text(ledStripeConnector.sendBoulderToDevice(_moves.all)),
-        ],
+              ],
+            ),
+            VSpace(),
+            Text('Moves: ${_moves.toString()}'),
+            VSpace(),
+            // TODO: remove debug code
+            Text(ledStripeConnector.sendBoulderToDevice(_moves.all)),
+          ],
+        ),
       ),
     );
   }
