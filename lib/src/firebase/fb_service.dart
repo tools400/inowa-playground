@@ -13,6 +13,13 @@ class FirebaseService {
 
   BleLogger logger;
 
+  bool get isLoggedIn {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return true;
+    }
+    return false;
+  }
+
   CollectionReference<Map<String, dynamic>> get collectionBoulder =>
       FirebaseFirestore.instance.collection(collection_boulder);
 
