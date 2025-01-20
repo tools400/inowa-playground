@@ -54,5 +54,8 @@
   ],
   "dartimportsorter.sortOnSave": true,
   "window.newWindowDimensions": "inherit",
-  "editor.fontSize": 16
+  "editor.fontSize": 16,
+  "dart.debugExternalPackageLibraries": false,
+  "dart.debugSdkLibraries": false,
+  "dart.sdkPath": "C:\\dev\\flutter\\bin\\cache\\dart-sdk",
 }
