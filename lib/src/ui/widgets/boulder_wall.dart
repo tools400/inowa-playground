@@ -48,27 +48,25 @@ class _BoulderBoard extends State<BoulderWall> {
     ConsoleLog.log('isImageLoaded: $_isImageLoaded');
     ConsoleLog.log('isPainterVisible: $_isPainterVisible');
 
-    if (!_isImageLoaded) {
-      _image = Image.asset(
-        IMAGE_BOARD_2,
-        fit: BoxFit.fill,
-      );
+    _image = Image.asset(
+      IMAGE_BOARD_2,
+      fit: BoxFit.fill,
+    );
 
-      Completer<ui.Image> completer = Completer<ui.Image>();
-      _image.image.resolve(ImageConfiguration()).addListener(
-        ImageStreamListener(
-          (ImageInfo info, bool _) {
-            completer.complete(info.image);
-            setState(
-              () {
-                _isImageLoaded = true;
-                ConsoleLog.log('*** Image has been loaded. ***');
-              },
-            );
-          },
-        ),
-      );
-    }
+    Completer<ui.Image> completer = Completer<ui.Image>();
+    _image.image.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener(
+        (ImageInfo info, bool _) {
+          completer.complete(info.image);
+          setState(
+            () {
+              _isImageLoaded = true;
+              ConsoleLog.log('*** Image has been loaded. ***');
+            },
+          );
+        },
+      ),
+    );
   }
 
   @override
