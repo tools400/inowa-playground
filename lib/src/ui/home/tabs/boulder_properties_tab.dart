@@ -50,7 +50,6 @@ class _BoulderPropertiesTab extends State<BoulderPropertiesTab> {
       child: Column(
         children: [
           SettingsListTile(
-            icon: Icons.abc,
             title: AppLocalizations.of(context)!.name,
             trailing: SimpleNonEditableText(text: widget._boulderItem.name),
           ),

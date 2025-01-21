@@ -77,20 +77,36 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: <Widget>[
-                PageView(
-                  /// [PageView.scrollDirection] defaults to [Axis.horizontal].
-                  /// Use [Axis.vertical] to scroll vertically.
-                  controller: _pageViewController,
-                  onPageChanged: _handlePageViewChanged,
-                  children: <Widget>[
-                    BoulderPropertiesTab(boulder: widget._boulderItem),
-                    BoulderMovesTab(
-                      boulder: widget._boulderItem,
-                      bleConnector: bleConnector,
-                      ledSettings: ledSettings,
-                    ),
-                  ],
-                ),
+                LayoutBuilder(builder: (context, boxConstraints) {
+                  return PageView(
+                    controller: _pageViewController,
+                    onPageChanged: _handlePageViewChanged,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: boxConstraints.maxHeight -
+                              PageIndicator.maxHeight,
+                          child: BoulderPropertiesTab(
+                            boulder: widget._boulderItem,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: boxConstraints.maxHeight -
+                              PageIndicator.maxHeight,
+                          child: BoulderMovesTab(
+                            boulder: widget._boulderItem,
+                            bleConnector: bleConnector,
+                            ledSettings: ledSettings,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
                 PageIndicator(
                   numberOfPages: 2,
                   tabController: _tabBarController,
@@ -165,6 +181,8 @@ class PageIndicator extends StatelessWidget {
   final void Function(int) onUpdateCurrentPageIndex;
   final bool isOnDesktopAndWeb;
 
+  static double maxHeight = 40;
+
   @override
   Widget build(BuildContext context) {
     if (!isOnDesktopAndWeb) {
@@ -174,43 +192,47 @@ class PageIndicator extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
-            splashRadius: 16.0,
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (currentPageIndex == 0) {
-                return;
-              }
-              onUpdateCurrentPageIndex(currentPageIndex - 1);
-            },
-            icon: const Icon(
-              Icons.arrow_left_rounded,
-              size: 32.0,
+      child: SizedBox(
+//        constraints: BoxConstraints(maxHeight: maxHeight),
+        height: maxHeight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+              splashRadius: 16.0,
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                if (currentPageIndex <= 0) {
+                  return;
+                }
+                onUpdateCurrentPageIndex(currentPageIndex - 1);
+              },
+              icon: const Icon(
+                Icons.arrow_left_rounded,
+                size: 32.0,
+              ),
             ),
-          ),
-          TabPageSelector(
-            controller: tabController,
-            color: colorScheme.surface,
-            selectedColor: colorScheme.primary,
-          ),
-          IconButton(
-            splashRadius: 16.0,
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (currentPageIndex == numberOfPages) {
-                return;
-              }
-              onUpdateCurrentPageIndex(currentPageIndex + 1);
-            },
-            icon: const Icon(
-              Icons.arrow_right_rounded,
-              size: 32.0,
+            TabPageSelector(
+              controller: tabController,
+              color: colorScheme.surface,
+              selectedColor: colorScheme.primary,
             ),
-          ),
-        ],
+            IconButton(
+              splashRadius: 16.0,
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                if (currentPageIndex >= numberOfPages - 1) {
+                  return;
+                }
+                onUpdateCurrentPageIndex(currentPageIndex + 1);
+              },
+              icon: const Icon(
+                Icons.arrow_right_rounded,
+                size: 32.0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

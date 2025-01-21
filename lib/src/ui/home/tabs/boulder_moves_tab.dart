@@ -13,6 +13,7 @@ import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/boulder_wall.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/utils/utils.dart';
 
 class BoulderMovesTab extends StatefulWidget {
   const BoulderMovesTab(
@@ -36,18 +37,15 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
   // TODO: remove debug code
   late LEDStripeConnector ledStripeConnector;
   late bool isHorizontalWireing;
-  late TextEditingController _nameController;
 
   Hold? _led;
   Moves _moves = Moves();
   bool _isShowLine = false;
-  bool _isImageLoaded = false;
 
   @override
   void initState() {
     super.initState();
     // TODO: remove debug code
-    _nameController = TextEditingController();
     ledStripeConnector =
         LEDStripeConnector(widget._bleConnector, widget._ledSettings);
     isHorizontalWireing = widget._ledSettings.isHorizontalWireing;
@@ -56,42 +54,84 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     super.dispose();
+  }
+
+  // Executed on tapping the boulder wall image
+  void onTapDown(Offset position, Size size) {
+    setState(() {
+      _led = LEDStripeConnector.ledNumberByUICoordinates(
+          position, size, isHorizontalWireing);
+      if (_led != null) {
+        _moves.add(_led!);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _nameController.text = widget._boulderItem.name;
-
-    // Executed on tapping the boulder wall image
-    void onTapDown(Offset position, Size size) {
-      setState(() {
-        _led = LEDStripeConnector.ledNumberByUICoordinates(
-            position, size, isHorizontalWireing);
-        if (_led != null) {
-          _moves.add(_led!);
-        }
-      });
-    }
-
-    return FractionallySizedBox(
-      alignment: FractionalOffset.topCenter,
-      heightFactor: .8,
-      child: SingleChildScrollView(
+    return LayoutBuilder(builder: (context, boxConstraints) {
+      return SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            VSpace(),
-            BoulderWall(
-              holds: _moves.all,
-              onTapDown: onTapDown,
-              isShowLine: _isShowLine,
-            ),
+        child: getPanel(PlatformUI.isPortait(context),
+            Size(boxConstraints.maxWidth, boxConstraints.maxHeight)),
+      );
+    });
+  }
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+  getPanel(bool isPortrait, Size maxSize) {
+    if (isPortrait) {
+      return Column(
+        // Boulderwall
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          boulderWallPanel(onTapDown, maxSize),
+          movesPanel(),
+        ],
+      );
+    } else {
+      return Row(
+        // Boulderwall
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+/*
+          Flexible(
+            flex: 2,
+            child: 
+          ),
+*/
+          boulderWallPanel(onTapDown, maxSize),
+          Flexible(
+            flex: 2,
+            child: movesPanel(),
+          ),
+        ],
+      );
+    }
+  }
+
+  boulderWallPanel(
+      void Function(Offset position, Size size) onTapDown, Size maxSize) {
+    const double rowHeight = 18;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: Utils.min(maxSize),
+        maxHeight: Utils.min(maxSize),
+      ),
+      child: Column(
+        children: [
+          BoulderWall(
+            holds: _moves.all,
+            onTapDown: onTapDown,
+            isShowLine: _isShowLine,
+            maxSize: Size(
+                Utils.min(maxSize) - rowHeight, Utils.min(maxSize) - rowHeight),
+          ),
+          SizedBox(
+            height: rowHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RichText(
                   text: TextSpan(
@@ -118,44 +158,46 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
                 HSpace(),
               ],
             ),
-            VSpace(),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: _moves.isEmpty
-                          ? null
-                          : () {
-                              setState(() {
-                                _moves.removeLast();
-                              });
-                            },
-                      icon: Icon(Icons.clear),
-                    ),
-                    IconButton(
-                      onPressed: _moves.isEmpty
-                          ? null
-                          : () {
-                              setState(() {
-                                _moves.clear();
-                              });
-                            },
-                      icon: Icon(Icons.clear_all),
-                    ),
-                  ],
-                ),
-              ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  movesPanel() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: _moves.isEmpty
+                  ? null
+                  : () {
+                      setState(() {
+                        _moves.removeLast();
+                      });
+                    },
+              icon: Icon(Icons.undo),
             ),
-            VSpace(),
-            Text('Moves: ${_moves.toString()}'),
-            VSpace(),
-            // TODO: remove debug code
-            Text(ledStripeConnector.sendBoulderToDevice(_moves.all)),
+            IconButton(
+              onPressed: _moves.isEmpty
+                  ? null
+                  : () {
+                      setState(() {
+                        _moves.clear();
+                      });
+                    },
+              icon: Icon(Icons.delete),
+            ),
           ],
         ),
-      ),
+        VSpace(),
+        Text('Moves: ${_moves.toString()}'),
+        VSpace(),
+        // TODO: remove debug code
+        Text(ledStripeConnector.sendBoulderToDevice(_moves.all)),
+      ],
     );
   }
 }

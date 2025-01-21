@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
-import 'package:inowa/src/firebase/fb_service.dart';
 import 'package:inowa/src/ui/home/internal/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home/internal/connection_status_handler.dart';
 import 'package:inowa/src/ui/home/panels/add_boulder_panel.dart';
 import 'package:inowa/src/ui/home/panels/boulder_list_panel.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/sections/settings_bluetooth_section.dart';
+
+import '/src/firebase/fb_service.dart';
 
 enum PageMode { boulderList, sort, addBoulder, settings }
 

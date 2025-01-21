@@ -33,6 +33,11 @@ class Utils {
   static bool equalsIgnoreCase(String? string1, String? string2) {
     return string1?.toLowerCase() == string2?.toLowerCase();
   }
+
+  /// Returns the minimun value of a given size.
+  static double min(Size size) {
+    return size.height < size.width ? size.height : size.width;
+  }
 }
 
 class NavigationService {
@@ -46,7 +51,15 @@ class PlatformUI {
   PlatformUI._(); // Private constructor to prevent instantiation
 
   static bool isLandscape(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.landscape;
+    return orientation(context) == Orientation.landscape;
+  }
+
+  static bool isPortait(BuildContext context) {
+    return orientation(context) == Orientation.portrait;
+  }
+
+  static Orientation orientation(BuildContext context) {
+    return MediaQuery.of(NavigationService.context).orientation;
   }
 
   static double screenWidth(BuildContext context) {
