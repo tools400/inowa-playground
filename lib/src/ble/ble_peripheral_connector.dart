@@ -54,6 +54,7 @@ class BlePeripheralConnector {
   _deviceFoundCallback(DiscoveredDevice device) {
     if (_timeoutTimer != null) {
       _timeoutTimer!.cancel();
+      _logger.info('Timer has been canceled');
     }
     stopScan();
     _connector.connect(device.id, _connectedCallback);
