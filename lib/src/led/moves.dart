@@ -7,11 +7,40 @@ class Moves {
   final delimiterStartHolds = '+';
   final delimiterHolds = '/';
 
-  get isEmpty => _moves.isEmpty;
+  bool get isEmpty => _moves.isEmpty;
 
-  get isNotEmpty => _moves.isNotEmpty;
+  bool get isNotEmpty => _moves.isNotEmpty;
 
-  get all => _moves;
+  List<Hold> get all => _moves;
+
+  List<Hold> get startHolds {
+    return _holds(1, 2);
+  }
+
+  List<Hold> get intermediateHolds {
+    if (_moves.isEmpty || _moves.length < 3) {
+      return [];
+    }
+    return _holds(3, _moves.length - 1);
+  }
+
+  List<Hold> get topHold {
+    if (_moves.isEmpty || _moves.length < 3) {
+      return [];
+    }
+    return _holds(_moves.length, _moves.length);
+  }
+
+  List<Hold> _holds(int from, int to) {
+    var fromOffset = from <= _moves.length ? from - 1 : 0;
+    var toOffset = to <= _moves.length ? to - 1 : _moves.length - 1;
+
+    List<Hold> holds = [];
+    for (int i = fromOffset; i < toOffset + 1; i++) {
+      holds.add(_moves[i]);
+    }
+    return holds;
+  }
 
   add(Hold move) {
     _moves.add(move);
@@ -25,37 +54,44 @@ class Moves {
     _moves.clear();
   }
 
-  get startHolds {
-    if (_moves.isEmpty) {
-      return '';
-    }
-    return _holds(1, 2, delimiterStartHolds);
+  String get startHoldsAsString {
+    return _holdsAsString(startHolds, delimiterStartHolds);
   }
 
-  get intermediateHolds {
-    if (_moves.isEmpty || _moves.length < 3) {
-      return '';
-    }
-    return _holds(3, _moves.length - 1, delimiterHolds);
+  String get intermediateHoldsAsString {
+    return _holdsAsString(intermediateHolds, delimiterHolds);
   }
 
-  get topHold {
-    if (_moves.isEmpty || _moves.length < 3) {
-      return '';
-    }
-    return _holds(_moves.length, _moves.length, delimiterHolds);
+  String get topHoldAsString {
+    return _holdsAsString(topHold, delimiterHolds);
   }
 
-  get allHolds {
-    return toString();
-  }
-
-  _holds(int from, int to, String delimiter) {
-    var fromOffset = from <= _moves.length ? from - 1 : 0;
-    var toOffset = to <= _moves.length ? to - 1 : _moves.length - 1;
-
+  String get allHoldsAsString {
     var buffer = StringBuffer();
-    for (int i = fromOffset; i < toOffset + 1; i++) {
+
+    var tHolds = startHoldsAsString;
+    if (tHolds.isNotEmpty) {
+      buffer.write(tHolds);
+    }
+
+    tHolds = intermediateHoldsAsString;
+    if (tHolds.isNotEmpty) {
+      buffer.write('/');
+      buffer.write(tHolds);
+    }
+
+    tHolds = topHoldAsString;
+    if (tHolds.isNotEmpty) {
+      buffer.write('/');
+      buffer.write(tHolds);
+    }
+
+    return buffer.toString();
+  }
+
+  String _holdsAsString(List<Hold> holds, String delimiter) {
+    var buffer = StringBuffer();
+    for (int i = 0; i < holds.length; i++) {
       if (buffer.isNotEmpty) {
         buffer.write(delimiter);
       }
@@ -66,25 +102,6 @@ class Moves {
 
   @override
   String toString() {
-    var buffer = StringBuffer();
-
-    var tHolds = startHolds;
-    if (tHolds.isNotEmpty) {
-      buffer.write(tHolds);
-    }
-
-    tHolds = intermediateHolds;
-    if (tHolds.isNotEmpty) {
-      buffer.write('/');
-      buffer.write(tHolds);
-    }
-
-    tHolds = topHold;
-    if (tHolds.isNotEmpty) {
-      buffer.write('/');
-      buffer.write(tHolds);
-    }
-
-    return buffer.toString();
+    return allHoldsAsString;
   }
 }

@@ -10,6 +10,7 @@ import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/ui/home/internal/connection_status_handler.dart';
+import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
 import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
@@ -19,7 +20,6 @@ import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:inowa/src/ui/widgets/wireing_drop_down_menu.dart';
 
 import 'package:inowa/src/ui/settings//internal/settings_list_tile.dart';
-import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 
 class BluetoothSection extends StatefulWidget {
   const BluetoothSection({

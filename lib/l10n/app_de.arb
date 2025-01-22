@@ -65,6 +65,8 @@
   "moves": "Züge",
   "wireing": "Anordnung der LED Lichterkette",
   "enter_your_email": "Eigenen E-Mail Adresse:",
+  "show_line": "Pfad anzeigen",
+  "hide_line": "Pfad verbergen",
 
   "txt_Delete_user_profile_continue": "Benutzerprofil löschen. Fortfahren?",
   "txt_Email_Verified": "E-Mail ist geprüft.",

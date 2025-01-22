@@ -91,18 +91,12 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       );
     } else {
       return Row(
-        // Boulderwall
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-/*
           Flexible(
-            flex: 2,
-            child: 
+            child: boulderWallPanel(onTapDown, maxSize),
           ),
-*/
-          boulderWallPanel(onTapDown, maxSize),
           Flexible(
-            flex: 2,
             child: movesPanel(),
           ),
         ],
@@ -112,7 +106,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
 
   boulderWallPanel(
       void Function(Offset position, Size size) onTapDown, Size maxSize) {
-    const double rowHeight = 18;
+    const double rowHeight = 40;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -121,6 +115,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       ),
       child: Column(
         children: [
+          // Boulder wall picture
           BoulderWall(
             holds: _moves.all,
             onTapDown: onTapDown,
@@ -128,34 +123,33 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
             maxSize: Size(
                 Utils.min(maxSize) - rowHeight, Utils.min(maxSize) - rowHeight),
           ),
+          // Footer with hide/show switch
           SizedBox(
             height: rowHeight,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: _isShowLine
-                            ? AppLocalizations.of(context)!.hide_line
-                            : AppLocalizations.of(context)!.show_line,
-                        style: const TextStyle(
-                          color: ColorTheme.linkColor,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            setState(() {
-                              _isShowLine = !_isShowLine;
-                              ConsoleLog.log(
-                                  'Changed _isShowLine: $_isShowLine');
-                            });
-                          },
-                      ),
-                    ],
+                DefaultTextStyle.merge(
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: ColorTheme.linkColor),
+                  child: Text(_isShowLine
+                      ? AppLocalizations.of(context)!.hide_line
+                      : AppLocalizations.of(context)!.show_line),
+                ),
+                Transform.scale(
+                  scale: 0.7,
+                  child: Switch(
+                    value: _isShowLine,
+                    onChanged: (value) {
+                      setState(() {
+                        _isShowLine = !_isShowLine;
+                        ConsoleLog.log('Changed _isShowLine: $_isShowLine');
+                      });
+                    },
                   ),
                 ),
-                HSpace(),
               ],
             ),
           ),
@@ -165,38 +159,167 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
   }
 
   movesPanel() {
-    return Column(
+    EdgeInsets rowHeight = EdgeInsets.symmetric(vertical: 8);
+
+    return Padding(
+      padding: EdgeInsets.all(50),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              // Holds
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Table(
+                    columnWidths: const <int, TableColumnWidth>{
+                      0: IntrinsicColumnWidth(),
+                      1: FixedColumnWidth(50),
+                      2: IntrinsicColumnWidth(),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: rowHeight,
+                            child: Text(
+                              'Start holds:',
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 25, 175, 30),
+                              ),
+                            ),
+                          ),
+                          SizedBox.fromSize(),
+                          Padding(
+                            padding: rowHeight,
+                            child: Text(
+                              _moves.startHoldsAsString,
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 25, 175, 30),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: rowHeight,
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Intermediate',
+                                  style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 0, 20, 180),
+                                  ),
+                                ),
+                                Text(' '),
+                                Text(
+                                  'holds:',
+                                  style: TextStyle(
+                                    color: Colors.purple,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox.fromSize(),
+                          Padding(
+                            padding: rowHeight,
+                            child: rowOfIntermediateHolds,
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: rowHeight,
+                            child: Text(
+                              'Top hold:',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          SizedBox.fromSize(),
+                          Padding(
+                            padding: rowHeight,
+                            child: Text(
+                              _moves.topHoldAsString,
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              // Buttons
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // Undo button
+                    IconButton(
+                      onPressed: _moves.isEmpty
+                          ? null
+                          : () {
+                              setState(() {
+                                _moves.removeLast();
+                              });
+                            },
+                      icon: Icon(Icons.undo),
+                    ),
+                    // Clear button
+                    IconButton(
+                      onPressed: _moves.isEmpty
+                          ? null
+                          : () {
+                              setState(() {
+                                _moves.clear();
+                              });
+                            },
+                      icon: Icon(Icons.delete),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          VSpace(flex: 4),
+          Text('${_moves.allHoldsAsString}'),
+        ],
+      ),
+    );
+  }
+
+  Row get rowOfIntermediateHolds {
+    var holds = _moves.intermediateHolds;
+    List<Widget> widgets = [];
+    late Color color;
+    late String label;
+    for (int i = 0; i < holds.length; i++) {
+      if (i % 2 == 0) {
+        color = const Color.fromARGB(255, 0, 20, 180);
+      } else {
+        color = Colors.purple;
+      }
+      if (i == holds.length - 1) {
+        label = holds[i].uiName;
+      } else {
+        label = '${holds[i].uiName}/';
+      }
+      widgets.add(Text(label, style: TextStyle(color: color)));
+    }
+
+    return Row(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: _moves.isEmpty
-                  ? null
-                  : () {
-                      setState(() {
-                        _moves.removeLast();
-                      });
-                    },
-              icon: Icon(Icons.undo),
-            ),
-            IconButton(
-              onPressed: _moves.isEmpty
-                  ? null
-                  : () {
-                      setState(() {
-                        _moves.clear();
-                      });
-                    },
-              icon: Icon(Icons.delete),
-            ),
-          ],
-        ),
-        VSpace(),
-        Text('Moves: ${_moves.toString()}'),
-        VSpace(),
-        // TODO: remove debug code
-        Text(ledStripeConnector.sendBoulderToDevice(_moves.all)),
+        for (Widget widget in widgets) widget,
       ],
     );
   }

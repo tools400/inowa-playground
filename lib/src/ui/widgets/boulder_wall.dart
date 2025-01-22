@@ -50,7 +50,7 @@ class _BoulderBoard extends State<BoulderWall> {
 
     _image = Image.asset(
       IMAGE_BOARD_2,
-      fit: BoxFit.fill,
+      //fit: BoxFit.fitWidth,
     );
 
     Completer<ui.Image> completer = Completer<ui.Image>();
@@ -86,31 +86,28 @@ class _BoulderBoard extends State<BoulderWall> {
       return SizedBox(
         height: widgetSize.height,
         width: widgetSize.width,
-        child: Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-          child: Stack(
-            children: [
-              GestureDetector(
-                key: _imageKey,
-                onTapDown: !_isImageLoaded
-                    ? null
-                    : (details) {
-                        final position = details.localPosition;
-                        widget._onTapDown(position, widgetSize);
-                      },
-                child: _isImageLoaded ? _image : CircularProgressIndicator(),
-              ),
-              // Custom overlay drawing the boulder
-              if (_isPainterVisible)
-                CustomPaint(
-                  painter: HoldsPainter(
-                    isShowLine: widget._isShowLine,
-                    size: widgetSize,
-                    holds: widget._holds,
-                  ),
+        child: Stack(
+          children: [
+            GestureDetector(
+              key: _imageKey,
+              onTapDown: !_isImageLoaded
+                  ? null
+                  : (details) {
+                      final position = details.localPosition;
+                      widget._onTapDown(position, widgetSize);
+                    },
+              child: _isImageLoaded ? _image : CircularProgressIndicator(),
+            ),
+            // Custom overlay drawing the boulder
+            if (_isPainterVisible)
+              CustomPaint(
+                painter: HoldsPainter(
+                  isShowLine: widget._isShowLine,
+                  size: widgetSize,
+                  holds: widget._holds,
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       );
     });
@@ -137,7 +134,7 @@ class HoldsPainter extends CustomPainter {
     ConsoleLog.log('paint() size: ${size.width}/${size.height})...');
 
     // Set up paint
-    final strokeWidth = 2.0;
+    final strokeWidth = Utils.min(size) / 150;
 
     // start holds
     final Paint startHoldsBorder = Paint()
