@@ -75,9 +75,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
             bleAutoConnector.stopScan();
           } else if (isConnected(connectionStateUpdate)) {
             String? deviceId = bleAutoConnector.connectedDeviceId;
-            if (deviceId != null) {
-              bleAutoConnector.disconnect(deviceId);
-            }
+            bleAutoConnector.disconnect(deviceId);
           } else {
             var timeout = int.parse(_timeoutController!.text);
             String deviceName = _deviceNameController!.text;

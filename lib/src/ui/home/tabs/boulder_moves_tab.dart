@@ -292,7 +292,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
             ],
           ),
           VSpace(flex: 4),
-          Text('${_moves.allHoldsAsString}'),
+          Text(_moves.allHoldsAsString),
         ],
       ),
     );
