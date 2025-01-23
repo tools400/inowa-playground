@@ -33,6 +33,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
     _isScanning = true;
     _subscription =
         _ble.scanForDevices(withServices: serviceIds).listen((device) {
+      _logMessage('Testing for matched device: ${device.name}');
       if (_matches(device, serviceName)) {
         final knownDeviceIndex = _devices.indexWhere((d) => d.id == device.id);
         if (knownDeviceIndex >= 0) {
@@ -47,6 +48,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
       _pushState();
     }, onError: (Object e) => _logMessage('Device scan fails with error: $e'));
     _pushState();
+    _logMessage('Leaving ble discovery');
   }
 
   bool _matches(DiscoveredDevice device, String serviceName) {
