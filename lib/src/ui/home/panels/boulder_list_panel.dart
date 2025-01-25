@@ -19,24 +19,24 @@ class BoulderListPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<BleLogger>(
-        builder: (context, logger, _) => _DeviceLogTab(
+        builder: (context, logger, _) => _BoulderListPanel(
           messages: logger.messages,
         ),
       );
 }
 
-class _DeviceLogTab extends StatefulWidget {
-  const _DeviceLogTab({
+class _BoulderListPanel extends StatefulWidget {
+  const _BoulderListPanel({
     required this.messages,
   });
 
   final List<String> messages;
 
   @override
-  State<_DeviceLogTab> createState() => _DeviceLogTabState();
+  State<_BoulderListPanel> createState() => _BoulderListPanelState();
 }
 
-class _DeviceLogTabState extends State<_DeviceLogTab> {
+class _BoulderListPanelState extends State<_BoulderListPanel> {
   late ScrollController scrollController;
 
   @override
@@ -53,8 +53,8 @@ class _DeviceLogTabState extends State<_DeviceLogTab> {
 
   // TODO: add horizontal scrolling of the log messages, disable 'softWrap'.
   @override
-  Widget build(BuildContext context) => Consumer2<BleLogger, FirebaseService>(
-        builder: (context, logger, firebase, _) => StreamBuilder<QuerySnapshot>(
+  Widget build(BuildContext context) => Consumer<FirebaseService>(
+        builder: (context, firebase, _) => StreamBuilder<QuerySnapshot>(
           stream: firebase.boulderStream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

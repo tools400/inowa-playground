@@ -63,7 +63,9 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
         var isHorizontalWireing = ledSettings.isHorizontalWireing;
         var ledConnector = LEDStripeConnector(bleConnector, ledSettings);
 
+        // -----------------------------------
         // Send boulder to Bluetooth device
+        // -----------------------------------
         ledConnector.sendBoulderToDevice(
             widget._boulderItem.moves(isHorizontalWireing).all);
 

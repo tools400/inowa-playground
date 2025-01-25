@@ -2,16 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
-import '/src/ble/ble_logger.dart';
+import 'package:inowa/main.dart';
+
 import '/src/firebase/angle_enum.dart';
 import '/src/firebase/grade_enum.dart';
 
 class FirebaseService {
-  FirebaseService(this.logger);
+  FirebaseService();
 
   static const collection_boulder = 'boulder';
-
-  BleLogger logger;
 
   bool get isLoggedIn {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -43,9 +42,9 @@ class FirebaseService {
         'created': FieldValue.serverTimestamp(), // Zeitstempel hinzufügen
         'userId': FirebaseAuth.instance.currentUser!.uid,
       });
-      logger.debug('Daten erfolgreich hinzugefügt!');
+      bleLogger.debug('Daten erfolgreich hinzugefügt!');
     } catch (e) {
-      logger.error('Fehler beim Hinzufügen der Daten: $e');
+      bleLogger.debug('Fehler beim Hinzufügen der Daten: $e');
     }
   }
 }

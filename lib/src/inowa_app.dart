@@ -23,49 +23,49 @@ class INoWaApp extends StatelessWidget {
   const INoWaApp({
     super.key,
     required GlobalKey<NavigatorState> navigatorKey,
-    required BleSettings settings,
+    required BleSettings bleSettings,
     required LedSettings ledSettings,
+    required BleLogger bleLogger,
     required BleScanner scanner,
     required BleStatusMonitor monitor,
     required BleDeviceConnector connector,
     required BleDeviceInteractor serviceDiscoverer,
-    required BlePeripheralConnector bleAutoConnector,
-    required BleLogger bleLogger,
+    required BlePeripheralConnector peripheralConnector,
     required FirebaseService firebaseService,
-  })  : _settings = settings,
+  })  : _bleSettings = bleSettings,
         _ledSettings = ledSettings,
+        _bleLogger = bleLogger,
         _scanner = scanner,
         _monitor = monitor,
         _connector = connector,
         _serviceDiscoverer = serviceDiscoverer,
-        _bleAutoConnector = bleAutoConnector,
-        _bleLogger = bleLogger,
+        _peripheralConnector = peripheralConnector,
         _firebaseService = firebaseService;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  final BleSettings _settings;
+  final BleSettings _bleSettings;
   final LedSettings _ledSettings;
+  final BleLogger _bleLogger;
   final BleScanner _scanner;
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;
   final BleDeviceInteractor _serviceDiscoverer;
-  final BlePeripheralConnector _bleAutoConnector;
-  final BleLogger _bleLogger;
+  final BlePeripheralConnector _peripheralConnector;
   final FirebaseService _firebaseService;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider.value(value: _settings),
+        Provider.value(value: _bleSettings),
         Provider.value(value: _ledSettings),
+        Provider.value(value: _bleLogger),
         Provider.value(value: _scanner),
         Provider.value(value: _monitor),
         Provider.value(value: _connector),
         Provider.value(value: _serviceDiscoverer),
-        Provider.value(value: _bleAutoConnector),
-        Provider.value(value: _bleLogger),
+        Provider.value(value: _peripheralConnector),
         Provider.value(value: _firebaseService),
         StreamProvider<BleScannerState?>(
           create: (_) => _scanner.state,

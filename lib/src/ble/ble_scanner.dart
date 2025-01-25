@@ -3,18 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:inowa/main.dart';
 
 import 'ble_reactive_state.dart';
 
 class BleScanner implements ReactiveState<BleScannerState> {
   BleScanner({
     required FlutterReactiveBle ble,
-    required void Function(String message) logMessage,
-  })  : _ble = ble,
-        _logMessage = logMessage;
+  }) : _ble = ble;
 
   final FlutterReactiveBle _ble;
-  final void Function(String message) _logMessage;
   final StreamController<BleScannerState> _stateStreamController =
       StreamController();
 
@@ -27,13 +25,13 @@ class BleScanner implements ReactiveState<BleScannerState> {
   /// Startet die Suche nach Bluetooth Geräten.
   void startScan(String serviceName, List<Uuid> serviceIds,
       [Function(DiscoveredDevice device)? deviceFoundCallback]) {
-    _logMessage('Start ble discovery');
+    bleLogger.debug('Start ble discovery');
     _devices.clear();
     _subscription?.cancel();
     _isScanning = true;
-    _subscription =
-        _ble.scanForDevices(withServices: serviceIds).listen((device) {
-      _logMessage('Testing for matched device: ${device.name}');
+    _subscription = _ble.scanForDevices(withServices: serviceIds).listen(
+        (device) {
+      bleLogger.debug('Testing for matching device: ${device.name}');
       if (_matches(device, serviceName)) {
         final knownDeviceIndex = _devices.indexWhere((d) => d.id == device.id);
         if (knownDeviceIndex >= 0) {
@@ -46,9 +44,11 @@ class BleScanner implements ReactiveState<BleScannerState> {
         }
       }
       _pushState();
-    }, onError: (Object e) => _logMessage('Device scan fails with error: $e'));
+    },
+        onError: (Object e) =>
+            bleLogger.error('Device scan failed with error: $e'));
     _pushState();
-    _logMessage('Leaving ble discovery');
+    bleLogger.debug('Leaving ble discovery');
   }
 
   bool _matches(DiscoveredDevice device, String serviceName) {
@@ -73,7 +73,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
 
   /// Beendet die Suche nach Bluetooth Geräten.
   Future<void> stopScan() async {
-    _logMessage('Stop ble discovery');
+    bleLogger.debug('Stop ble discovery');
 
     await _subscription?.cancel();
     _subscription = null;

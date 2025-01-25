@@ -4,12 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
-import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/led/led_settings.dart';
-import 'package:inowa/src/ui/home/internal/connection_status_handler.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
@@ -45,15 +42,9 @@ class _BluetoothSectionState extends State<BluetoothSection> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer6<
-              LedSettings,
-              BleLogger,
-              ConnectionStateUpdate,
-              BleSettings,
-              BleScannerState,
-              BlePeripheralConnector>(
-          builder: (_, ledSettings, logger, connectionStateUpdate, bleSettings,
-              scannerState, bleAutoConnector, __) {
+  Widget build(BuildContext context) =>
+      Consumer3<LedSettings, ConnectionStateUpdate, BleScannerState>(
+          builder: (_, ledSettings, connectionStateUpdate, scannerState, __) {
         // Initialisieren Text Controller für den Geräte-Namen
         _deviceNameController ??= TextEditingController()
           ..text = bleSettings.deviceName;
@@ -72,17 +63,14 @@ class _BluetoothSectionState extends State<BluetoothSection> {
           }
 
           if (isScanning(scannerState)) {
-            bleAutoConnector.stopScan();
+            peripheralConnector.stopScan();
           } else if (isConnected(connectionStateUpdate)) {
-            String? deviceId = bleAutoConnector.connectedDeviceId;
-            bleAutoConnector.disconnect(deviceId);
+            String? deviceId = peripheralConnector.connectedDeviceId;
+            if (deviceId != null) {
+              peripheralConnector.disconnectArduino(deviceId);
+            }
           } else {
-            var timeout = int.parse(_timeoutController!.text);
-            String deviceName = _deviceNameController!.text;
-            bleAutoConnector.scanAndConnect(
-                serviceName: deviceName,
-                timeout: timeout,
-                statusCallback: ConnectionStatusCallbackHandler.statusCallback);
+            connectArduino();
           }
         }
 
@@ -149,6 +137,9 @@ class _BluetoothSectionState extends State<BluetoothSection> {
                   setState(() {
                     bleSettings.autoConnectEnabled = enabled;
                   });
+                  if (enabled) {
+                    connectArduino();
+                  }
                 },
               ),
             ),
@@ -183,6 +174,12 @@ class _BluetoothSectionState extends State<BluetoothSection> {
           ],
         );
       });
+
+  void connectArduino() {
+    if (bleSettings.deviceName.isNotEmpty) {
+      peripheralConnector.connectArduino(bleSettings.deviceName);
+    }
+  }
 
   bool isScanning(BleScannerState scannerState) =>
       scannerState.scanIsInProgress;

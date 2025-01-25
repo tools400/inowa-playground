@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
-import 'package:inowa/src/ble/ble_settings.dart';
 import 'package:inowa/src/ui/home/internal/boulder_list_drawer.dart';
-import 'package:inowa/src/ui/home/internal/connection_status_handler.dart';
 import 'package:inowa/src/ui/home/panels/add_boulder_panel.dart';
 import 'package:inowa/src/ui/home/panels/boulder_list_panel.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/sections/settings_bluetooth_section.dart';
-
-import '/src/firebase/fb_service.dart';
+import 'package:inowa/src/ui/widgets/connected_led_navigation_bar_item.dart';
 
 enum PageMode { boulderList, sort, addBoulder, settings }
 
@@ -25,8 +22,6 @@ class BoulderListScreen extends StatefulWidget {
 }
 
 class _BoulderListScreenState extends State<BoulderListScreen> {
-  late ScrollController scrollController;
-
   bool _isSelected = false;
   int _currentIndex = 0;
   PageMode _pageMode = PageMode.boulderList;
@@ -34,38 +29,20 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (bleSettings.isAutoConnect) {
+        if (bleSettings.deviceName.isNotEmpty) {
+          bleLogger.info('Starte automatischen Verbindungsaufbau...');
+          peripheralConnector.connectArduino(bleSettings.deviceName);
+        }
+      }
+    });
   }
 
   @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => Consumer4<FirebaseService,
-              ConnectionStateUpdate, BleSettings, BlePeripheralConnector>(
-          builder: (_, firebase, connectionStateUpdate, bleSettings,
-              bleAutoConnector, __) {
-        /// Gibt an, ob auto-connect eingeschaltet ist.
-        bool isConnected() {
-          bool isConnected = connectionStateUpdate.connectionState ==
-              DeviceConnectionState.connected;
-          return isConnected;
-        }
-
-        /// Stellt die Verbindung her, insofern auto-connect aktiviert ist.
-        /// Nur einmal, beim ersten Anzeigend des Bildschirms.
-        if (!isConnected() && bleSettings.isAutoConnect) {
-          var timeout = bleSettings.timeout;
-          String deviceName = bleSettings.deviceName;
-          bleAutoConnector.scanAndConnect(
-              serviceName: deviceName,
-              timeout: timeout,
-              statusCallback: ConnectionStatusCallbackHandler.statusCallback);
-        }
-
+  Widget build(BuildContext context) =>
+      Consumer<BlePeripheralConnector>(builder: (_, peripheralConnector, __) {
         Widget panel;
         switch (_pageMode) {
           case PageMode.sort:
@@ -88,15 +65,15 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
             drawer: HomePageDrawer(),
             onDrawerChanged: (isOpen) {
               // call setState() for refreshing the page,
-              // if drawer has been closed
+              // if the drawer has been closed
               setState(() {});
             },
-            bottomNavigationBar: bottomNavigationBar(isConnected()),
+            bottomNavigationBar: bottomNavigationBar(),
             body: panel);
       });
 
-  /// Navigationsmenü am unteren Bildschirmrand.
-  BottomNavigationBar bottomNavigationBar(bool isConnected) {
+  /// Navigation bar at the bottom of the screen.
+  BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
@@ -137,12 +114,7 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
           label: AppLocalizations.of(context)!.mnu_BottomNavigator_Add,
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            isConnected
-                ? Icons.lightbulb_rounded
-                : Icons.lightbulb_outline_rounded,
-            color: isConnected ? ColorTheme.deviceConnectedIconColor : null,
-          ),
+          icon: const SettingsIcon(),
           label: AppLocalizations.of(context)!.mnu_BottomNavigator_Settings,
         ),
       ],

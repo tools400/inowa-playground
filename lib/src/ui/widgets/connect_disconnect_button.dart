@@ -44,8 +44,9 @@ class _ConnectDisconnectButton extends State<ConnectDisconnectButton> {
         );
       });
 
-  bool isScanning(BleScannerState scannerState) =>
-      scannerState.scanIsInProgress;
+  bool isScanning(BleScannerState scannerState) {
+    return scannerState.scanIsInProgress;
+  }
 
   bool isConnected(ConnectionStateUpdate connectionStateUpdate) {
     return connectionStateUpdate.connectionState ==

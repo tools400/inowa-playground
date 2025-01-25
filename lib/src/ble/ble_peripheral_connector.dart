@@ -2,27 +2,40 @@ import 'dart:async';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
+import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/constants.dart';
+import 'package:inowa/src/ui/home/internal/connection_status_handler.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 class BlePeripheralConnector {
   BlePeripheralConnector(
-      this._scanner, this._connector, this._serviceDiscoverer, this._logger);
+      this._scanner, this._connector, this._serviceDiscoverer);
 
   final BleScanner _scanner;
   final BleDeviceConnector _connector;
   final BleDeviceInteractor _serviceDiscoverer;
-  final BleLogger _logger;
 
   Function(Status, String)? _statusCallback;
-  Timer? _timeoutTimer;
+  static Timer? _timeoutTimer;
   Characteristic? _characteristic;
 
-  void scanAndConnect(
+  void connectArduino(String deviceName) {
+    _scanAndConnect(
+        serviceName: deviceName,
+        timeout: bleSettings.timeout,
+        statusCallback: ConnectionStatusCallbackHandler.statusCallback);
+  }
+
+  String? get connectedDeviceId => _connector.connectedDeviceId;
+
+  void disconnectArduino(String deviceId) {
+    _disconnect(deviceId);
+  }
+
+  void _scanAndConnect(
       {required String serviceName,
       int? timeout,
       Function(Status, String)? statusCallback}) {
@@ -30,15 +43,13 @@ class BlePeripheralConnector {
     _statusCallback = statusCallback;
     _scanner.startScan(serviceName, [], _deviceFoundCallback);
     _timeoutTimer = Timer(Duration(seconds: timeout), () {
-      _statusCallback!(Status.deviceNotFound, serviceName);
-      _logger.error('Device not found: $serviceName');
       stopScan();
+      _statusCallback!(Status.deviceNotFound, serviceName);
+      bleLogger.error('Device not found: $serviceName');
     });
   }
 
-  String? get connectedDeviceId => _connector.connectedDeviceId;
-
-  void disconnect(String deviceId) {
+  void _disconnect(String deviceId) {
     _connector.disconnect(deviceId, _disconnectedCallback);
   }
 
@@ -52,15 +63,15 @@ class BlePeripheralConnector {
   /// Callback, wird aufgerufen, sobald das gesuchte
   /// Bluetooth Gerät gefunden worden ist.
   _deviceFoundCallback(DiscoveredDevice device) {
-    if (_timeoutTimer != null) {
-      _timeoutTimer!.cancel();
-      _logger.info('Timer has been canceled');
-    }
     stopScan();
     _connector.connect(device.id, _connectedCallback);
   }
 
   void stopScan() {
+    if (_timeoutTimer != null) {
+      _timeoutTimer!.cancel();
+      _timeoutTimer = null;
+    }
     _scanner.stopScan();
   }
 
@@ -84,6 +95,9 @@ class BlePeripheralConnector {
             var characteristic = characteristics[c];
             if (Utils.equalsIgnoreCase(
                 characteristic.id.toString(), CHARACTERISTICS_UUID)) {
+              stopScan();
+              print('DEBUG: Connected');
+              // store characteristic for further usage
               _characteristic = characteristic;
               if (_statusCallback != null) {
                 _statusCallback!(Status.connected, service.id.toString());
@@ -95,7 +109,7 @@ class BlePeripheralConnector {
           if (_characteristic == null) {
             if (!isError) {
               isError = true;
-              _logger
+              bleLogger
                   .error('\'$CHARACTERISTICS_UUID\' characteristic not found.');
               if (_statusCallback != null) {
                 _statusCallback!(
@@ -111,7 +125,7 @@ class BlePeripheralConnector {
       if (_characteristic == null) {
         if (!isError) {
           isError = true;
-          _logger.error('\'$SERVICE_UUID\' service not found.');
+          bleLogger.error('\'$SERVICE_UUID\' service not found.');
           if (_statusCallback != null) {
             _statusCallback!(Status.serviceNotFound, SERVICE_UUID);
           }
@@ -126,6 +140,7 @@ class BlePeripheralConnector {
   /// Callback, wird nach erfolgreicher Trennung der
   /// Verbindung zum Bluetooth Gerät aufgerufen.
   _disconnectedCallback(String deviceId) {
+    _characteristic = null;
     if (_statusCallback != null) {
       _statusCallback!(Status.disconnected, deviceId);
     }

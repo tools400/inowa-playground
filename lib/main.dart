@@ -20,11 +20,15 @@ import '/src/inowa_app.dart';
 import 'firebase_options.dart';
 import 'src/ble/ble_settings.dart';
 
+// Global variables
 late PackageInfo packageInfo;
 late SharedPreferences preferences;
-
 late final FirebaseApp app;
 late final FirebaseAuth auth;
+late final BlePeripheralConnector peripheralConnector;
+late final BleSettings bleSettings;
+late final LedSettings ledSettings;
+late final BleLogger bleLogger;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,17 +37,13 @@ void main() async {
   );
   auth = FirebaseAuth.instanceFor(app: app);
 
-  final settings = BleSettings();
-  final ledSettings = LedSettings();
   final ble = FlutterReactiveBle();
-  final bleLogger = BleLogger(ble: ble);
-  final scanner = BleScanner(ble: ble, logMessage: bleLogger.info);
+  final scanner = BleScanner(ble: ble);
   final monitor = BleStatusMonitor(ble);
-  final firebaseService = FirebaseService(bleLogger);
+  final firebaseService = FirebaseService();
 
   final connector = BleDeviceConnector(
     ble: ble,
-    logMessage: bleLogger.info,
   );
 
   final serviceDiscoverer = BleDeviceInteractor(
@@ -51,26 +51,28 @@ void main() async {
       await ble.discoverAllServices(deviceId);
       return ble.getDiscoveredServices(deviceId);
     },
-    logMessage: bleLogger.info,
     readRssi: ble.readRssi,
     requestMtu: ble.requestMtu,
   );
 
-  final bleAutoConnector =
-      BlePeripheralConnector(scanner, connector, serviceDiscoverer, bleLogger);
-
+  // Initialize global variables
   packageInfo = await PackageInfo.fromPlatform();
   preferences = await SharedPreferences.getInstance();
+  bleSettings = BleSettings();
+  ledSettings = LedSettings();
+  peripheralConnector =
+      BlePeripheralConnector(scanner, connector, serviceDiscoverer);
+  bleLogger = BleLogger(ble: ble);
 
   runApp(INoWaApp(
       navigatorKey: NavigationService.navigatorKey,
-      settings: settings,
+      bleSettings: bleSettings,
       ledSettings: ledSettings,
+      bleLogger: bleLogger,
       scanner: scanner,
       monitor: monitor,
       connector: connector,
       serviceDiscoverer: serviceDiscoverer,
-      bleAutoConnector: bleAutoConnector,
-      bleLogger: bleLogger,
+      peripheralConnector: peripheralConnector,
       firebaseService: firebaseService));
 }

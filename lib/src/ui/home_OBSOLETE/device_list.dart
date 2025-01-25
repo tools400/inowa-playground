@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:inowa/src/ui/widgets/bluetooth_icon.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_device_connector.dart';
@@ -13,6 +14,7 @@ import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/home/internal/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home_OBSOLETE/device_detail_screen.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
+import 'package:inowa/src/ui/widgets/bluetooth_icon.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
 /// Diese Klasse startet und stopped den Scanvorgang und zeigt eine

@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/home/boulder_list_screen.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
@@ -35,7 +34,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String error = '';
-  late BleLogger logger;
 
   @override
   void initState() {
@@ -59,7 +57,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
+      Consumer<UIModel>(builder: (_, uiModel, __) {
         // Anzeigen Einstiegsbildschirm nachn erfolgreicher
         // Validierung der E-Mail.
         if (isEmailVerified) {
@@ -68,8 +66,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
         // Sprache für den Versand von Google E-Mails.
         auth.setLanguageCode(uiModel.locale.languageCode);
-
-        logger = bleLogger;
 
         return Scaffold(
           appBar: AppBar(
@@ -197,7 +193,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     if (!await confirm(context,
         content: Text(
             AppLocalizations.of(context)!.txt_Delete_user_profile_continue))) {
-      logger.debug('Operation canceled by the user.');
+      bleLogger.debug('Operation canceled by the user.');
       return;
     }
 
@@ -221,7 +217,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     } on FirebaseAuthException catch (e) {
       setError(e.message ?? e.toString());
     } catch (e) {
-      logger.error(e.toString());
+      bleLogger.error(e.toString());
     }
   }
 

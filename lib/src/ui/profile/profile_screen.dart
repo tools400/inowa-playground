@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/error_banner.dart';
@@ -34,7 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String error = '';
-  late BleLogger logger;
   StreamSubscription? subscribeStream;
 
   @override
@@ -60,11 +58,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer2<UIModel, BleLogger>(builder: (_, uiModel, bleLogger, __) {
+      Consumer<UIModel>(builder: (_, uiModel, __) {
         // Sprache für den Versand von Google E-Mails.
         auth.setLanguageCode(uiModel.locale.languageCode);
-
-        logger = bleLogger;
 
         return Scaffold(
           appBar: AppBar(
@@ -197,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!await confirm(context,
         content: Text(
             AppLocalizations.of(context)!.txt_Delete_user_profile_continue))) {
-      logger.debug('Operation canceled by the user.');
+      bleLogger.debug('Operation canceled by the user.');
       return;
     }
 
@@ -221,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } on FirebaseAuthException catch (e) {
       setError(e.message ?? e.toString());
     } catch (e) {
-      logger.error(e.toString());
+      bleLogger.error(e.toString());
     }
   }
 

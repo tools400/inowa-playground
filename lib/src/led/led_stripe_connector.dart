@@ -144,36 +144,3 @@ class LEDStripeConnector {
     return Hold(uiName: ledID, ledNbr: ledNbr);
   }
 }
-
-void main(List<String> arguments) {
-/*  
-  var ble = FlutterReactiveBle();
-  // var bleLogger = BleLogger(ble: ble);
-  var scanner = BleScanner(ble: ble);
-  var connector = BleDeviceConnector(
-    ble: ble,
-    scanner: scanner,
-  );
-  var serviceDiscoverer = BleDeviceInteractor(
-    bleDiscoverServices: (deviceId) async {
-      await ble.discoverAllServices(deviceId);
-      return ble.getDiscoveredServices(deviceId);
-    },
-    readRssi: ble.readRssi,
-    requestMtu: ble.requestMtu,
-  );
-  var bleConnector =
-      BleConnector(scanner, connector, serviceDiscoverer);
-  var ledConnector = LEDConnector(bleConnector);
-
-  List<String> arduinoCommand;
-
-  ledConnector.horizontalWireing = true;
-  arduinoCommand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
-  ConsoleLog.log('Horizontal => ' + arduinoCommand.join());
-
-  ledConnector.horizontalWireing = false;
-  arduinoCommand = ledConnector.arduinoCommand('N5+M6/M9/J9/J10/G10/E8/B9/B11');
-  ConsoleLog.log('Vertical => ' + arduinoCommand.join());
-*/
-}

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_logger.dart';
-import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/logging/device_log_tab.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 
@@ -18,15 +15,11 @@ class LoggerScreen extends StatefulWidget {
 
 class _LoggerScreenState extends State<LoggerScreen> {
   @override
-  Widget build(BuildContext context) => Consumer2<UIModel, BleLogger>(
-        builder: (_, uiModel, bleLogger, __) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(AppLocalizations.of(context)!.mnu_Logging),
-              backgroundColor: ColorTheme.inversePrimary(context),
-            ),
-            body: DeviceLogTab(),
-          );
-        },
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.mnu_Logging),
+          backgroundColor: ColorTheme.inversePrimary(context),
+        ),
+        body: DeviceLogTab(),
       );
 }
