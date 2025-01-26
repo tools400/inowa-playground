@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/led/led_settings.dart';
@@ -23,7 +23,7 @@ class INoWaApp extends StatelessWidget {
     super.key,
     required GlobalKey<NavigatorState> navigatorKey,
     required LedSettings ledSettings,
-    required BleLogger bleLogger,
+    required AppLogger bleLogger,
     required BleScanner scanner,
     required BleStatusMonitor monitor,
     required BleDeviceConnector connector,
@@ -41,7 +41,7 @@ class INoWaApp extends StatelessWidget {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   final LedSettings _ledSettings;
-  final BleLogger _bleLogger;
+  final AppLogger _bleLogger;
   final BleScanner _scanner;
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;

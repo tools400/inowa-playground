@@ -5,8 +5,8 @@ import '/main.dart';
 import '/src/logging/log_level_enum.dart';
 import '/src/utils/utils.dart';
 
-class BleLogger {
-  BleLogger({
+class AppLogger {
+  AppLogger({
     required ble,
   }) : _ble = ble;
 

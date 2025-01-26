@@ -7,9 +7,9 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/ble/ble_device_connector.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/constants.dart';
+import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/home/internal/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home_OBSOLETE/device_detail_screen.dart';
@@ -196,7 +196,7 @@ class _DeviceListState extends State<_DeviceList> {
               Flexible(
                 child: ListView(
                   children: [
-                    Consumer<BleLogger>(builder: (context, bleLogger, child) {
+                    Consumer<AppLogger>(builder: (context, bleLogger, child) {
                       return SwitchListTile(
                         title:
                             Text(AppLocalizations.of(context)!.enable_logging),

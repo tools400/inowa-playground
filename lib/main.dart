@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
-import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
@@ -28,7 +28,7 @@ late final FirebaseAuth auth;
 late final BlePeripheralConnector peripheralConnector;
 late final BleSettings bleSettings;
 late final LedSettings ledSettings;
-late final BleLogger bleLogger;
+late final AppLogger bleLogger;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +62,7 @@ void main() async {
   ledSettings = LedSettings();
   peripheralConnector =
       BlePeripheralConnector(scanner, connector, serviceDiscoverer);
-  bleLogger = BleLogger(ble: ble);
+  bleLogger = AppLogger(ble: ble);
 
   runApp(INoWaApp(
     navigatorKey: NavigationService.navigatorKey,

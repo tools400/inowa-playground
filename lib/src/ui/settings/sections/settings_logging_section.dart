@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_logger.dart';
+import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/logging/log_level_enum.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
@@ -30,7 +30,7 @@ class _LoggingSectionState extends State<LoggingSection> {
       );
     }
 
-    return Consumer<BleLogger>(builder: (_, logger, __) {
+    return Consumer<AppLogger>(builder: (_, logger, __) {
       return SingleSection(
         title: AppLocalizations.of(context)!.logging,
         children: [

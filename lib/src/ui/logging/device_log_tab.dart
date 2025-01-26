@@ -6,14 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 
-import '/src/ble/ble_logger.dart';
+import '../../logging/logger.dart';
 
 /// Diese Klasse zeigt die Logdaten der App an.
 class DeviceLogTab extends StatelessWidget {
   const DeviceLogTab({super.key});
 
   @override
-  Widget build(BuildContext context) => Consumer<BleLogger>(
+  Widget build(BuildContext context) => Consumer<AppLogger>(
         builder: (context, logger, _) => _DeviceLogTab(
           messages: logger.messages,
         ),
