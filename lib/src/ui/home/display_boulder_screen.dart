@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
-
-import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/main.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
@@ -12,6 +9,7 @@ import 'package:inowa/src/ui/home/tabs/boulder_properties_tab.dart';
 import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 import '/src/firebase/fb_service.dart';
 
@@ -57,11 +55,10 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Consumer3<FirebaseService, BlePeripheralConnector, LedSettings>(
-          builder: (_, firebase, bleConnector, ledSettings, __) {
+  Widget build(BuildContext context) => Consumer2<FirebaseService, LedSettings>(
+          builder: (_, firebase, ledSettings, __) {
         var isHorizontalWireing = ledSettings.isHorizontalWireing;
-        var ledConnector = LEDStripeConnector(bleConnector, ledSettings);
+        var ledConnector = LEDStripeConnector(peripheralConnector, ledSettings);
 
         // -----------------------------------
         // Send boulder to Bluetooth device
@@ -101,8 +98,6 @@ class _DisplayBoulderScreenState extends State<DisplayBoulderScreen>
                               PageIndicator.maxHeight,
                           child: BoulderMovesTab(
                             boulder: widget._boulderItem,
-                            bleConnector: bleConnector,
-                            ledSettings: ledSettings,
                           ),
                         ),
                       ),

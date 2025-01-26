@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
-import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ui/home/internal/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home/panels/add_boulder_panel.dart';
 import 'package:inowa/src/ui/home/panels/boulder_list_panel.dart';
@@ -41,36 +39,35 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Consumer<BlePeripheralConnector>(builder: (_, peripheralConnector, __) {
-        Widget panel;
-        switch (_pageMode) {
-          case PageMode.sort:
-            panel = BoulderListPanel();
-          case PageMode.addBoulder:
-            panel = AddBoulderPanel();
-          case PageMode.settings:
-            panel = SingleChildScrollView(
-              child: BluetoothSection(),
-            );
-          default:
-            panel = BoulderListPanel();
-        }
+  Widget build(BuildContext context) {
+    Widget panel;
+    switch (_pageMode) {
+      case PageMode.sort:
+        panel = BoulderListPanel();
+      case PageMode.addBoulder:
+        panel = AddBoulderPanel();
+      case PageMode.settings:
+        panel = SingleChildScrollView(
+          child: BluetoothSection(),
+        );
+      default:
+        panel = BoulderListPanel();
+    }
 
-        return Scaffold(
-            appBar: AppBar(
-              title: Text(AppLocalizations.of(context)!.mnu_Problems),
-              backgroundColor: ColorTheme.inversePrimary(context),
-            ),
-            drawer: HomePageDrawer(),
-            onDrawerChanged: (isOpen) {
-              // call setState() for refreshing the page,
-              // if the drawer has been closed
-              setState(() {});
-            },
-            bottomNavigationBar: bottomNavigationBar(),
-            body: panel);
-      });
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.mnu_Problems),
+          backgroundColor: ColorTheme.inversePrimary(context),
+        ),
+        drawer: HomePageDrawer(),
+        onDrawerChanged: (isOpen) {
+          // call setState() for refreshing the page,
+          // if the drawer has been closed
+          setState(() {});
+        },
+        bottomNavigationBar: bottomNavigationBar(),
+        body: panel);
+  }
 
   /// Navigation bar at the bottom of the screen.
   BottomNavigationBar bottomNavigationBar() {

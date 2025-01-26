@@ -1,12 +1,10 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:inowa/src/ble/ble_peripheral_connector.dart';
+import 'package:inowa/main.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/led/hold.dart';
-import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
 import 'package:inowa/src/ui/logging/console_log.dart';
@@ -16,18 +14,12 @@ import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 class BoulderMovesTab extends StatefulWidget {
-  const BoulderMovesTab(
-      {super.key,
-      required boulder,
-      required bleConnector,
-      required ledSettings})
-      : _boulderItem = boulder,
-        _bleConnector = bleConnector,
-        _ledSettings = ledSettings;
+  const BoulderMovesTab({
+    super.key,
+    required boulder,
+  }) : _boulderItem = boulder;
 
   final FbBoulder _boulderItem;
-  final BlePeripheralConnector _bleConnector;
-  final LedSettings _ledSettings;
 
   @override
   State<BoulderMovesTab> createState() => _BoulderMovesTab();
@@ -46,9 +38,8 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
   void initState() {
     super.initState();
     // TODO: remove debug code
-    ledStripeConnector =
-        LEDStripeConnector(widget._bleConnector, widget._ledSettings);
-    isHorizontalWireing = widget._ledSettings.isHorizontalWireing;
+    ledStripeConnector = LEDStripeConnector(peripheralConnector, ledSettings);
+    isHorizontalWireing = ledSettings.isHorizontalWireing;
     _moves = widget._boulderItem.moves(isHorizontalWireing);
   }
 

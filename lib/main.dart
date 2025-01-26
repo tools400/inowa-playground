@@ -8,11 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:inowa/src/ble/ble_device_connector.dart';
 import 'package:inowa/src/ble/ble_device_interactor.dart';
-import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/ble/ble_peripheral_connector.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/ble/ble_status_monitor.dart';
 import 'package:inowa/src/led/led_settings.dart';
+import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 import '/src/firebase/fb_service.dart';
@@ -37,11 +37,14 @@ void main() async {
   );
   auth = FirebaseAuth.instanceFor(app: app);
 
-  final ble = FlutterReactiveBle();
-  final scanner = BleScanner(ble: ble);
-  final monitor = BleStatusMonitor(ble);
   final firebaseService = FirebaseService();
 
+  final ble = FlutterReactiveBle();
+  // Status: unknown, unsupported, unauthorized, poweredOff, locationServicesDisabled, ready
+  final monitor = BleStatusMonitor(ble);
+  // Status: scanIsInProgress
+  final scanner = BleScanner(ble: ble);
+  // Status: connecting, connected, disconnecting, disconnected
   final connector = BleDeviceConnector(
     ble: ble,
   );
@@ -67,12 +70,10 @@ void main() async {
   runApp(INoWaApp(
     navigatorKey: NavigationService.navigatorKey,
     firebaseService: firebaseService,
+    monitor: monitor,
+    scanner: scanner,
+    connector: connector,
     ledSettings: ledSettings,
     bleLogger: bleLogger,
-    scanner: scanner,
-    monitor: monitor,
-    connector: connector,
-    serviceDiscoverer: serviceDiscoverer,
-    peripheralConnector: peripheralConnector,
   ));
 }
