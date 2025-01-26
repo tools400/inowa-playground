@@ -87,7 +87,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Flexible(
-            flex: 1,
+            flex: 2,
             child: boulderWallPanel(onTapDown, maxSize),
           ),
           Flexible(
@@ -199,9 +199,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
             columnWidths: const <int, TableColumnWidth>{
               0: FlexColumnWidth(1.0),
               1: FixedColumnWidth(10),
-              // 2: FlexColumnWidth(),
-              // 2: FixedColumnWidth(100),
-              2: FlexColumnWidth(2.5),
+              2: FlexColumnWidth(2),
             },
             children: [
               TableRow(
@@ -282,7 +280,7 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
                     child: Text(
                       _moves.topHoldAsString,
                       style: TextStyle(
-                        color: Colors.red,
+                        color: BoulderColor.topHold,
                       ),
                     ),
                   ),
