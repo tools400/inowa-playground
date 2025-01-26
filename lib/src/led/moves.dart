@@ -95,7 +95,7 @@ class Moves {
       if (buffer.isNotEmpty) {
         buffer.write(delimiter);
       }
-      buffer.write(_moves[i].uiName);
+      buffer.write(holds[i].uiName);
     }
     return buffer.toString();
   }
