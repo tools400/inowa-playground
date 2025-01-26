@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
+import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/boulder_wall.dart';
@@ -101,54 +103,49 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       void Function(Offset position, Size size) onTapDown, Size maxSize) {
     const double rowHeight = 40;
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: Utils.min(maxSize),
-        maxHeight: Utils.min(maxSize),
-      ),
-      child: Column(
-        children: [
-          // Boulder wall picture
-          BoulderWall(
-            holds: _moves.all,
-            onTapDown: onTapDown,
-            isShowLine: _isShowLine,
-            maxSize: Size(
-                Utils.min(maxSize) - rowHeight, Utils.min(maxSize) - rowHeight),
-          ),
-          // Footer with hide/show switch
-          SizedBox(
-            height: rowHeight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DefaultTextStyle.merge(
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: ColorTheme.linkColor),
-                  child: Text(_isShowLine
-                      ? AppLocalizations.of(context)!.hide_line
-                      : AppLocalizations.of(context)!.show_line),
-                ),
-                Transform.scale(
-                  scale: 0.7,
-                  child: Switch(
-                    value: _isShowLine,
-                    onChanged: (value) {
-                      setState(() {
-                        _isShowLine = !_isShowLine;
-                        ConsoleLog.log('Changed _isShowLine: $_isShowLine');
-                      });
-                    },
-                  ),
-                ),
-              ],
+    return Consumer<UIModel>(builder: (_, uiModel, __) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: Utils.min(maxSize),
+          maxHeight: Utils.min(maxSize),
+        ),
+        child: Column(
+          children: [
+            // Boulder wall picture
+            BoulderWall(
+              holds: _moves.all,
+              onTapDown: onTapDown,
+              isShowLine: uiModel.isShowPath,
+              maxSize: Size(Utils.min(maxSize) - rowHeight,
+                  Utils.min(maxSize) - rowHeight),
             ),
-          ),
-        ],
-      ),
-    );
+            // Footer with hide/show switch
+            SizedBox(
+              height: rowHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(uiModel.isShowPath
+                      ? AppLocalizations.of(context)!.hide_path
+                      : AppLocalizations.of(context)!.show_path),
+                  Transform.scale(
+                    scale: 0.7,
+                    child: Switch(
+                      value: uiModel.isShowPath,
+                      onChanged: (value) {
+                        setState(() {
+                          uiModel.setShowPath(value);
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   /// Produces the complete moves panel:

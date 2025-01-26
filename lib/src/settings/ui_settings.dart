@@ -16,6 +16,7 @@ import 'package:inowa/src/ui/settings/internal/dark_mode_enum.dart';
 class UIModel extends ChangeNotifier {
   static final keyDarkMode = 'darkMode';
   static final keyLocale = 'locale';
+  static final keyShowPath = 'showPath';
 
   /// Liefert die Sprache, in der die App angezeigt wird.
   Locale get locale {
@@ -122,5 +123,17 @@ class UIModel extends ChangeNotifier {
     } else {
       return Icons.brightness_auto;
     }
+  }
+
+  /// Stores the value for showing/hiding the path on the boulder
+  /// wall.
+  void setShowPath(bool show) {
+    preferences.setBool(keyShowPath, show);
+    notifyListeners();
+  }
+
+  /// Specifies whether to show the path on the boulder wall.
+  bool get isShowPath {
+    return preferences.getBool(keyShowPath) ?? true;
   }
 }
