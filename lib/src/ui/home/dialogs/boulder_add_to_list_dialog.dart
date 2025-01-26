@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
 import 'package:inowa/src/ui/widgets/widgets.dart';
-
-import '/src/ble/ble_device_interactor.dart';
 
 /// Diese Klasse zeigt einen Dialog für die Interaktion mit einer
 /// gegebenen Characteristic.
@@ -21,10 +17,8 @@ class BoulderAddToListDialog extends StatelessWidget {
   final String list;
 
   @override
-  Widget build(BuildContext context) => Consumer<BleDeviceInteractor>(
-        builder: (context, interactor, _) =>
-            _CharacteristicInteractionDialog(list: list),
-      );
+  Widget build(BuildContext context) =>
+      _CharacteristicInteractionDialog(list: list);
 }
 
 class _CharacteristicInteractionDialog extends StatefulWidget {

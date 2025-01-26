@@ -6,11 +6,9 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
-import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
-import 'package:inowa/src/ui/settings/internal/wireing_enum.dart';
 import 'package:inowa/src/ui/widgets/connect_disconnect_button.dart';
 import 'package:inowa/src/ui/widgets/error_banner.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -43,8 +41,8 @@ class _BluetoothSectionState extends State<BluetoothSection> {
 
   @override
   Widget build(BuildContext context) =>
-      Consumer3<LedSettings, ConnectionStateUpdate, BleScannerState>(
-          builder: (_, ledSettings, connectionStateUpdate, scannerState, __) {
+      Consumer2<ConnectionStateUpdate, BleScannerState>(
+          builder: (_, connectionStateUpdate, scannerState, __) {
         // Initialisieren Text Controller für den Geräte-Namen
         _deviceNameController ??= TextEditingController()
           ..text = bleSettings.deviceName;
@@ -160,16 +158,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
             // Wireing: horizontal/vertical
             SettingsListTile(
               title: AppLocalizations.of(context)!.wireing,
-              trailing: WireingDropDownMenu(
-                initialSelection: ledSettings.isHorizontalWireing
-                    ? Wireing.horizontal
-                    : Wireing.vertical,
-                onSelected: (wireing) {
-                  setState(() {
-                    ledSettings.isHorizontalWireing = wireing!.isHorizontal;
-                  });
-                },
-              ),
+              trailing: WireingDropDownMenu(),
             ),
           ],
         );

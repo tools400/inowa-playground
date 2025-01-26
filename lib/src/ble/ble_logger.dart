@@ -2,7 +2,6 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart' as ble;
 import 'package:intl/intl.dart';
 
 import '/main.dart';
-
 import '/src/logging/log_level_enum.dart';
 import '/src/utils/utils.dart';
 

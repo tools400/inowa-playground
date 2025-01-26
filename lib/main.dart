@@ -65,14 +65,14 @@ void main() async {
   bleLogger = BleLogger(ble: ble);
 
   runApp(INoWaApp(
-      navigatorKey: NavigationService.navigatorKey,
-      bleSettings: bleSettings,
-      ledSettings: ledSettings,
-      bleLogger: bleLogger,
-      scanner: scanner,
-      monitor: monitor,
-      connector: connector,
-      serviceDiscoverer: serviceDiscoverer,
-      peripheralConnector: peripheralConnector,
-      firebaseService: firebaseService));
+    navigatorKey: NavigationService.navigatorKey,
+    firebaseService: firebaseService,
+    ledSettings: ledSettings,
+    bleLogger: bleLogger,
+    scanner: scanner,
+    monitor: monitor,
+    connector: connector,
+    serviceDiscoverer: serviceDiscoverer,
+    peripheralConnector: peripheralConnector,
+  ));
 }
