@@ -7,6 +7,7 @@ import 'package:inowa/src/constants.dart';
 import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/ui/logging/console_log.dart';
+import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/utils/utils.dart';
 
 class BoulderWall extends StatefulWidget {
@@ -138,30 +139,30 @@ class HoldsPainter extends CustomPainter {
 
     // start holds
     final Paint startHoldsBorder = Paint()
-      ..color = const ui.Color.fromARGB(255, 25, 175, 30)
+      ..color = BoulderColor.startHolds
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
     // intermediate holds
     final Paint intermediateMovesBorder1 = Paint()
-      ..color = const ui.Color.fromARGB(255, 0, 20, 180)
+      ..color = BoulderColor.interHolds1
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
     final Paint intermediateMovesBorder2 = Paint()
-      ..color = Colors.purple
+      ..color = BoulderColor.interHolds2
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
     // top hold
     final Paint topHoldBorder = Paint()
-      ..color = Colors.red
+      ..color = BoulderColor.topHold
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
     // line
     final Paint path = Paint()
-      ..color = Colors.orange
+      ..color = BoulderColor.path
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 

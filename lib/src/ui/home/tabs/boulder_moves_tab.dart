@@ -85,9 +85,11 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Flexible(
+            flex: 1,
             child: boulderWallPanel(onTapDown, maxSize),
           ),
           Flexible(
+            flex: 2,
             child: movesPanel(),
           ),
         ],
@@ -149,156 +151,199 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
     );
   }
 
+  /// Produces the complete moves panel:
+  /// start holds:   xx xx
+  /// inter holds:   xx xx xx xx ...    <Undo>
+  /// start hold:    xx
+  ///                                   <Clear>
+  ///         xx xx xx xx xx xx xx
   movesPanel() {
-    EdgeInsets rowHeight = EdgeInsets.symmetric(vertical: 8);
-
     return Padding(
-      padding: EdgeInsets.all(50),
+      padding: EdgeInsets.all(25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             children: [
-              // Holds
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Table(
-                    columnWidths: const <int, TableColumnWidth>{
-                      0: IntrinsicColumnWidth(),
-                      1: FixedColumnWidth(50),
-                      2: IntrinsicColumnWidth(),
-                    },
-                    children: [
-                      TableRow(
-                        children: [
-                          Padding(
-                            padding: rowHeight,
-                            child: Text(
-                              'Start holds:',
-                              style: TextStyle(
-                                color: const Color.fromARGB(255, 25, 175, 30),
-                              ),
-                            ),
-                          ),
-                          SizedBox.fromSize(),
-                          Padding(
-                            padding: rowHeight,
-                            child: Text(
-                              _moves.startHoldsAsString,
-                              style: TextStyle(
-                                color: const Color.fromARGB(255, 25, 175, 30),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          Padding(
-                            padding: rowHeight,
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Intermediate',
-                                  style: TextStyle(
-                                    color:
-                                        const Color.fromARGB(255, 0, 20, 180),
-                                  ),
-                                ),
-                                Text(' '),
-                                Text(
-                                  'holds:',
-                                  style: TextStyle(
-                                    color: Colors.purple,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox.fromSize(),
-                          Padding(
-                            padding: rowHeight,
-                            child: rowOfIntermediateHolds,
-                          ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          Padding(
-                            padding: rowHeight,
-                            child: Text(
-                              'Top hold:',
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                          SizedBox.fromSize(),
-                          Padding(
-                            padding: rowHeight,
-                            child: Text(
-                              _moves.topHoldAsString,
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+              Flexible(
+                flex: 9,
+                child:
+                    // Holds
+                    moves,
               ),
+              HSpace(),
               // Buttons
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    // Undo button
-                    IconButton(
-                      onPressed: _moves.isEmpty
-                          ? null
-                          : () {
-                              setState(() {
-                                _moves.removeLast();
-                              });
-                            },
-                      icon: Icon(Icons.undo),
-                    ),
-                    // Clear button
-                    IconButton(
-                      onPressed: _moves.isEmpty
-                          ? null
-                          : () {
-                              setState(() {
-                                _moves.clear();
-                              });
-                            },
-                      icon: Icon(Icons.delete),
-                    ),
-                  ],
-                ),
+              Flexible(
+                flex: 1,
+                child: buttons,
               ),
             ],
           ),
-          VSpace(flex: 4),
+          VSpace(flex: 2),
           Text(_moves.allHoldsAsString),
         ],
       ),
     );
   }
 
-  Row get rowOfIntermediateHolds {
+  /// Produces a 3-line table with the start, inter and top holds:
+  /// start holds:   xx xx
+  /// inter holds:   xx xx xx xx ...
+  /// start hold:    xx
+  Widget get moves {
+    EdgeInsets rowHeight = EdgeInsets.symmetric(vertical: 2);
+
+    return Container(
+      // color: Colors.greenAccent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Table(
+            columnWidths: const <int, TableColumnWidth>{
+              0: FlexColumnWidth(1.0),
+              1: FixedColumnWidth(10),
+              // 2: FlexColumnWidth(),
+              // 2: FixedColumnWidth(100),
+              2: FlexColumnWidth(2.5),
+            },
+            children: [
+              TableRow(
+                children: [
+                  // -------------------
+                  // start holds
+                  // -------------------
+                  Padding(
+                    padding: rowHeight,
+                    child: Text(
+                      'Start holds:',
+                      style: TextStyle(
+                        color: BoulderColor.startHolds,
+                      ),
+                    ),
+                  ),
+                  SizedBox.fromSize(),
+                  Padding(
+                    padding: rowHeight,
+                    child: Text(
+                      _moves.startHoldsAsString,
+                      style: TextStyle(
+                        color: BoulderColor.startHolds,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              TableRow(
+                children: [
+                  // -------------------
+                  // intermediate holds
+                  // -------------------
+                  Padding(
+                    padding: rowHeight,
+                    child: Row(
+                      children: [
+                        Text(
+                          'Inter',
+                          style: TextStyle(
+                            color: BoulderColor.interHolds1,
+                          ),
+                        ),
+                        Text(' '),
+                        Text(
+                          'holds:',
+                          style: TextStyle(
+                            color: BoulderColor.interHolds2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox.fromSize(),
+                  Padding(
+                    padding: rowHeight,
+                    child: rowOfIntermediateHolds,
+                  ),
+                ],
+              ),
+              TableRow(
+                children: [
+                  // -------------------
+                  // top hold
+                  // -------------------
+                  Padding(
+                    padding: rowHeight,
+                    child: Text(
+                      'Top hold:',
+                      style: TextStyle(
+                        color: BoulderColor.topHold,
+                      ),
+                    ),
+                  ),
+                  SizedBox.fromSize(),
+                  Padding(
+                    padding: rowHeight,
+                    child: Text(
+                      _moves.topHoldAsString,
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Produces the 'Undo' and 'Clear' buttons.
+  Widget get buttons {
+    return Container(
+      // color: Colors.amber,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          // Undo button
+          IconButton(
+            onPressed: _moves.isEmpty
+                ? null
+                : () {
+                    setState(() {
+                      _moves.removeLast();
+                    });
+                  },
+            icon: Icon(Icons.undo),
+          ),
+          // Clear button
+          IconButton(
+            onPressed: _moves.isEmpty
+                ? null
+                : () {
+                    setState(() {
+                      _moves.clear();
+                    });
+                  },
+            icon: Icon(Icons.delete),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Produces a wrappable row of hold widgets.
+  Widget get rowOfIntermediateHolds {
+    // build list of hold widgets
     var holds = _moves.intermediateHolds;
     List<Widget> widgets = [];
     late Color color;
     late String label;
     for (int i = 0; i < holds.length; i++) {
       if (i % 2 == 0) {
-        color = const Color.fromARGB(255, 0, 20, 180);
+        color = BoulderColor.interHolds1;
       } else {
-        color = Colors.purple;
+        color = BoulderColor.interHolds2;
       }
       if (i == holds.length - 1) {
         label = holds[i].uiName;
@@ -308,7 +353,9 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
       widgets.add(Text(label, style: TextStyle(color: color)));
     }
 
-    return Row(
+    return Wrap(
+      spacing: 0,
+      runSpacing: 2.0,
       children: [
         for (Widget widget in widgets) widget,
       ],
