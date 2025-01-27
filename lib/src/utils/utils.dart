@@ -28,7 +28,16 @@ class Utils {
     );
   }
 
-  /// Veregleicht zwei Zeichenketten ohne Berücksichtigung der
+  static Future<int?> openDialog(BuildContext context, Widget dialog) {
+    return showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return dialog;
+      },
+    );
+  }
+
+  /// Vergleicht zwei Zeichenketten ohne Berücksichtigung der
   /// Groß- und Kleinschreibung.
   static bool equalsIgnoreCase(String? string1, String? string2) {
     return string1?.toLowerCase() == string2?.toLowerCase();

@@ -2,6 +2,7 @@
   "hdg_Login": "Login",
   "hdg_Registration": "Registration",
   "hdg_Scan_for_Devices": "Scan for Devices",
+  "hdg_missing_permissions": "Missing Permissions",
 
   "mnu_Home": "Home",
   "mnu_Profile": "Profile",
@@ -67,6 +68,10 @@
   "enter_your_email": "Enter your email:",
   "show_path": "Show path",
   "hide_path": "Hide path",
+  "permission_nerby_devices": "Nerby devices",
+
+  "btn_ok": "OK",
+  "btn_cancel": "Cancel",
 
   "txt_Delete_user_profile_continue": "Delete user profil. Continue?",
   "txt_Email_Verified": "Email Verified.",
@@ -83,6 +88,8 @@
   "txt_please_sign_up": " , please sign up!",
   "txt_password_reset_email_is_sent": "Password reset email is sent",
   "txt_no_boulders_available": "Keine Boulder vorhanden.",
+  "txt_permission_description": "iNoWa requires the following permissions for connecting to the LED controller::",
+  "txt_grant_permissions": "Grant permissions, now?",
 
   "err_invalid_uuid_format": "Invalid UUID format",
   "err_error_resetting": "Error resetting",

@@ -9,7 +9,6 @@ import 'package:inowa/src/led/hold.dart';
 import 'package:inowa/src/led/led_stripe_connector.dart';
 import 'package:inowa/src/led/moves.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
-import 'package:inowa/src/ui/logging/console_log.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/widgets/boulder_wall.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
@@ -34,7 +33,6 @@ class _BoulderMovesTab extends State<BoulderMovesTab> {
 
   Hold? _led;
   Moves _moves = Moves();
-  bool _isShowLine = false;
 
   @override
   void initState() {
