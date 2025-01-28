@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:inowa/main.dart';
+import 'package:inowa/src/permissions/permissions.dart';
 import 'package:inowa/src/ui/home/internal/boulder_list_drawer.dart';
 import 'package:inowa/src/ui/home/panels/add_boulder_panel.dart';
 import 'package:inowa/src/ui/home/panels/boulder_list_panel.dart';
@@ -30,12 +32,16 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (bleSettings.isAutoConnect) {
-        if (bleSettings.deviceName.isNotEmpty) {
-          bleLogger.info('Starte automatischen Verbindungsaufbau...');
-          peripheralConnector.connectArduino(bleSettings.deviceName);
-        }
+        bleLogger.info('Attempting to connect to Arduino on startup...');
+        Permissions.callWithPermissions(connectArduino, askUser: true);
       }
     });
+  }
+
+  void connectArduino() {
+    if (bleSettings.deviceName.isNotEmpty) {
+      peripheralConnector.connectArduino(bleSettings.deviceName);
+    }
   }
 
   @override

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
-import 'package:inowa/src/ui/permissions/ask_for_permissions_dialog.dart';
-import 'package:inowa/src/ui/permissions/permissions.dart';
+import 'package:inowa/src/permissions/permissions.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_editable_text_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_simple_integer_field.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
@@ -16,7 +14,6 @@ import 'package:inowa/src/ui/widgets/connect_disconnect_button.dart';
 import 'package:inowa/src/ui/widgets/error_banner.dart';
 import 'package:inowa/src/ui/widgets/widgets.dart';
 import 'package:inowa/src/ui/widgets/wireing_drop_down_menu.dart';
-import 'package:inowa/src/utils/utils.dart';
 
 import 'package:inowa/src/ui/settings//internal/settings_list_tile.dart';
 
@@ -72,50 +69,7 @@ class _BluetoothSectionState extends State<BluetoothSection> {
               peripheralConnector.disconnectArduino(deviceId);
             }
           } else {
-            Permissions.checkPermissionStatus(Permission.bluetoothConnect).then(
-              (granted) {
-                if (!granted) {
-                  Permissions.checkPermanentlyDenied(
-                          Permission.bluetoothConnect)
-                      .then(
-                    (permanentlyDenied) {
-                      if (permanentlyDenied) {
-                        bleLogger.info(
-                            'Bluetooth permission has been permanently denied by the user.');
-                      } else {
-                        // Ask user for Bluetooth permission
-                        Utils.openDialog(context, AskForPermissionsPopup())
-                            .then(
-                          (button) {
-                            if (button! ==
-                                AskForPermissionsPopup.buttonConfirmed) {
-                              // Request Bluetooth permission from device.
-                              Permissions.requestPermission(
-                                      Permission.bluetoothConnect)
-                                  .then(
-                                (granted) {
-                                  if (!granted) {
-                                    bleLogger.info(
-                                        'Bluetooth permission finally not granted by the user.');
-                                  } else {
-                                    connectArduino();
-                                  }
-                                },
-                              );
-                            } else {
-                              bleLogger.info(
-                                  'Requesting Bluetooth permission was canceled by the user.');
-                            }
-                          },
-                        );
-                      }
-                    },
-                  );
-                } else {
-                  connectArduino();
-                }
-              },
-            );
+            Permissions.callWithPermissions(connectArduino, askUser: true);
           }
         }
 

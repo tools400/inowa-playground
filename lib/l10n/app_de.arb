@@ -89,7 +89,7 @@
   "txt_password_reset_email_is_sent": "Email zum Zurücksetzen des Passworts gesendet",
   "txt_no_boulders_available": "Keine Boulder vorhanden.",
   "txt_permission_description": "iNoWa benötigt folgende Berechtigungen, um eine Verbindung zur LED Steuerung herstellen zu können:",
-  "txt_grant_permissions": "Berechtiugungen jetzt erteilen?",
+  "txt_grant_permissions": "Berechtigung jetzt erteilen?",
 
   "err_invalid_uuid_format": "Ungültiges UUID Format",
   "err_error_resetting": "Error resetting",

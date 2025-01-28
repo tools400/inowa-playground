@@ -109,8 +109,7 @@ class AppLogger {
     return cachedLogLevel >= logLevel.level;
   }
 
-  /// Schaltet die Protokollierung der 'flutter_reactive_ble' Bibliothek
-  /// ein, bzw. aus.
+  /// Turns logging on or off.
   set _bleLoggingEnabled(bool enabled) =>
       _ble.logLevel = enabled ? ble.LogLevel.verbose : ble.LogLevel.none;
 }
