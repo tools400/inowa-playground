@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:inowa/main.dart';
 import 'package:inowa/src/ble/ble_device_connector.dart';
+import 'package:inowa/src/ble/ble_device_interactor.dart';
 import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/led/led_settings.dart';
 import 'package:inowa/src/logging/logger.dart';
@@ -25,12 +26,14 @@ class INoWaApp extends StatelessWidget {
     required BleScanner scanner,
     required BleStatusMonitor monitor,
     required BleDeviceConnector connector,
+    required BleDeviceInteractor serviceDiscoverer,
     required FirebaseService firebaseService,
   })  : _ledSettings = ledSettings,
         _bleLogger = bleLogger,
         _scanner = scanner,
         _monitor = monitor,
         _connector = connector,
+        _serviceDiscoverer = serviceDiscoverer,
         _firebaseService = firebaseService;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -40,6 +43,7 @@ class INoWaApp extends StatelessWidget {
   final BleScanner _scanner;
   final BleStatusMonitor _monitor;
   final BleDeviceConnector _connector;
+  final BleDeviceInteractor _serviceDiscoverer;
   final FirebaseService _firebaseService;
 
   @override
@@ -49,6 +53,9 @@ class INoWaApp extends StatelessWidget {
         Provider.value(value: _ledSettings),
         Provider.value(value: _bleLogger),
         Provider.value(value: _scanner),
+        Provider.value(value: _monitor),
+        Provider.value(value: _connector),
+        Provider.value(value: _serviceDiscoverer),
         Provider.value(value: _firebaseService),
         StreamProvider<BleScannerState?>(
           create: (_) => _scanner.state,

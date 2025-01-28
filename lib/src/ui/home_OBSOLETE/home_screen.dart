@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
-import '/src/ui/ble_status_screen.dart';
+
+import 'ble_status_screen.dart';
 import 'device_list.dart';
 
 class HomeScreen extends StatelessWidget {

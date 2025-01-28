@@ -17,6 +17,7 @@ class ColorTheme {
   static const linkColor = Colors.blue;
   static const navigatorSelectedColor = Colors.orange;
   static const deviceConnectedIconColor = Colors.amber;
+  static const errorColor = Colors.red;
 
   static final light = ThemeData(
     colorSchemeSeed: _seedColor,

@@ -25,6 +25,7 @@ late PackageInfo packageInfo;
 late SharedPreferences preferences;
 late final FirebaseApp app;
 late final FirebaseAuth auth;
+
 late final BlePeripheralConnector peripheralConnector;
 late final BleSettings bleSettings;
 late final LedSettings ledSettings;
@@ -73,6 +74,7 @@ void main() async {
     monitor: monitor,
     scanner: scanner,
     connector: connector,
+    serviceDiscoverer: serviceDiscoverer,
     ledSettings: ledSettings,
     bleLogger: bleLogger,
   ));

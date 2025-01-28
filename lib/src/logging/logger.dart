@@ -28,7 +28,7 @@ class AppLogger {
   /// Liefert 'true', wenn die Protokollierung grundsätzlich
   /// eingeschaltet ist, sonst 'false'.
   bool get loggingEnabled {
-    bool isActive = preferences.getBool(keyIsActive) ?? false;
+    bool isActive = preferences.getBool(keyIsActive) ?? true;
     return isActive;
   }
 
