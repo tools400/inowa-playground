@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:inowa/src/ui/widgets/cancel_button.dart';
 import 'package:inowa/src/ui/widgets/ok_button.dart';
@@ -11,7 +12,10 @@ import '/src/ui/widgets/widgets.dart';
 class AskForPermissionsPopup extends StatefulWidget {
   const AskForPermissionsPopup({
     super.key,
-  });
+    required List<Permission> permissions,
+  }) : _permissions = permissions;
+
+  final List<Permission> _permissions;
 
   static final int buttonCanceled = 1;
   static final int buttonConfirmed = 2;
@@ -33,7 +37,8 @@ class _AskForPermissionsPopupState extends State<AskForPermissionsPopup> {
             Row(
               children: [
                 Text('• '),
-                Text(AppLocalizations.of(context)!.permission_nerby_devices),
+                for (int i = 0; i < widget._permissions.length; i++)
+                  Text(widget._permissions[i].toString())
               ],
             ),
             VSpace(),

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:inowa/main.dart';
@@ -38,50 +36,76 @@ class Permissions {
   }
 
   static void callWithPermissions(void Function() function,
-      {required bool askUser}) {
-    BuildContext context = NavigationService.context;
+      {required bool askUser}) async {
+    List<Permission> permissions = [
+      Permission.bluetoothScan,
+      Permission.bluetoothConnect,
+/*
+      Permission.location
+*/
+    ];
 
-    checkPermissionStatus(Permission.bluetoothConnect).then((granted) {
-      if (!granted) {
-        Permissions.checkPermanentlyDenied(Permission.bluetoothConnect).then(
-          (permanentlyDenied) {
-            if (permanentlyDenied) {
-              bleLogger.error(
-                  'Bluetooth permission has been permanently denied by the user.');
-            } else {
-              if (askUser) {
-                // Ask user for Bluetooth permission
-                Utils.openDialog(context, AskForPermissionsPopup()).then(
-                  (button) {
-                    if (button! == AskForPermissionsPopup.buttonConfirmed) {
-                      // Request Bluetooth permission from device.
-                      Permissions.requestPermission(Permission.bluetoothConnect)
-                          .then(
-                        (granted) {
-                          if (!granted) {
-                            bleLogger.info(
-                                'Bluetooth permission finally not granted by the user.');
-                          } else {
-                            function();
-                          }
-                        },
-                      );
-                    } else {
-                      bleLogger.info(
-                          'Requesting Bluetooth permission was canceled by the user.');
-                    }
-                  },
-                );
-              } else {
-                bleLogger.error(
-                    'Bluetooth permission not granted. Cannot connect to Arduino.');
-              }
-            }
-          },
-        );
-      } else {
-        function();
+    // Collect missing permissions
+    List<Permission> permanentlyDeniedPermissions = [];
+    List<Permission> missingPermissions = [];
+    for (int i = 0; i < permissions.length; i++) {
+      var permission = permissions[i];
+      if (!await checkPermissionStatus(permission)) {
+        if (await Permissions.checkPermanentlyDenied(permission)) {
+          permanentlyDeniedPermissions.add(permission);
+          bleLogger.error(
+              'Permission ${permissions.toString()} permanently denied by user.');
+        }
+        missingPermissions.add(permission);
       }
-    });
+    }
+
+    if (permanentlyDeniedPermissions.length > 0) {
+      bleLogger.error(
+          'Cannot perform function, because some permissions are permanently denied.');
+      return;
+    }
+
+    if (missingPermissions.length > 0 && !askUser) {
+      bleLogger
+          .error('Cannot perform function, because permissions are missing.');
+      return;
+    }
+
+    // Grant permissions.
+    if (missingPermissions.length > 0) {
+      var context = NavigationService.context;
+      var button = await Utils.openDialog(
+          context, AskForPermissionsPopup(permissions: missingPermissions));
+      if (button == AskForPermissionsPopup.buttonConfirmed) {
+        for (int i = 0; i < missingPermissions.length; i++) {
+          var permission = permissions[i];
+          bool granted = await Permissions.requestPermission(permissions[i]);
+          if (granted) {
+            bleLogger
+                .error('Permission ${permission.toString()} granted by user.');
+          } else {
+            bleLogger.error(
+                'Permission ${permission.toString()} finally not granted by user.');
+          }
+        }
+      } else {
+        bleLogger.error('Requesting permission canceled by user.');
+      }
+    }
+
+    // Re-check missing permissions
+    missingPermissions = [];
+    for (int i = 0; i < permissions.length; i++) {
+      var permission = permissions[i];
+      if (!await checkPermissionStatus(permission)) {
+        missingPermissions.add(permission);
+      }
+    }
+
+    // Call function...
+    if (missingPermissions.length == 0) {
+      function();
+    }
   }
 }
