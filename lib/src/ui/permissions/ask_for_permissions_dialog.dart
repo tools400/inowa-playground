@@ -34,11 +34,11 @@ class _AskForPermissionsPopupState extends State<AskForPermissionsPopup> {
           children: <Widget>[
             Text(AppLocalizations.of(context)!.txt_permission_description),
             VSpace(),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('• '),
-                for (int i = 0; i < widget._permissions.length; i++)
-                  Text(widget._permissions[i].toString())
+                for (Permission permission in widget._permissions)
+                  Text('• ${permission.toString()}'),
               ],
             ),
             VSpace(),
