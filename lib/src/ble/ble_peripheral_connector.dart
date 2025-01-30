@@ -20,6 +20,7 @@ class BlePeripheralConnector {
 
   Function(Status, String)? _statusCallback;
   static Timer? _timeoutTimer;
+  Service? _service;
   Characteristic? _characteristic;
 
   void connectArduino(String deviceName) {
@@ -81,16 +82,18 @@ class BlePeripheralConnector {
     bool isDone = false;
     bool isError = false;
 
-    int s = 0;
-    int c = 0;
+    _service == null;
     _characteristic = null;
 
     // Ermitteln der Characteristic 'LED Value'
+    int s = 0;
     _serviceDiscoverer.discoverServices(deviceId).then((services) {
       while (!isDone && s < services.length) {
-        Service service = services[s];
-        if (Utils.equalsIgnoreCase(service.id.toString(), SERVICE_UUID)) {
-          var characteristics = service.characteristics;
+        _service = services[s];
+//        if (Utils.equalsIgnoreCase(service.id.toString(), SERVICE_UUID)) {
+        if (Utils.equalsIgnoreCase(_service!.deviceId, deviceId)) {
+          var characteristics = _service!.characteristics;
+          int c = 0;
           while (!isDone && c < characteristics.length) {
             var characteristic = characteristics[c];
             if (Utils.equalsIgnoreCase(
@@ -100,38 +103,30 @@ class BlePeripheralConnector {
               // store characteristic for further usage
               _characteristic = characteristic;
               if (_statusCallback != null) {
-                _statusCallback!(Status.connected, service.id.toString());
+                _statusCallback!(Status.connected, _service!.id.toString());
               }
               isDone;
             }
             c++;
           }
-          if (_characteristic == null) {
-            if (!isError) {
-              isError = true;
-              bleLogger
-                  .error('\'$CHARACTERISTICS_UUID\' characteristic not found.');
-              if (_statusCallback != null) {
-                _statusCallback!(
-                    Status.characteristicNotFound, CHARACTERISTICS_UUID);
-              }
-              isDone = true;
-            }
-          }
         }
         s++;
       }
-
-      if (_characteristic == null) {
-        if (!isError) {
-          isError = true;
-          bleLogger.error('\'$SERVICE_UUID\' service not found.');
-          if (_statusCallback != null) {
-            _statusCallback!(Status.serviceNotFound, SERVICE_UUID);
-          }
+      if (_service == null) {
+        isError = true;
+        bleLogger.error('\'$SERVICE_UUID\' service not found.');
+        if (_statusCallback != null) {
+          _statusCallback!(Status.serviceNotFound, SERVICE_UUID);
         }
-        // Trennen der Verbindung ohne Aufruf
-        // der Status Callback
+      } else if (_characteristic == null) {
+        isError = true;
+        bleLogger.error('\'$SERVICE_UUID\' characteristic not found.');
+        if (_statusCallback != null) {
+          _statusCallback!(Status.characteristicNotFound, CHARACTERISTICS_UUID);
+        }
+      }
+
+      if (isError) {
         _connector.disconnect(deviceId);
       }
     });
@@ -140,7 +135,9 @@ class BlePeripheralConnector {
   /// Callback, wird nach erfolgreicher Trennung der
   /// Verbindung zum Bluetooth Gerät aufgerufen.
   _disconnectedCallback(String deviceId) {
+    _service = null;
     _characteristic = null;
+
     if (_statusCallback != null) {
       _statusCallback!(Status.disconnected, deviceId);
     }
