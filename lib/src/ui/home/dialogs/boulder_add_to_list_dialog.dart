@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:inowa/src/firebase/model/db_boulder.dart';
-import 'package:inowa/src/ui/home/dialogs/boulder_add_to_list_dialog.dart';
+import 'package:inowa/src/ui/widgets/widgets.dart';
 
 class BoulderAddToListDialog extends StatefulWidget {
   const BoulderAddToListDialog({
