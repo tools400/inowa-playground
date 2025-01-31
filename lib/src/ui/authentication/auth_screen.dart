@@ -9,7 +9,6 @@ import 'package:inowa/main.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_constrained_box.dart';
-import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/menus/language_popup_menu.dart';
 import 'package:inowa/src/ui/widgets/email_text.dart';
 import 'package:inowa/src/ui/widgets/error_banner.dart';
@@ -64,14 +63,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
-        /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
-        DropdownMenuEntry<Locale> localeToMenuItem(Locale item) {
-          return DropdownMenuEntry(
-            label: item.languageCode,
-            value: item,
-          );
-        }
-
         return Scaffold(
           appBar: AppBar(
             title: Row(children: [

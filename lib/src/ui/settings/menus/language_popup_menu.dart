@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
-import 'package:inowa/src/ble/ble_scanner.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 
 /// Widget Connecting/Disconnecting the Bluetooth device.
