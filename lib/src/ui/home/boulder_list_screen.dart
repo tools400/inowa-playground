@@ -36,6 +36,8 @@ class _BoulderListScreenState extends State<BoulderListScreen> {
       if (bleSettings.isAutoConnect) {
         bleLogger.info('Attempting to connect to Arduino on startup...');
         Permissions.callWithPermissions(connectArduino, askUser: true);
+      } else {
+        Permissions.askForPermissions();
       }
     });
   }

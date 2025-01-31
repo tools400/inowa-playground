@@ -35,30 +35,92 @@ class Permissions {
     return await permission.shouldShowRequestRationale;
   }
 
-  static void callWithPermissions(void Function() function,
-      {required bool askUser}) async {
-    List<Permission> permissions = [
-      Permission.bluetoothScan,
-      Permission.bluetoothConnect,
+  static List<Permission> requiredPermissions = [
+    Permission.bluetoothScan,
+    Permission.bluetoothConnect,
 /*
       Permission.location
 */
-    ];
+  ];
 
-    // Collect missing permissions
-    List<Permission> permanentlyDeniedPermissions = [];
+  /// Checks the permissions required for running the app. The
+  /// function returns a list of missing permissions.
+  static Future<List<Permission>> checkAppPermissions() async {
     List<Permission> missingPermissions = [];
-    for (int i = 0; i < permissions.length; i++) {
-      var permission = permissions[i];
+
+    for (int i = 0; i < requiredPermissions.length; i++) {
+      var permission = requiredPermissions[i];
       if (!await checkPermissionStatus(permission)) {
-        if (await Permissions.checkPermanentlyDenied(permission)) {
-          permanentlyDeniedPermissions.add(permission);
-          bleLogger.error(
-              'Permission ${permissions.toString()} permanently denied by user.');
-        }
         missingPermissions.add(permission);
       }
     }
+
+    return missingPermissions;
+  }
+
+  // Returns the list of permanently denied permissions.
+  static Future<List<Permission>> permanentlyDeniedPermissions() async {
+    List<Permission> missingPermissions = [];
+    List<Permission> permanentlyDeniedPermissions = [];
+
+    for (int i = 0; i < missingPermissions.length; i++) {
+      if (await Permissions.checkPermanentlyDenied(missingPermissions[i])) {
+        permanentlyDeniedPermissions.add(missingPermissions[i]);
+      }
+    }
+
+    return permanentlyDeniedPermissions;
+  }
+
+  /// Asks the user to grant permissions and returns 'true' on
+  /// success, otherwise 'false'.
+  static Future<bool> askForPermissions() async {
+    List<Permission> missingPermissions =
+        await Permissions.checkAppPermissions();
+
+    var countErrors = 0;
+
+    if (missingPermissions.length > 0) {
+      var context = NavigationService.context;
+      var button = await Utils.openDialog(
+          context, AskForPermissionsPopup(permissions: missingPermissions));
+      if (button == AskForPermissionsPopup.buttonConfirmed) {
+        for (int i = 0; i < missingPermissions.length; i++) {
+          var permission = requiredPermissions[i];
+          bool granted =
+              await Permissions.requestPermission(requiredPermissions[i]);
+          if (granted) {
+            bleLogger
+                .debug('Permission ${permission.toString()} granted by user.');
+          } else {
+            bleLogger.error(
+                'Permission ${permission.toString()} finally not granted by user.');
+            countErrors++;
+          }
+        }
+      } else {
+        bleLogger.error('Requesting permission canceled by user.');
+        countErrors++;
+      }
+    }
+
+    if (countErrors == 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /// Validates the app permissions and calls the specified function
+  /// on success.
+  static void callWithPermissions(void Function() function,
+      {required bool askUser}) async {
+    List<Permission> permanentlyDeniedPermissions =
+        await Permissions.permanentlyDeniedPermissions();
+    permanentlyDeniedPermissions.forEach((permission) {
+      bleLogger.error(
+          'Permission ${requiredPermissions.toString()} permanently denied by user.');
+    });
 
     if (permanentlyDeniedPermissions.length > 0) {
       bleLogger.error(
@@ -66,45 +128,8 @@ class Permissions {
       return;
     }
 
-    if (missingPermissions.length > 0 && !askUser) {
-      bleLogger
-          .error('Cannot perform function, because permissions are missing.');
-      return;
-    }
-
     // Grant permissions.
-    if (missingPermissions.length > 0) {
-      var context = NavigationService.context;
-      var button = await Utils.openDialog(
-          context, AskForPermissionsPopup(permissions: missingPermissions));
-      if (button == AskForPermissionsPopup.buttonConfirmed) {
-        for (int i = 0; i < missingPermissions.length; i++) {
-          var permission = permissions[i];
-          bool granted = await Permissions.requestPermission(permissions[i]);
-          if (granted) {
-            bleLogger
-                .error('Permission ${permission.toString()} granted by user.');
-          } else {
-            bleLogger.error(
-                'Permission ${permission.toString()} finally not granted by user.');
-          }
-        }
-      } else {
-        bleLogger.error('Requesting permission canceled by user.');
-      }
-    }
-
-    // Re-check missing permissions
-    missingPermissions = [];
-    for (int i = 0; i < permissions.length; i++) {
-      var permission = permissions[i];
-      if (!await checkPermissionStatus(permission)) {
-        missingPermissions.add(permission);
-      }
-    }
-
-    // Call function...
-    if (missingPermissions.length == 0) {
+    if (await Permissions.askForPermissions()) {
       function();
     }
   }
