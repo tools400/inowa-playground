@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:provider/provider.dart';
 
@@ -27,28 +28,32 @@ class _BluetoothStatusText extends State<BluetoothStatusText> {
 
         switch (bleStatus) {
           case BleStatus.unsupported:
-            text = "Bluetooth not supported on device.";
+            text = AppLocalizations.of(context)!
+                .txt_Bluetooth_not_supported_on_device;
             color = ColorTheme.errorColor;
           case BleStatus.unauthorized:
-            text = "Bluetooth permission not granted.";
+            text = AppLocalizations.of(context)!
+                .txt_Bluetooth_permission_not_granted;
             color = ColorTheme.errorColor;
           case BleStatus.poweredOff:
-            text = "Bluetooth is powered off. Turn it on.";
-            color = ColorTheme.errorColor;
+            text = AppLocalizations.of(context)!
+                .txt_Bluetooth_is_powered_off_Turn_it_on;
+            color = Colors.amber;
           case BleStatus.locationServicesDisabled:
-            text = "Enable location services.";
+            text = AppLocalizations.of(context)!.txt_Enable_location_services;
             color = ColorTheme.errorColor;
           case BleStatus.ready:
             return SizedBox.shrink();
           default:
-            text = "Waiting for Bluetooth status $bleStatus ...";
+            text =
+                '${AppLocalizations.of(context)!.txt_Waiting_for_Bluetooth_status_A} $bleStatus...';
             color = Colors.amber;
         }
 
         return DefaultTextStyle.merge(
           style: Theme.of(NavigationService.context)
               .textTheme
-              .bodyMedium
+              .bodyLarge
               ?.copyWith(color: color, fontWeight: FontWeight.bold),
           child: Text(text),
         );

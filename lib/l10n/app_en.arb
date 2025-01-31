@@ -90,6 +90,11 @@
   "txt_no_boulders_available": "Keine Boulder vorhanden.",
   "txt_permission_description": "iNoWa requires the following permissions for connecting to the LED controller::",
   "txt_grant_permissions": "Grant permissions, now?",
+  "txt_Bluetooth_not_supported_on_device": "Bluetooth not supported on device",
+  "txt_Bluetooth_permission_not_granted": "Bluetooth permission not granted",
+  "txt_Bluetooth_is_powered_off_Turn_it_on": "Bluetooth is powered off. Turn it on",
+  "txt_Enable_location_services": "Enable location services",
+  "txt_Waiting_for_Bluetooth_status_A": "Waiting for Bluetooth status",
 
   "err_invalid_uuid_format": "Invalid UUID format",
   "err_error_resetting": "Error resetting",
