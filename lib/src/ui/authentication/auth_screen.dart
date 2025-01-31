@@ -9,6 +9,8 @@ import 'package:inowa/main.dart';
 import 'package:inowa/src/settings/ui_settings.dart';
 import 'package:inowa/src/ui/settings/internal/color_theme.dart';
 import 'package:inowa/src/ui/settings/internal/settings_constrained_box.dart';
+import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
+import 'package:inowa/src/ui/settings/menus/language_popup_menu.dart';
 import 'package:inowa/src/ui/widgets/email_text.dart';
 import 'package:inowa/src/ui/widgets/error_banner.dart';
 import 'package:inowa/src/ui/widgets/password_text.dart';
@@ -62,11 +64,31 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<UIModel>(builder: (_, uiModel, __) {
+        /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
+        DropdownMenuEntry<Locale> localeToMenuItem(Locale item) {
+          return DropdownMenuEntry(
+            label: item.languageCode,
+            value: item,
+          );
+        }
+
         return Scaffold(
           appBar: AppBar(
-            title: Text(mode == AuthMode.login
-                ? AppLocalizations.of(context)!.hdg_Login
-                : AppLocalizations.of(context)!.hdg_Registration),
+            title: Row(children: [
+              Flexible(
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(mode == AuthMode.login
+                        ? AppLocalizations.of(context)!.hdg_Login
+                        : AppLocalizations.of(context)!.hdg_Registration)),
+              ),
+              Flexible(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: LanguagePopupMenu(),
+                ),
+              ),
+            ]),
             backgroundColor: ColorTheme.inversePrimary(context),
           ),
           body: SingleChildScrollView(

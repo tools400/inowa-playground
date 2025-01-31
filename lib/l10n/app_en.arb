@@ -77,7 +77,7 @@
   "txt_Email_Verified": "Email Verified.",
   "txt_Email_has_not_been_verified": "Email has not been verified!",
   "txt_Verification_email_has_been_sent": "Verification email is sent.",
-  "txt_don_t_have_an_account": "Delete Profile",
+  "txt_don_t_have_an_account": "Don't have an account?",
   "txt_you_have_an_account": "You have an account?",
   "txt_forgot_Password": "Forgot password?",
   "txt_enter_a_UUID_above_and_tap_start_to_begin_scanning": "Enter a UUID above and tap start to begin scanning",
