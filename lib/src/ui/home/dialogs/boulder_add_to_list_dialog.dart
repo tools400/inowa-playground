@@ -1,45 +1,26 @@
 import 'package:flutter/material.dart';
 
-import 'package:inowa/src/ui/widgets/widgets.dart';
+import 'package:inowa/src/firebase/model/db_boulder.dart';
+import 'package:inowa/src/ui/home/dialogs/boulder_add_to_list_dialog.dart';
 
-/// Diese Klasse zeigt einen Dialog für die Interaktion mit einer
-/// gegebenen Characteristic.
-/// Die möglichen Interaktionen sind:
-/// * Read
-/// * Write without response
-/// * Write with response
-/// * Subscribe / notify
-class BoulderAddToListDialog extends StatelessWidget {
+class BoulderAddToListDialog extends StatefulWidget {
   const BoulderAddToListDialog({
     required this.list,
-    super.key,
-  });
-  final String list;
-
-  @override
-  Widget build(BuildContext context) =>
-      _CharacteristicInteractionDialog(list: list);
-}
-
-class _CharacteristicInteractionDialog extends StatefulWidget {
-  const _CharacteristicInteractionDialog({
-    required this.list,
   });
 
   final String list;
 
   @override
-  _CharacteristicInteractionDialogState createState() =>
-      _CharacteristicInteractionDialogState();
+  _BoulderAddToListDialogState createState() => _BoulderAddToListDialogState();
 }
 
-class _CharacteristicInteractionDialogState
-    extends State<_CharacteristicInteractionDialog> {
+class _BoulderAddToListDialogState extends State<BoulderAddToListDialog> {
   @override
   Widget build(BuildContext context) => Dialog(
         child: Padding(
             padding: appBorder,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(widget.list),
                 TextButton(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:inowa/src/ui/home/menus/boulder_popup_menu.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/logging/logger.dart';
@@ -154,29 +155,4 @@ class BoulderListTile extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget BoulderPopupMenu(
-    {required BuildContext context, required FbBoulder itemItem}) {
-  return PopupMenuButton<String>(
-    icon: Icon(Icons.menu),
-    onSelected: (String value) => showDialog<void>(
-      context: context,
-      builder: (context) => BoulderAddToListDialog(list: value),
-    ),
-    itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-      const PopupMenuItem<String>(
-        value: 'Value1',
-        child: Text('Choose value 1'),
-      ),
-      const PopupMenuItem<String>(
-        value: 'Value2',
-        child: Text('Choose value 2'),
-      ),
-      const PopupMenuItem<String>(
-        value: 'Value3',
-        child: Text('Choose value 3'),
-      ),
-    ],
-  );
 }
