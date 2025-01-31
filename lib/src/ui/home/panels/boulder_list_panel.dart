@@ -13,7 +13,8 @@ import 'package:inowa/src/utils/utils.dart';
 
 import '/src/firebase/fb_service.dart';
 
-/// Diese Klasse zeigt die Logdaten der App an.
+/// Diese Klasse ist der 'Home' Screen der App und zeigt die Liste
+/// der verfügbaren Boulder an.
 class BoulderListPanel extends StatelessWidget {
   const BoulderListPanel({super.key});
 
