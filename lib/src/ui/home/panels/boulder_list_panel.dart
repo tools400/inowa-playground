@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'package:inowa/src/firebase/grade_enum.dart';
 import 'package:inowa/src/firebase/model/db_boulder.dart';
 import 'package:inowa/src/logging/logger.dart';
 import 'package:inowa/src/ui/home/display_boulder_screen.dart';
@@ -54,9 +55,13 @@ class _BoulderListPanelState extends State<_BoulderListPanel> {
 
   // TODO: add horizontal scrolling of the log messages, disable 'softWrap'.
   @override
-  Widget build(BuildContext context) => Consumer<FirebaseService>(
-        builder: (context, firebase, _) => StreamBuilder<QuerySnapshot>(
-          stream: firebase.boulderStream,
+  Widget build(BuildContext context) =>
+      Consumer<FirebaseService>(builder: (context, firebase, _) {
+        FilterOptions filterOptions = FilterOptions();
+        filterOptions.fromGrade = Grade.grade5a;
+
+        return StreamBuilder<QuerySnapshot>(
+          stream: firebase.boulderStreamFiltered(filterOptions),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -80,8 +85,8 @@ class _BoulderListPanelState extends State<_BoulderListPanel> {
 
             return boulderList(items, context);
           },
-        ),
-      );
+        );
+      });
 
   Column boulderList(
       List<QueryDocumentSnapshot<Object?>> items, BuildContext context) {

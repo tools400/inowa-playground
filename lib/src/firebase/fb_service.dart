@@ -38,7 +38,7 @@ class FirebaseService {
         'id': Uuid().v7(),
         'name': name,
         'angle': angle.id,
-        'grade': grade.id,
+        'grade': grade.value,
         'created': FieldValue.serverTimestamp(), // Zeitstempel hinzufügen
         'userId': FirebaseAuth.instance.currentUser!.uid,
       });
@@ -46,5 +46,29 @@ class FirebaseService {
     } catch (e) {
       bleLogger.debug('Fehler beim Hinzufügen der Daten: $e');
     }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> boulderStreamFiltered(
+          FilterOptions filterOptions) =>
+      collectionBoulder
+          .where("grade", isGreaterThanOrEqualTo: filterOptions.fromGrade.value)
+          .where("grade", isLessThanOrEqualTo: filterOptions.toGrade.value)
+          .snapshots();
+}
+
+class FilterOptions {
+  FilterOptions();
+
+  Grade _fromGrade = Grade.min;
+  Grade _toGrade = Grade.max;
+
+  Grade get fromGrade => _fromGrade;
+  set fromGrade(Grade grade) {
+    _fromGrade = grade;
+  }
+
+  Grade get toGrade => _toGrade;
+  set toGrade(Grade grade) {
+    _toGrade = grade;
   }
 }
