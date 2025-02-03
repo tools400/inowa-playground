@@ -11,3 +11,5 @@ const URL_INOWA_HOMPAGE = 'https://i-nowa.com/';
 
 // Resources
 const IMAGE_BOARD_2 = 'assets/images/board_2.png';
+const LANGUAGE_ENGLISH = 'assets/icons/languages/english.png';
+const LANGUAGE_GERMAN = 'assets/icons/languages/german.png';

@@ -43,6 +43,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icons/languages/
 
   # Enables internationalization
   generate: true

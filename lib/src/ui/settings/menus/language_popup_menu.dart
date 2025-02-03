@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inowa/src/settings/ui_settings.dart';
+import 'package:inowa/src/ui/widgets/language_icons.dart';
 
 /// Widget Connecting/Disconnecting the Bluetooth device.
 class LanguagePopupMenu extends StatefulWidget {
@@ -28,7 +29,9 @@ class _LanguagePopupMenu extends State<LanguagePopupMenu> {
             for (var locale in AppLocalizations.supportedLocales)
               PopupMenuItem<Locale>(
                 value: locale,
-                child: Text(locale.languageCode),
+                child: LanguageIcons.buttonByLanguageCode(
+                  locale.languageCode,
+                ),
               ),
           ],
         );

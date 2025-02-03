@@ -8,6 +8,7 @@ import 'package:inowa/src/ui/settings/internal/dark_mode_enum.dart';
 import 'package:inowa/src/ui/settings/internal/settings_drop_down_menu.dart';
 import 'package:inowa/src/ui/settings/internal/settings_list_tile.dart';
 import 'package:inowa/src/ui/settings/internal/settings_single_section.dart';
+import 'package:inowa/src/ui/widgets/language_icons.dart';
 
 class CommonSection extends StatefulWidget {
   const CommonSection({
@@ -33,6 +34,7 @@ class _CommonSectionState extends State<CommonSection> {
       /// Erzeugt die Menüeinträge für das Drop-Down Menü für die Auswahl der Sprache.
       DropdownMenuEntry<Locale> localeToMenuItem(Locale item) {
         return DropdownMenuEntry(
+          leadingIcon: LanguageIcons.imageByLanguageCode(item.languageCode),
           label: item.languageCode,
           value: item,
         );
